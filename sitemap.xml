@@ -20,4 +20,14 @@
     <xhtml:link rel="alternate" hreflang="fr-CA" href="https://kurant.ca/confidentialite/"/>
     <xhtml:link rel="alternate" hreflang="en-CA" href="https://kurant.ca/en/privacy/"/>
   </url>
+  <url>
+    <loc>https://kurant.ca/journal/</loc>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://kurant.ca/journal/"/>
+    <xhtml:link rel="alternate" hreflang="en-CA" href="https://kurant.ca/en/journal/"/>
+  </url>
+  <url>
+    <loc>https://kurant.ca/en/journal/</loc>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://kurant.ca/journal/"/>
+    <xhtml:link rel="alternate" hreflang="en-CA" href="https://kurant.ca/en/journal/"/>
+  </url>
 </urlset>
