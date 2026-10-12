@@ -1,6 +1,6 @@
 # kurant.ca
 
-Bilingual landing page for **Kurant by FORGE**: product explanation, compatibility check and waitlist.
+Bilingual landing page for **Kurant by FORGE**: product explanation, compatibility check and the pre-launch list (double opt-in, founder numbers, referrals, brand race).
 French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 
 ## Structure
@@ -16,8 +16,17 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `assets/demo.js`, `assets/demo.css` | Hero demo: the app's Ride and Settings screens running its simulator in the browser. Mirrors `ebike-app` (screens, wording, safety rules); only the Simulator source is offered. Keep in step when the app's UI changes |
 | `assets/campaign.json`, `assets/campaign.js` | Kickstarter state and link; the script shows the matching banner and buttons |
 | `functions/kickstarter.js` | `kurant.ca/kickstarter` short link, redirects to the URL in `campaign.json` (Kickstarter only), else to the waitlist |
-| `functions/api/waitlist.js` | Cloudflare Pages Function that stores sign-ups in D1 |
-| `schema.sql` | D1 table |
+| `functions/api/waitlist.js` | Sign-up: stores it in D1 and sends the confirmation email (double opt-in) |
+| `functions/api/confirm.js` | The confirmation link: founder number, contact copied to Resend, then the thank-you page |
+| `functions/api/me.js`, `intent.js` | Thank-you page data, and the day-one question |
+| `functions/api/unsubscribe.js` | Unsubscribe page and one-click unsubscribe (CASL, RFC 8058) |
+| `functions/api/stats.js` | Public counts for the brand race (confirmed sign-ups only) |
+| `functions/api/admin/` | `resend`, `sync`, `report`: protected by `ADMIN_TOKEN` |
+| `functions/_lib/` | Shared code: email (Resend), email texts, helpers |
+| `merci/`, `en/thanks/` | Thank-you page: founder number, personal link, referral ladder, brand race |
+| `assets/race.js`, `assets/thanks.js` | Brand race and thank-you page scripts. The promises shown on the thank-you page are at the top of `thanks.js` |
+| `schema.sql` | D1 schema for a new database |
+| `migrations/0002_prelaunch.sql` | Run once on the existing database to add the pre-launch list |
 | `_headers` | Security headers (CSP, HSTS) and no-cache for `campaign.json` |
 | `404.html`, `robots.txt`, `sitemap.xml` | Not-found page, crawler rules, sitemap with FR/EN alternates |
 | `assets/og-fr.png`, `assets/og-en.png` | Share images (1200 × 630) for social posts |
@@ -32,7 +41,7 @@ Everything below is free except the domain (about USD 9 a year for `.ca` at Clou
 4. **Binding.** Pages project → **Settings → Bindings → Add → D1 database**: variable name `DB`, database `kurant-waitlist`. Then **Deployments → Retry deployment** so the binding takes effect.
 5. **Custom domain.** Pages project → **Custom domains** → add `kurant.ca`, then `www.kurant.ca`.
 6. **Email.** Domain → **Email → Email Routing** → enable, add the DNS records it proposes, create `bonjour@kurant.ca` forwarding to your inbox and confirm the verification email.
-7. **Check.** Open `https://kurant.ca`, sign up with your own email, and confirm the row appears in the D1 console.
+7. **Check.** Open `https://kurant.ca`, sign up with your own email, and confirm the row appears in the D1 console. Then switch on the pre-launch list (below).
 
 Every pull request gets its own preview URL (`*.pages.dev`), where the form is live and `?campaign=` previews work.
 
@@ -58,7 +67,85 @@ Edit only `assets/campaign.json`, then push:
 
 Edit `assets/compat.js`. A family moves to `"ok"` only when its profile in `ebike-profiles` is `bench-verified`.
 
-## Exporting the waitlist
+## Pre-launch list: how it works
 
-D1 console: `SELECT email, lang, family, voltage FROM waitlist WHERE unsubscribed_at IS NULL;`
-Every email you send must include FORGE's name, a contact address and a working unsubscribe link (CASL).
+1. The form sends the sign-up to `/api/waitlist`. It is stored, and a confirmation email goes out.
+2. The person clicks **Confirmer** → `/api/confirm`. They get the next founder number, they are copied to Resend's contact list (FR or EN segment), and they land on `/merci/` or `/en/thanks/`.
+3. The thank-you page shows the founder number, asks the day-one question, and gives a personal link `kurant.ca/?r=CODE`. A friend who signs up through it and confirms counts as one referral.
+4. `/api/stats` feeds the brand race on the home page and the thank-you page. It appears once 50 people have confirmed.
+5. Broadcasts (weekly emails, launch email) are written and sent from Resend's dashboard, to the FR and EN segments. Resend adds its unsubscribe link and handles those unsubscribes.
+
+Only confirmed, still-subscribed sign-ups count anywhere. One inbox is one person: `Jo.Doe+x@gmail.com` and `jodoe@gmail.com` share an entry, so aliases can't farm referrals. One IP can sign up 8 times an hour. An address that never confirms is deleted 30 days after its last confirmation email.
+
+### Switch it on (once)
+
+1. **Resend account.** Create it at resend.com with your own email.
+2. **Domain.** In Resend, open **Domains → Add domain** and enter `kurant.ca`. Choose the automatic Cloudflare setup, or copy the DNS records it lists into Cloudflare DNS.
+   - The records go on a `send` subdomain and a `resend._domainkey` record, so they don't touch Email Routing for `bonjour@kurant.ca`.
+   - Wait for **Verified**.
+   - If a record stays pending after an hour, check that it isn't proxied (DNS only, grey cloud).
+3. **API key.** In Resend, open **API Keys → Create**, with permission **Sending access**, then copy the key.
+   - Sending access is enough for confirmation emails. Copying contacts to segments needs a **Full access** key; use one only if you want the contact sync.
+4. **Segments.** In Resend's contacts area (**Audience** or **Contacts**, then **Segments**), create `Kurant FR` and `Kurant EN`. Copy each segment's id.
+5. **Variables.** In the Pages project, open **Settings → Variables and secrets** and add the values below under Production:
+
+   | Name | Type | Value |
+   | --- | --- | --- |
+   | `RESEND_API_KEY` | Secret | the key from step 3 |
+   | `MAIL_FROM` | Text | `Kurant <bonjour@kurant.ca>` |
+   | `RESEND_SEGMENT_FR` | Text | id of `Kurant FR` |
+   | `RESEND_SEGMENT_EN` | Text | id of `Kurant EN` |
+   | `ADMIN_TOKEN` | Secret | a long random string (for example, 40 characters from a password manager) |
+   | `IP_SALT` | Secret | another random string |
+   | `MAIL_POSTAL` | Text | FORGE's mailing address (a PO box works). CASL requires one in every email; until it's set, emails show only "Montréal (Québec), Canada" |
+
+   Never set `MAIL_DEV` in production: it turns sending off.
+6. **Database.** In the D1 console of `kurant-waitlist`, paste `migrations/0002_prelaunch.sql` and run it **once**.
+   - If it says `duplicate column name`, it has already run.
+7. **Deploy.** Merge the pull request, or retry the last deployment so the variables take effect.
+8. **Test.** Sign up with your own address. You should get the email within a minute, land on `/merci/` with a founder number, and see your row with `confirmed_at` set.
+   - **No email?** In Resend, open **Logs**. A `403` means the domain isn't verified yet. No entry at all means `RESEND_API_KEY` or `MAIL_FROM` is missing (Pages, **Functions → Logs**, shows `mail not configured`).
+9. **Older sign-ups.** People who joined before this update have founder numbers 1, 2, 3… in sign-up order, but they still need to confirm. Send them the confirmation email (step "Admin calls" below, `resend`).
+
+Resend's free plan sends 100 emails a day and 3,000 a month, with up to 1,000 marketing contacts. On a busy day, confirmations past the daily cap aren't lost: the person sees "may take a few hours", and `resend` sends them the next day. For the launch month, if the list passes 1,000 contacts, take the paid Marketing plan for that month.
+
+### Admin calls (Windows PowerShell)
+
+Replace `TOKEN` with your `ADMIN_TOKEN`. Use `curl.exe`: plain `curl` in PowerShell is a different command.
+
+```powershell
+# The launch gates: confirmed, pending, day-one answers, per system, referral leaders
+curl.exe -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/report
+
+# Send the confirmation email to sign-ups that never got one (up to 50 per call; repeat until never_emailed_left is 0)
+curl.exe -X POST -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/resend
+
+# Same, plus ONE reminder to unconfirmed sign-ups whose last email is more than 3 days old
+curl.exe -X POST -H "Authorization: Bearer TOKEN" "https://kurant.ca/api/admin/resend?remind=1"
+
+# Copy confirmed sign-ups to Resend's segments (after setting up segments late; repeat until left is 0)
+curl.exe -X POST -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/sync
+```
+
+### Useful D1 queries
+
+```sql
+-- Day-one forecast (the launch gate is 60)
+SELECT intent, COUNT(*) FROM waitlist WHERE confirmed_at IS NOT NULL AND unsubscribed_at IS NULL GROUP BY intent;
+-- Export of the confirmed list
+SELECT email, lang, family, voltage, province, founder_no FROM waitlist
+ WHERE confirmed_at IS NOT NULL AND unsubscribed_at IS NULL ORDER BY founder_no;
+-- Referrers with at least 1 confirmed friend: import this as a CSV into a "Kurant priorité" segment
+-- in Resend for the launch email 30 minutes before everyone else
+SELECT r.email, r.lang FROM waitlist r
+ WHERE r.confirmed_at IS NOT NULL AND r.unsubscribed_at IS NULL
+   AND EXISTS (SELECT 1 FROM waitlist f WHERE f.referred_by = r.ref_code AND f.confirmed_at IS NOT NULL AND f.unsubscribed_at IS NULL);
+-- Who a referral leader brought in (check before giving a prize)
+SELECT email, created_at, confirmed_at FROM waitlist WHERE referred_by = 'CODE' ORDER BY created_at;
+```
+
+Every email you send must include FORGE's name, a mailing address and a working unsubscribe link (CASL).
+
+### Local test
+
+As above (`wrangler pages dev .` with a throwaway `wrangler.toml`), plus `--binding MAIL_DEV=1 --binding ADMIN_TOKEN=test`. Nothing is emailed: the form shows the confirmation link instead. Add `?race=demo` to any non-production URL to see the brand race with made-up numbers.

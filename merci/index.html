@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Merci – Kurant</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-word">KURANT</span></a>
+    <div class="top-actions" style="margin-left:auto">
+      <a class="lang" href="../en/thanks/index.html" lang="en" hreflang="en">EN</a>
+      <a class="btn btn-primary btn-sm" href="../index.html#verifier">Vérifier mon vélo</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap thanks" id="contenu" data-lang="fr">
+  <section class="t-state" id="t-loading"><p class="hint">Chargement…</p></section>
+
+  <section class="t-state" id="t-error" hidden>
+    <p class="eyebrow">Liste de prélancement</p>
+    <h1 class="t-title">Ce lien ne fonctionne plus.</h1>
+    <p class="lede">Inscrivez-vous de nouveau avec la même adresse : nous vous renverrons un lien vers votre page.</p>
+    <a class="btn btn-primary" href="../index.html#verifier">Retour au formulaire</a>
+  </section>
+
+  <section class="t-state" id="t-pending" hidden>
+    <p class="eyebrow">Liste de prélancement</p>
+    <h1 class="t-title">Encore une étape.</h1>
+    <p class="lede">Ouvrez le courriel de confirmation et cliquez « Confirmer mon inscription ». Pensez à vérifier les indésirables.</p>
+  </section>
+
+  <div id="t-ok" class="t-ok" hidden>
+    <section class="t-hero">
+      <div class="t-hero-copy">
+        <p class="eyebrow">Inscription confirmée</p>
+        <h1 class="t-title">Vous y êtes.</h1>
+      </div>
+      <div class="founder-card" aria-live="polite">
+        <small>Numéro de fondateur</small>
+        <b id="t-no">&nbsp;</b>
+        <span class="slit"></span>
+        <span class="founder-sub">Kurant · Liste de prélancement</span>
+      </div>
+      <p class="lede t-perk" id="t-perk"></p>
+    </section>
+
+    <section class="panel t-intent">
+      <h2>Une question : contribuerez-vous le premier jour, à 119&nbsp;$&nbsp;?</h2>
+      <p class="hint">Votre réponse nous aide à fixer la date du lancement. Elle ne vous engage à rien.</p>
+      <div class="choice" role="group" aria-label="Contribuerez-vous le premier jour ?">
+        <button type="button" class="choice-btn" data-intent="yes" aria-pressed="false">Oui, le jour&nbsp;1</button>
+        <button type="button" class="choice-btn" data-intent="maybe" aria-pressed="false">Peut-être</button>
+        <button type="button" class="choice-btn" data-intent="curious" aria-pressed="false">Je suis curieux</button>
+      </div>
+      <p class="form-msg" id="t-intent-msg" role="status"></p>
+    </section>
+
+    <section class="panel t-share">
+      <h2>Votre lien personnel</h2>
+      <p class="hint">Chaque ami qui confirme son inscription vous fait monter, et fait avancer la marque de son vélo dans la course.</p>
+      <div class="link-row">
+        <input id="t-link" type="text" readonly aria-label="Votre lien personnel">
+        <button class="btn btn-primary" id="t-copy" type="button">Copier</button>
+      </div>
+      <div class="share-row">
+        <button class="btn btn-ghost btn-sm" id="t-native" type="button" hidden>Partager…</button>
+        <a class="btn btn-ghost btn-sm" id="t-fb" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn btn-ghost btn-sm" id="t-wa" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn btn-ghost btn-sm" id="t-sms">Texto</a>
+        <a class="btn btn-ghost btn-sm" id="t-mail">Courriel</a>
+      </div>
+      <div class="t-count"><b id="t-refs">0</b> <span id="t-refs-label"></span></div>
+      <ol class="ladder" id="t-ladder"></ol>
+      <p class="hint" id="t-rules"></p>
+    </section>
+
+    <div class="race panel" id="race" hidden>
+      <div class="race-head">
+        <p class="eyebrow">La course des marques</p>
+        <h3 data-race-total></h3>
+        <p>Après KT, le système qui compte le plus d'inscrits confirmés passe au banc en premier. Pendant la campagne, les réservations à 1&nbsp;$ s'ajoutent.</p>
+      </div>
+      <ol class="race-bars" data-race-bars></ol>
+      <p class="hint" data-race-kt></p>
+    </div>
+
+    <p><a class="btn btn-ghost" href="../index.html">Retour au site</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-row">
+      <span>Kurant par FORGE · Montréal, Québec</span>
+      <div class="foot-links"><a href="../confidentialite/index.html">Confidentialité</a></div>
+    </div>
+    <p><span class="contact">bonjour@kurant.ca</span></p>
+  </div>
+</footer>
+
+<script src="../assets/race.js" defer></script>
+<script src="../assets/thanks.js" defer></script>
+</body>
+</html>
