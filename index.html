@@ -212,10 +212,16 @@
         </div>
 
         <form class="panel" id="waitlist" novalidate data-consent-version="2026-10-08b">
-          <h3>Liste d'attente</h3>
+          <h3>Liste de prélancement</h3>
+          <p class="perk"><b>100 places à 119&nbsp;$</b> pendant la campagne Kickstarter, au lieu de 159&nbsp;$. Les inscrits confirmés sont avertis en premier et reçoivent un numéro de fondateur.</p>
+          <p class="invited" id="wl-invited" hidden>Un ami vous a invité : votre inscription compte pour lui.</p>
           <div class="field">
             <label for="wl-email">Courriel</label>
             <input id="wl-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="wl-family">Système de votre vélo</label>
+            <select id="wl-family" name="wl_family" required></select>
           </div>
           <div class="field">
             <label for="wl-bike">Vélo : marque et modèle</label>
@@ -250,6 +256,7 @@
               <option value="NU">Nunavut</option>
               <option value="XX">Hors du Canada</option>
             </select>
+            <p class="hint">Pendant la campagne, livraison au Canada seulement.</p>
           </div>
           <label class="consent" for="wl-consent">
             <input id="wl-consent" name="consent" type="checkbox">
@@ -259,6 +266,16 @@
           <button class="btn btn-primary" type="submit">M'inscrire</button>
           <p id="form-msg" class="form-msg" role="status"></p>
         </form>
+      </div>
+
+      <div class="race panel" id="race" hidden>
+        <div class="race-head">
+          <p class="eyebrow">La course des marques</p>
+          <h3 data-race-total></h3>
+          <p>Après KT, le système qui compte le plus d'inscrits confirmés passe au banc en premier. Pendant la campagne, les réservations à 1&nbsp;$ s'ajoutent. Invitez les propriétaires de votre marque.</p>
+        </div>
+        <ol class="race-bars" data-race-bars></ol>
+        <p class="hint" data-race-kt></p>
       </div>
     </div>
   </section>
@@ -305,6 +322,7 @@
 </footer>
 
 <script src="assets/compat.js" defer></script>
+<script src="assets/race.js" defer></script>
 <script src="assets/site.js" defer></script>
 <script src="assets/demo.js" defer></script>
 <script src="assets/campaign.js" defer></script>

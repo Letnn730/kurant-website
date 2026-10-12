@@ -212,10 +212,16 @@
         </div>
 
         <form class="panel" id="waitlist" novalidate data-consent-version="2026-10-08b">
-          <h3>Waitlist</h3>
+          <h3>Pre-launch list</h3>
+          <p class="perk"><b>100 spots at CAD&nbsp;119</b> during the Kickstarter campaign, instead of 159. Confirmed sign-ups hear first and get a founder number.</p>
+          <p class="invited" id="wl-invited" hidden>A friend invited you: your sign-up counts for them.</p>
           <div class="field">
             <label for="wl-email">Email</label>
             <input id="wl-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="wl-family">Your bike's system</label>
+            <select id="wl-family" name="wl_family" required></select>
           </div>
           <div class="field">
             <label for="wl-bike">Bike: brand and model</label>
@@ -250,6 +256,7 @@
               <option value="NU">Nunavut</option>
               <option value="XX">Outside Canada</option>
             </select>
+            <p class="hint">During the campaign, rewards ship within Canada only.</p>
           </div>
           <label class="consent" for="wl-consent">
             <input id="wl-consent" name="consent" type="checkbox">
@@ -259,6 +266,16 @@
           <button class="btn btn-primary" type="submit">Sign me up</button>
           <p id="form-msg" class="form-msg" role="status"></p>
         </form>
+      </div>
+
+      <div class="race panel" id="race" hidden>
+        <div class="race-head">
+          <p class="eyebrow">The brand race</p>
+          <h3 data-race-total></h3>
+          <p>After KT, the system with the most confirmed sign-ups goes on the bench first. During the campaign, the $1 reservations add to it. Invite the owners of your brand.</p>
+        </div>
+        <ol class="race-bars" data-race-bars></ol>
+        <p class="hint" data-race-kt></p>
       </div>
     </div>
   </section>
@@ -305,6 +322,7 @@
 </footer>
 
 <script src="../assets/compat.js" defer></script>
+<script src="../assets/race.js" defer></script>
 <script src="../assets/site.js" defer></script>
 <script src="../assets/demo.js" defer></script>
 <script src="../assets/campaign.js" defer></script>
