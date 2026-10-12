@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Development log – Kurant</title>
+<link rel="canonical" href="https://kurant.ca/en/journal/">
+<link rel="alternate" hreflang="fr-CA" href="https://kurant.ca/journal/">
+<link rel="alternate" hreflang="en-CA" href="https://kurant.ca/en/journal/">
+<meta name="description" content="What has been done on Kurant, dated, as it happens: every entry is measured on the bench.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../../en/index.html"><span class="brand-word">KURANT</span></a>
+    <div class="top-actions" style="margin-left:auto">
+      <a class="lang" href="../../journal/index.html" lang="fr" hreflang="fr">FR</a>
+      <a class="btn btn-primary btn-sm" href="../../en/index.html#check">Check my bike</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="legal log">
+    <header class="section-head">
+      <p class="eyebrow">Development log</p>
+      <h1 style="font-size:clamp(32px,5vw,48px)">What's done, with the date</h1>
+      <p>An entry goes here only once it has been measured on the bench, on a real controller. Newest first.</p>
+    </header>
+    <ol class="log-list">
+    <li class="log-item">
+      <time datetime="2026-10-10">October 10, 2026</time>
+      <h2>Power-on, assist and a dropped phone: bench-tested</h2>
+      <p>The module turns the bike on when the app asks and changes the assist level from the phone. When the phone disconnects, assist keeps the level you chose.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-10-06">October 6, 2026</time>
+      <h2>A motor simulator for the next profile</h2>
+      <p>To capture a second controller's profile on the bench without riding, a small circuit simulates the motor's sensors, which keeps the controller from throwing its error code.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-10-02">October 2, 2026</time>
+      <h2>A second bike on the bench</h2>
+      <p>An adapter cable connects a second bike (48 V) to the test bench, and its whole connector is mapped. It's the first step toward the next profile.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-10-01">October 1, 2026</time>
+      <h2>Final circuit schematic, revision 0.1</h2>
+      <p>The board uses an already-certified ESP32-C3 wireless module. The latch that keeps the bike on is hardened with pull-down resistors and a power-on reset.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09-29">September 29, 2026</time>
+      <h2>Reference captured from a KT-LCD5 display</h2>
+      <p>The firmware's reference frame is captured again from a KT-LCD5 display, with all of its values.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09-25">September 25, 2026</time>
+      <h2>Signed over-the-air updates: code written</h2>
+      <p>The module only accepts signed firmware, and the private key stays offline. Testing on the final hardware is next.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09-19">September 19, 2026</time>
+      <h2>Kurant replaces the display</h2>
+      <p>With no stock display, the module takes over the KT controller in 329 ms, at 9600 baud, with 3 of 3 checksums valid. First command verified end to end: the headlight turns on (frame byte 1: 01 → 81; headlight output from 0 V to battery voltage). The stock display, plugged back in afterwards, kept every setting.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09">September 2026</time>
+      <h2>The power latch holds</h2>
+      <p>The circuit that keeps the bike on works with the 48 V battery and survives a reset, a USB unplug and removing the microcontroller. An intermittent failure was found with the logic analyzer (too little base current, 2.6 mA) and fixed.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09">September 2026</time>
+      <h2>Listening to the KT controller</h2>
+      <p>The module reads the controller's and the display's frames at 9600 baud, with valid checksums. Brake state is decoded.</p>
+    </li>
+    </ol>
+    <p>Questions or corrections: <span class="contact">bonjour@kurant.ca</span></p>
+  </article>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>KURANT by FORGE · Montreal, Quebec</p>
+  </div>
+</footer>
+</body>
+</html>

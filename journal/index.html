@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Journal de développement – Kurant</title>
+<link rel="canonical" href="https://kurant.ca/journal/">
+<link rel="alternate" hreflang="fr-CA" href="https://kurant.ca/journal/">
+<link rel="alternate" hreflang="en-CA" href="https://kurant.ca/en/journal/">
+<meta name="description" content="Ce qui a été fait sur Kurant, daté, au fur et à mesure : chaque entrée est mesurée au banc.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-word">KURANT</span></a>
+    <div class="top-actions" style="margin-left:auto">
+      <a class="lang" href="../en/journal/index.html" lang="en" hreflang="en">EN</a>
+      <a class="btn btn-primary btn-sm" href="../index.html#verifier">Vérifier mon vélo</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="legal log">
+    <header class="section-head">
+      <p class="eyebrow">Journal de développement</p>
+      <h1 style="font-size:clamp(32px,5vw,48px)">Ce qui est fait, avec la date</h1>
+      <p>Une entrée n'est ajoutée qu'une fois la chose mesurée au banc, sur un vrai contrôleur. Les plus récentes sont en haut.</p>
+    </header>
+    <ol class="log-list">
+    <li class="log-item">
+      <time datetime="2026-10-10">10 octobre 2026</time>
+      <h2>Allumage, assistance et téléphone coupé : testés au banc</h2>
+      <p>Le module allume le vélo sur commande de l'application et change le niveau d'assistance depuis le téléphone. Quand le téléphone se déconnecte, l'assistance continue au niveau choisi.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-10-06">6 octobre 2026</time>
+      <h2>Un simulateur de moteur pour le prochain profil</h2>
+      <p>Pour relever le profil d'un deuxième contrôleur au banc sans rouler, un petit circuit simule les capteurs du moteur, ce qui évite le code d'erreur du contrôleur.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-10-02">2 octobre 2026</time>
+      <h2>Un deuxième vélo branché au banc</h2>
+      <p>Un câble adaptateur relie un deuxième vélo (48 V) au banc d'essai, et tout son connecteur est cartographié. C'est la première étape vers le prochain profil.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-10-01">1er octobre 2026</time>
+      <h2>Schéma du circuit final, révision 0.1</h2>
+      <p>Le circuit utilise un module sans fil ESP32-C3 déjà certifié. Le verrou qui garde le vélo allumé est durci : résistances de rappel et remise à zéro au démarrage.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09-29">29 septembre 2026</time>
+      <h2>Référence relevée sur un écran KT-LCD5</h2>
+      <p>La trame de référence du micrologiciel est relevée à nouveau sur un écran KT-LCD5, avec toutes ses valeurs.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09-25">25 septembre 2026</time>
+      <h2>Mises à jour sans fil signées : code écrit</h2>
+      <p>Le module n'accepte qu'un micrologiciel signé, et la clé privée reste hors ligne. Le test sur le matériel final est à venir.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09-19">19 septembre 2026</time>
+      <h2>Kurant remplace l'écran</h2>
+      <p>Sans l'écran d'origine, le module prend en charge le contrôleur KT en 329 ms, à 9600 bauds, avec 3 sommes de contrôle valides sur 3. Première commande vérifiée de bout en bout : le phare s'allume (octet 1 de la trame : 01 → 81 ; sortie du phare de 0 V à la tension de la batterie). L'écran d'origine, rebranché ensuite, a retrouvé tous ses réglages.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09">Septembre 2026</time>
+      <h2>Le verrou d'allumage tient</h2>
+      <p>Le circuit qui garde le vélo allumé fonctionne avec la batterie de 48 V et résiste à une remise à zéro, au débranchement USB et au retrait du microcontrôleur. Une panne intermittente a été trouvée à l'analyseur logique (courant de base trop faible, 2,6 mA) et corrigée.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-09">Septembre 2026</time>
+      <h2>À l'écoute du contrôleur KT</h2>
+      <p>Le module lit les trames du contrôleur et de l'écran à 9600 bauds, sommes de contrôle valides. L'état du frein est décodé.</p>
+    </li>
+    </ol>
+    <p>Questions ou corrections : <span class="contact">bonjour@kurant.ca</span></p>
+  </article>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>KURANT par FORGE · Montréal, Québec</p>
+  </div>
+</footer>
+</body>
+</html>
