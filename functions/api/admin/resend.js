@@ -13,6 +13,16 @@ export async function onRequestPost({ request, env }) {
 
   const limit = limitParam(request, 50, 95);
   const remind = new URL(request.url).searchParams.get("remind") === "1";
+
+  // Rows stored by the old form code (between running the migration and merging this code) have no
+  // token or referral code yet: give them one, so their confirmation link works.
+  await env.DB.prepare(
+    `UPDATE waitlist SET
+       token = lower(hex(randomblob(16))),
+       ref_code = COALESCE(ref_code, substr(lower(hex(randomblob(4))), 1, 6)),
+       email_norm = COALESCE(email_norm, lower(email))
+     WHERE token IS NULL`
+  ).run();
   const { results } = await env.DB.prepare(
     `SELECT * FROM waitlist
       WHERE confirmed_at IS NULL AND unsubscribed_at IS NULL
