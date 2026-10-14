@@ -40,14 +40,15 @@
     </a>
     <nav class="nav" aria-label="Sections">
       <a href="#how-it-works">How it works</a>
-      <a href="#data">Data</a>
+      <a href="#module">The module</a>
       <a href="#safety">Safety</a>
+      <a href="#kickstarter">Kickstarter</a>
       <a href="#faq">FAQ</a>
       <a href="journal/index.html">Log</a>
     </nav>
     <div class="top-actions">
       <a class="lang" href="../index.html" lang="fr" hreflang="fr">FR</a>
-      <a class="btn btn-primary btn-sm" href="#check">Check my bike</a>
+      <a class="btn btn-primary btn-sm" href="#waitlist">Pre-launch list</a>
     </div>
   </div>
 </header>
@@ -63,7 +64,7 @@
         <p class="lede">Kurant replaces your e-bike's display. A small module plugs in where the screen was, and your phone shows speed, power and battery, with settings explained in plain words.</p>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="#check">Check my bike</a>
-          <a class="btn btn-ghost" href="#how-it-works">See how it works</a>
+          <a class="btn btn-ghost" href="#module">See the module, opened</a>
         </div>
         <p class="hero-note">The prototype already works on a real KT controller: it turns the bike on, shows live data and changes assist from the phone. Kickstarter campaign planned: people on the waitlist hear first.</p>
       </div>
@@ -133,6 +134,43 @@
     </div>
   </section>
 
+  <section class="section m3d" id="module" data-m3d aria-labelledby="module-title">
+    <div class="m3d-sticky">
+      <div class="wrap m3d-grid">
+        <div class="m3d-copy">
+          <p class="eyebrow">The module, opened</p>
+          <h2 id="module-title">Straight from the design files</h2>
+          <ol class="m3d-steps">
+            <li data-step class="on"><b>On the front handlebar</b><span>In place of the stock display, on the same connector.</span></li>
+            <li data-step><b>A housing, a cover, one continuous gasket</b><span>The gasket runs all the way around the service cover.</span></li>
+            <li data-step><b>The board, held by two rails</b><span>Two removable rails hold it, screwed to the housing.</span></li>
+            <li data-step><b>Four screws close it all</b><span>The cover opens with a plain screwdriver.</span></li>
+          </ol>
+          <label class="m3d-control">
+            <span>Open the module</span>
+            <input class="m3d-slider" type="range" min="0" max="100" value="0">
+          </label>
+          <div class="m3d-actions">
+            <button class="btn btn-ghost btn-sm" type="button" data-video-open>Watch the animation (19&nbsp;s)</button>
+          </div>
+          <p class="hint">Drag the model to turn it. Model from the design files (revision R6): the final enclosure may still change.</p>
+        </div>
+        <div class="m3d-stage" data-label="3D model of the Kurant module, opening part by part">
+          <span class="m3d-label" data-anchor="Housing">Housing</span>
+          <span class="m3d-label cy" data-anchor="PCBReference">Board</span>
+          <span class="m3d-label" data-anchor="PCBRetainingRail">Board rails</span>
+          <span class="m3d-label" data-anchor="RearCover,RearGasket">Cover and gasket</span>
+          <p class="m3d-loading">Loading the 3D model…</p>
+          <video class="m3d-video" hidden muted loop playsinline controls preload="none" poster="../assets/media/crown-poster.jpg" src="../assets/media/crown_r6_story_680.mp4"></video>
+        </div>
+      </div>
+    </div>
+    <dialog class="m3d-dialog" aria-label="Animation of the Kurant module">
+      <video muted loop playsinline controls preload="none" poster="../assets/media/crown-poster.jpg" src="../assets/media/crown_r6_story_680.mp4"></video>
+      <button class="btn btn-primary btn-sm" type="button" data-video-close>Close</button>
+    </dialog>
+  </section>
+
   <section class="section" id="data">
     <div class="wrap">
       <div class="section-head">
@@ -182,6 +220,31 @@
         <li><span class="rule-key">32 km/h</span><div><h3>Street mode by default</h3><p>Out of the box, speed is limited to your province's legal maximum: 32 km/h in Quebec.</p></div></li>
         <li><span class="rule-key warn">Offroad</span><div><h3>A mode for private land</h3><p>It switches on only when stopped, with a 1.5-second press followed by a confirmation. On public roads, a bike set above 32 km/h no longer counts as a power-assisted bicycle. The rider is responsible for how this mode is used.</p></div></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="section" id="kickstarter">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Kickstarter campaign</p>
+        <h2>The list goes first</h2>
+        <p>Kurant will be funded by an all-or-nothing Kickstarter campaign. The pre-launch list is the shortest way to the 100 modules at CAD&nbsp;119: its members get the link before anyone else.</p>
+      </div>
+      <ol class="steps ks-steps">
+        <li><h3>Sign up</h3><p>Confirm your email: you get a founder number and your personal link.</p></li>
+        <li><h3>Hear first</h3><p>On launch morning, the list gets the link before any public announcement.</p></li>
+        <li><h3>100 spots at CAD&nbsp;119</h3><p>Instead of 159 after the campaign. Shipped in Canada, about six months after it ends.</p></li>
+      </ol>
+      <dl class="ks-facts">
+        <div><dt>Goal</dt><dd>CAD&nbsp;24,000</dd></div>
+        <div><dt>All or nothing</dt><dd>Nobody is charged if the goal isn't reached</dd></div>
+        <div><dt>Not a KT bike?</dt><dd>Reserve your system for $1 during the campaign</dd></div>
+        <div><dt>Delivery</dt><dd>Canada, about 6 months</dd></div>
+      </dl>
+      <div class="ks-cta">
+        <a class="btn btn-primary" href="#waitlist">Join the pre-launch list</a>
+        <p class="hint" data-ks-count hidden></p>
+      </div>
     </div>
   </section>
 
@@ -321,10 +384,13 @@
   </div>
 </footer>
 
+<a class="m-cta" href="#waitlist" hidden><b>100 spots at CAD&nbsp;119</b><span>Join the list</span></a>
+
 <script src="../assets/compat.js" defer></script>
 <script src="../assets/race.js" defer></script>
 <script src="../assets/site.js" defer></script>
 <script src="../assets/demo.js" defer></script>
 <script src="../assets/campaign.js" defer></script>
+<script src="../assets/module3d.js" type="module"></script>
 </body>
 </html>

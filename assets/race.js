@@ -102,7 +102,19 @@
     }
     fetch("/api/stats", { headers: { Accept: "application/json" } })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (s) { if (s && s.ok) render(root, s, opts); })
+      .then(function (s) {
+        if (!s || !s.ok) return;
+        render(root, s, opts);
+        // Kickstarter section: "N confirmed sign-ups", only past the same threshold as the race.
+        if (s.total >= RACE_MIN) {
+          Array.prototype.forEach.call(document.querySelectorAll("[data-ks-count]"), function (el) {
+            el.textContent = opts.lang === "en"
+              ? s.total.toLocaleString("en-CA") + " people have already confirmed."
+              : s.total.toLocaleString("fr-CA") + " personnes ont déjà confirmé leur inscription.";
+            el.hidden = false;
+          });
+        }
+      })
       .catch(function () { /* the race simply stays hidden */ });
   }
 

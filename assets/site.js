@@ -105,6 +105,36 @@
   var invited = document.getElementById("wl-invited");
   if (ref && invited) invited.hidden = false;
 
+  // Navigation: highlight the section on screen.
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
+  if (navLinks.length && "IntersectionObserver" in window) {
+    var byId = {};
+    navLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        navLinks.forEach(function (a) { a.removeAttribute("aria-current"); });
+        var a = byId[en.target.id];
+        if (a) a.setAttribute("aria-current", "true");
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    Object.keys(byId).forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
+  }
+
+  // Phones: a slim "join the list" bar once the hero is gone, hidden while the form is on screen.
+  var mcta = document.querySelector(".m-cta");
+  var hero = document.querySelector(".hero");
+  var formZone = document.getElementById("verifier") || document.getElementById("check");
+  if (mcta && hero && formZone && "IntersectionObserver" in window) {
+    var pastHero = false, atForm = false, atModel = false;
+    mcta.hidden = false;
+    var sync = function () { mcta.classList.toggle("show", pastHero && !atForm && !atModel); };
+    var model = document.getElementById("module");
+    if (model) new IntersectionObserver(function (en) { atModel = en[0].isIntersecting; sync(); }).observe(model);
+    new IntersectionObserver(function (en) { pastHero = !en[0].isIntersecting; sync(); }).observe(hero);
+    new IntersectionObserver(function (en) { atForm = en[0].isIntersecting; sync(); }).observe(formZone);
+  }
+
   // Brand race (assets/race.js), under the form.
   if (window.KurantRace) window.KurantRace.load(document.getElementById("race"), { lang: lang });
 
