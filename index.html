@@ -40,14 +40,15 @@
     </a>
     <nav class="nav" aria-label="Sections">
       <a href="#fonctionnement">Fonctionnement</a>
-      <a href="#donnees">Données</a>
+      <a href="#module">Le module</a>
       <a href="#securite">Sécurité</a>
+      <a href="#kickstarter">Kickstarter</a>
       <a href="#faq">FAQ</a>
       <a href="journal/index.html">Journal</a>
     </nav>
     <div class="top-actions">
       <a class="lang" href="en/index.html" lang="en" hreflang="en">EN</a>
-      <a class="btn btn-primary btn-sm" href="#verifier">Vérifier mon vélo</a>
+      <a class="btn btn-primary btn-sm" href="#waitlist">Liste de prélancement</a>
     </div>
   </div>
 </header>
@@ -63,7 +64,7 @@
         <p class="lede">Kurant remplace l'afficheur de votre vélo électrique. Un petit module se branche à la place de l'écran, et votre téléphone affiche la vitesse, la puissance et la batterie, avec des réglages expliqués en mots simples.</p>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="#verifier">Vérifier mon vélo</a>
-          <a class="btn btn-ghost" href="#fonctionnement">Voir le fonctionnement</a>
+          <a class="btn btn-ghost" href="#module">Voir le module, ouvert</a>
         </div>
         <p class="hero-note">Le prototype fonctionne déjà sur un vrai contrôleur KT : il allume le vélo, affiche les données en direct et change l'assistance depuis le téléphone. Campagne Kickstarter prévue : les personnes inscrites seront averties en premier.</p>
       </div>
@@ -133,6 +134,43 @@
     </div>
   </section>
 
+  <section class="section m3d" id="module" data-m3d aria-labelledby="module-titre">
+    <div class="m3d-sticky">
+      <div class="wrap m3d-grid">
+        <div class="m3d-copy">
+          <p class="eyebrow">Le module, ouvert</p>
+          <h2 id="module-titre">Tiré directement des fichiers de conception</h2>
+          <ol class="m3d-steps">
+            <li data-step class="on"><b>Sur le guidon avant</b><span>À la place de l'écran d'origine, sur le même connecteur.</span></li>
+            <li data-step><b>Un boîtier, un couvercle, un joint continu</b><span>Le joint fait tout le tour du couvercle de service.</span></li>
+            <li data-step><b>Le circuit, tenu par deux rails</b><span>Deux rails amovibles le maintiennent, vissés au boîtier.</span></li>
+            <li data-step><b>Quatre vis pour tout refermer</b><span>Le couvercle s'ouvre avec un simple tournevis.</span></li>
+          </ol>
+          <label class="m3d-control">
+            <span>Ouvrir le module</span>
+            <input class="m3d-slider" type="range" min="0" max="100" value="0">
+          </label>
+          <div class="m3d-actions">
+            <button class="btn btn-ghost btn-sm" type="button" data-video-open>Voir l'animation (19&nbsp;s)</button>
+          </div>
+          <p class="hint">Faites glisser le modèle pour le tourner. Modèle tiré des fichiers de conception (révision R6) : le boîtier final peut encore changer.</p>
+        </div>
+        <div class="m3d-stage" data-label="Modèle 3D du module Kurant, qui s'ouvre pièce par pièce">
+          <span class="m3d-label" data-anchor="Housing">Boîtier</span>
+          <span class="m3d-label cy" data-anchor="PCBReference">Circuit</span>
+          <span class="m3d-label" data-anchor="PCBRetainingRail">Rails du circuit</span>
+          <span class="m3d-label" data-anchor="RearCover,RearGasket">Couvercle et joint</span>
+          <p class="m3d-loading">Chargement du modèle 3D…</p>
+          <video class="m3d-video" hidden muted loop playsinline controls preload="none" poster="assets/media/crown-poster.jpg" src="assets/media/crown_r6_story_680.mp4"></video>
+        </div>
+      </div>
+    </div>
+    <dialog class="m3d-dialog" aria-label="Animation du module Kurant">
+      <video muted loop playsinline controls preload="none" poster="assets/media/crown-poster.jpg" src="assets/media/crown_r6_story_680.mp4"></video>
+      <button class="btn btn-primary btn-sm" type="button" data-video-close>Fermer</button>
+    </dialog>
+  </section>
+
   <section class="section" id="donnees">
     <div class="wrap">
       <div class="section-head">
@@ -182,6 +220,31 @@
         <li><span class="rule-key">32 km/h</span><div><h3>Mode Ville par défaut</h3><p>À la livraison, la vitesse est limitée au maximum permis dans votre province : 32 km/h au Québec.</p></div></li>
         <li><span class="rule-key warn">Hors-route</span><div><h3>Un mode pour terrain privé</h3><p>Il s'active à l'arrêt, par un appui de 1,5 seconde suivi d'une confirmation. Sur la voie publique, un vélo réglé au-delà de 32 km/h n'est plus considéré comme un vélo à assistance électrique. Le cycliste est responsable de l'usage de ce mode.</p></div></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="section" id="kickstarter">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Campagne Kickstarter</p>
+        <h2>La liste passe en premier</h2>
+        <p>Kurant sera financé par une campagne Kickstarter en tout ou rien. La liste de prélancement est le chemin le plus court vers les 100 modules à 119&nbsp;$&nbsp;: ses membres reçoivent le lien avant tout le monde.</p>
+      </div>
+      <ol class="steps ks-steps">
+        <li><h3>Inscrivez-vous</h3><p>Confirmez votre courriel : vous recevez un numéro de fondateur et votre lien personnel.</p></li>
+        <li><h3>Soyez averti en premier</h3><p>Le matin du lancement, la liste reçoit le lien avant toute annonce publique.</p></li>
+        <li><h3>100 places à 119&nbsp;$</h3><p>Au lieu de 159&nbsp;$ après la campagne. Livraison au Canada, environ six mois après la fin.</p></li>
+      </ol>
+      <dl class="ks-facts">
+        <div><dt>Objectif</dt><dd>24&nbsp;000&nbsp;$</dd></div>
+        <div><dt>Tout ou rien</dt><dd>Personne n'est débité si l'objectif n'est pas atteint</dd></div>
+        <div><dt>Autre marque que KT</dt><dd>Réservez votre système à 1&nbsp;$ pendant la campagne</dd></div>
+        <div><dt>Livraison</dt><dd>Canada, environ 6 mois</dd></div>
+      </dl>
+      <div class="ks-cta">
+        <a class="btn btn-primary" href="#waitlist">Rejoindre la liste de prélancement</a>
+        <p class="hint" data-ks-count hidden></p>
+      </div>
     </div>
   </section>
 
@@ -321,10 +384,13 @@
   </div>
 </footer>
 
+<a class="m-cta" href="#waitlist" hidden><b>100 places à 119&nbsp;$</b><span>Rejoindre la liste</span></a>
+
 <script src="assets/compat.js" defer></script>
 <script src="assets/race.js" defer></script>
 <script src="assets/site.js" defer></script>
 <script src="assets/demo.js" defer></script>
 <script src="assets/campaign.js" defer></script>
+<script src="assets/module3d.js" type="module"></script>
 </body>
 </html>
