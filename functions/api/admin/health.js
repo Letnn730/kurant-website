@@ -3,7 +3,8 @@
 // Reports which settings are present (never their values), the database, and what Resend says:
 // whether the API key works, whether it can manage contacts (needed to copy sign-ups into the
 // newsletter segments), the sending domain's status, and whether the FR/EN segments exist.
-// "problems" lists, in plain words, anything that stops confirmation emails or newsletters.
+// "problems" lists, in plain words, anything that stops confirmation emails or newsletters;
+// "warnings" lists what works for now but should be fixed (they don't make "ok" false).
 //
 //   curl.exe -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/health
 
@@ -33,6 +34,7 @@ export async function onRequestGet({ request, env }) {
   if (no) return no;
 
   const problems = [];
+  const warnings = [];
   const settings = {
     RESEND_API_KEY: Boolean(env.RESEND_API_KEY),
     MAIL_FROM: Boolean(env.MAIL_FROM),
@@ -47,7 +49,9 @@ export async function onRequestGet({ request, env }) {
   if (!settings.MAIL_FROM) problems.push("MAIL_FROM is missing: no email is sent.");
   if (!settings.MAIL_DEV_is_off) problems.push("MAIL_DEV is set to 1 in production: emails are only logged, never sent.");
   if (!settings.RESEND_SEGMENT_FR || !settings.RESEND_SEGMENT_EN) problems.push("A segment id is missing: confirmed sign-ups aren't copied to Resend, so newsletters would reach nobody in that language.");
-  if (!settings.MAIL_POSTAL) problems.push("MAIL_POSTAL is missing: emails show only \"Montréal (Québec), Canada\". CASL asks for a mailing address.");
+  // Temporarily a warning, not a problem: until there is a mailing address (a PO box works),
+  // emails show "Montréal (Québec), Canada". Add MAIL_POSTAL before sending newsletters.
+  if (!settings.MAIL_POSTAL) warnings.push("MAIL_POSTAL is missing: emails show only \"Montréal (Québec), Canada\". Add a mailing address (a PO box works) before sending newsletters: CASL asks for one.");
   if (!settings.RESEND_WEBHOOK_SECRET) problems.push("RESEND_WEBHOOK_SECRET is missing: unsubscribes from newsletters don't reach the list on kurant.ca.");
 
   // Database
@@ -103,7 +107,7 @@ export async function onRequestGet({ request, env }) {
     }
   }
 
-  return json({ ok: problems.length === 0, problems, settings, list, resend: out });
+  return json({ ok: problems.length === 0, problems, warnings, settings, list, resend: out });
 }
 
 export async function onRequest() {
