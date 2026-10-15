@@ -32,7 +32,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `assets/media/` | The R4 design-file animation (`crown_r6_story_680.mp4`) and its poster frame |
 | `schema.sql` | D1 schema for a new database |
 | `migrations/0002_prelaunch.sql` | Run once on the existing database to add the pre-launch list |
-| `_headers` | Security headers (CSP, HSTS) and no-cache for `campaign.json` |
+| `_headers` | Security headers (CSP, HSTS), and no-cache on `/assets/` so browsers always check for a newer CSS, JS or `campaign.json`. The home pages also tag their CSS and JS links with `?v=DATE`: change it when you change those files |
 | `404.html`, `robots.txt`, `sitemap.xml` | Not-found page, crawler rules, sitemap with FR/EN alternates |
 | `assets/og-fr.png`, `assets/og-en.png` | Share images (1200 × 630) for social posts |
 
