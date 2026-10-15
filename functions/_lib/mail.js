@@ -7,6 +7,8 @@
 //   RESEND_SEGMENT_FR   segment id for French contacts (optional: without it contacts are not copied)
 //   RESEND_SEGMENT_EN   segment id for English contacts
 //   MAIL_DEV            "1" only on a local test run: log emails instead of sending them
+//   RESEND_WEBHOOK_SECRET  "whsec_...", for /api/webhooks/resend (unsubscribes made in Resend)
+// Check all of it at once with GET /api/admin/health.
 
 const API = "https://api.resend.com";
 
@@ -74,7 +76,12 @@ export async function syncContact(env, { email, lang, unsubscribed }) {
       console.error("resend contact update failed", updated.status, JSON.stringify(updated.data));
       return false;
     }
-    if (segment && !unsubscribed) await call(env, "POST", `/contacts/${id}/segments/${segment}`);
+    if (segment && !unsubscribed) {
+      await call(env, "POST", `/contacts/${id}/segments/${segment}`);
+      // Someone who switched language must not get both newsletters.
+      const other = lang === "en" ? env.RESEND_SEGMENT_FR : env.RESEND_SEGMENT_EN;
+      if (other && other !== segment) await call(env, "DELETE", `/contacts/${id}/segments/${other}`);
+    }
     return true;
   } catch (err) {
     console.error("resend contact error", err);
