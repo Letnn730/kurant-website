@@ -1,65 +1,65 @@
-/* "Où en est chaque marque" / "Where each brand stands", under the checker and the
-   pre-launch form on the home pages (#marques, #brands).
+/* The system list in "Vérifier mon vélo" / "Check my bike" (home pages).
 
-   Draws every family from assets/compat.js with a 4-step progress meter and the real
-   vote count: confirmed, still-subscribed sign-ups per system, from /api/stats.
-   Order: ready systems, then systems in progress from most to least voted (ties keep
-   the compat.js order), then later, then not planned.
+   It is the checker's system picker: one row per family from assets/compat.js, with its
+   stage on a 4-step meter and the real vote count (confirmed, still-subscribed sign-ups
+   per system, from /api/stats). Choosing a row sets the checker's hidden select
+   (#chk-family), so assets/site.js updates the result and the form exactly as before.
 
-   "Vote for this system" chooses that system in the checker and the form
-   (window.KurantPick, assets/site.js) and brings the form into view.
+   Order: ready systems, then systems in progress from most to least voted (ties keep the
+   compat.js order), then later, then not planned, then "Other brand".
+   The chosen row opens to show how to recognize the system, what it was tested on, its
+   next step, and a "Sign up to vote" button that brings the form up (window.KurantPick).
+
    Also fills the Kickstarter section's "N people have confirmed" line once
    SHOW_TOTAL_MIN people have confirmed, as the brand race did. */
 (function () {
   "use strict";
   var root = document.querySelector("[data-board]");
+  var list = root ? root.querySelector("[data-sys-list]") : null;
   var data = window.KURANT_COMPAT;
-  if (!root || !data) return;
+  var famSel = document.getElementById("chk-family");
+  if (!root || !list || !data || !famSel) return;
   var lang = root.getAttribute("data-board") === "en" ? "en" : "fr";
   var locale = lang === "en" ? "en-CA" : "fr-CA";
   var SHOW_TOTAL_MIN = 50;
 
   var T = {
     fr: {
-      steps: ["Étudié", "Au banc", "Vérifié au banc", "Confirmé sur la route"],
+      stage: { road: "Confirmé sur la route", verified: "Vérifié au banc", bench: "Au banc", dev: "En développement", later: "Plus tard", no: "Pas prévu" },
       stepOf: function (n) { return "Étape " + n + " sur 4"; },
-      chip: { road: "Confirmé sur la route", verified: "Vérifié au banc", bench: "Au banc", dev: "En développement", later: "Plus tard", no: "Pas prévu" },
+      group: { ready: "Prêt au lancement", progress: "En cours · du plus voté au moins voté", later: "Plus tard", no: "Pas prévu", other: "Autre" },
       look: "Comment le reconnaître",
       tested: { road: "Vérifié avec", verified: "Vérifié avec", bench: "Au banc avec" },
       next: "Prochaine étape",
-      details: "Détails",
-      done: "Terminé",
-      empty: "Aucun système pour le moment.",
-      votes: function (n) { return n === 1 ? "vote confirmé" : "votes confirmés"; },
-      signups: function (n) { return n === 1 ? "inscrit confirmé" : "inscrits confirmés"; },
+      votes: function (n) { return n === 1 ? "vote" : "votes"; },
+      signups: function (n) { return n === 1 ? "inscrit" : "inscrits"; },
       total: function (n) { return n.toLocaleString(locale) + (n === 1 ? " vote confirmé au total" : " votes confirmés au total"); },
       lead: "En tête",
-      act: { ready: "Rejoindre la liste", progress: "Voter pour ce système", later: "M'inscrire pour ce système" },
+      done: "Terminé",
+      act: { ready: "M'inscrire", vote: "M'inscrire pour voter" },
       ks: function (n) { return n.toLocaleString(locale) + " personnes ont déjà confirmé leur inscription."; }
     },
     en: {
-      steps: ["Researched", "On the bench", "Bench-verified", "Road-confirmed"],
+      stage: { road: "Road-confirmed", verified: "Bench-verified", bench: "On the bench", dev: "In development", later: "Later", no: "Not planned" },
       stepOf: function (n) { return "Step " + n + " of 4"; },
-      chip: { road: "Road-confirmed", verified: "Bench-verified", bench: "On the bench", dev: "In development", later: "Later", no: "Not planned" },
+      group: { ready: "Ready at launch", progress: "In progress · most voted first", later: "Later", no: "Not planned", other: "Other" },
       look: "How to recognize it",
       tested: { road: "Verified with", verified: "Verified with", bench: "On the bench with" },
       next: "Next step",
-      details: "Details",
-      done: "Done",
-      empty: "No systems here yet.",
-      votes: function (n) { return n === 1 ? "confirmed vote" : "confirmed votes"; },
-      signups: function (n) { return n === 1 ? "confirmed sign-up" : "confirmed sign-ups"; },
+      votes: function (n) { return n === 1 ? "vote" : "votes"; },
+      signups: function (n) { return n === 1 ? "sign-up" : "sign-ups"; },
       total: function (n) { return n.toLocaleString(locale) + (n === 1 ? " confirmed vote in total" : " confirmed votes in total"); },
       lead: "Leading",
-      act: { ready: "Join the list", progress: "Vote for this system", later: "Sign up for this system" },
+      done: "Done",
+      act: { ready: "Sign up", vote: "Sign up to vote" },
       ks: function (n) { return n.toLocaleString(locale) + " people have already confirmed."; }
     }
   }[lang];
 
   var STEP = { dev: 1, bench: 2, verified: 3, road: 4 };
-  var GROUP = { road: "ready", verified: "ready", bench: "progress", dev: "progress", later: "later", no: "no" };
+  var GROUP = { road: "ready", verified: "ready", bench: "progress", dev: "progress", later: "later", no: "no", other: "other" };
+  var GROUPS = ["ready", "progress", "later", "no", "other"];
   var ORDER = { road: 0, verified: 1 };
-  var CHIP = { road: "ok", verified: "ok", bench: "check", dev: "check", later: "idle", no: "no" };
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -81,27 +81,22 @@
     return svg;
   }
 
-  function meter(stage) {
+  // Four short segments: cyan when done, amber for the step being worked on.
+  function dots(stage) {
     var at = STEP[stage];
-    var ol = el("ol", "cp-meter");
-    ol.setAttribute("aria-label", T.stepOf(at));
-    // Steps before the current one are done. The current step is done too once
-    // the system is verified; otherwise it is the step being worked on.
+    var box = el("span", "sys-dots");
+    box.setAttribute("role", "img");
+    box.setAttribute("aria-label", T.stepOf(at));
     var reached = stage === "verified" || stage === "road";
-    T.steps.forEach(function (label, i) {
-      var n = i + 1;
-      var done = n < at || (n === at && reached);
-      var li = el("li", done ? "done" : n === at ? "now" : "");
-      if (done) li.appendChild(checkMark());
-      li.appendChild(el("span", null, label));
-      if (n === at) li.setAttribute("aria-current", "step");
-      ol.appendChild(li);
-    });
-    return ol;
+    for (var n = 1; n <= 4; n++) {
+      box.appendChild(el("i", n < at || (n === at && reached) ? "done" : n === at ? "now" : ""));
+    }
+    return box;
   }
 
-  function facts(f) {
+  function detail(f, group) {
     var t = f[lang];
+    var box = el("div", "sys-detail");
     var dl = el("dl", "cp-facts");
     function row(k, v) {
       if (!v) return;
@@ -113,99 +108,99 @@
     row(T.look, t.look);
     if (t.tested && t.tested.length) row(T.tested[f.stage] || T.tested.verified, t.tested.join(" · "));
     if (STEP[f.stage]) row(T.next, t.next);
-    return dl.childNodes.length ? dl : null;
-  }
-
-  // The vote button: chooses the system in the checker and the form, then shows the form.
-  function voteButton(f, group) {
-    var a = el("a", "btn btn-sm " + (group === "ready" ? "btn-primary" : "btn-ghost"), T.act[group]);
-    a.href = "#waitlist";
-    a.setAttribute("data-pick", f.id);
-    return a;
-  }
-
-  // ctx = { n (votes, null while unknown), max, lead }
-  function votes(f, group, ctx) {
-    var box = el("div", "cp-votes");
-    if (ctx.n != null) {
-      var head = el("div", "cp-votes-head");
-      head.appendChild(el("b", null, num(ctx.n)));
-      head.appendChild(el("span", null, group === "ready" ? T.signups(ctx.n) : T.votes(ctx.n)));
-      if (ctx.lead) head.appendChild(el("small", "tag tag-lead", T.lead));
-      box.appendChild(head);
-      if (group === "progress") {
-        var track = el("div", "race-track" + (ctx.lead ? " is-lead" : ""));
-        var bar = el("i");
-        bar.style.width = (ctx.n === 0 ? 0 : Math.max(3, Math.round(ctx.n / Math.max(1, ctx.max) * 100))) + "%";
-        track.appendChild(bar);
-        box.appendChild(track);
-      }
+    if (dl.childNodes.length) box.appendChild(dl);
+    if (group === "ready" || group === "progress" || group === "later") {
+      var a = el("a", "btn btn-sm " + (group === "ready" ? "btn-primary" : "btn-ghost"), group === "ready" ? T.act.ready : T.act.vote);
+      a.href = "#waitlist";
+      a.setAttribute("data-pick", f.id);
+      box.appendChild(a);
     }
-    box.appendChild(voteButton(f, group));
     return box;
   }
 
-  function card(f, group, ctx) {
+  // ctx = { n (votes, null while unknown), max, lead }
+  function row(f, group, ctx) {
     var t = f[lang];
-    var ready = group === "ready";
-    var art = el("article", "cp-item" + (ready ? " is-ready" : "") + (ctx.lead ? " is-lead" : ""));
-    art.id = "sys-" + f.id;
+    var wrap = el("div", "sys sys-" + group + (ctx.lead ? " is-lead" : ""));
+    wrap.id = "sys-" + f.id;
 
-    var head = el("div", "cp-item-head");
-    var title = el("h5", null);
-    if (ready) {
+    var label = el("label", "sys-row");
+    var input = el("input");
+    input.type = "radio";
+    input.name = "chk-sys";
+    input.value = f.id;
+    input.id = "sys-pick-" + f.id;
+    label.appendChild(input);
+
+    var main = el("span", "sys-main");
+    var name = el("span", "sys-name");
+    if (group === "ready") {
       var badge = el("span", "cp-badge");
       badge.setAttribute("role", "img");
       badge.setAttribute("aria-label", T.done);
       badge.appendChild(checkMark());
-      title.appendChild(badge);
+      name.appendChild(badge);
     }
-    title.appendChild(document.createTextNode(t.name));
-    head.appendChild(title);
-    head.appendChild(el("span", "chip " + CHIP[f.stage], T.chip[f.stage]));
-    art.appendChild(head);
-    art.appendChild(meter(f.stage));
+    name.appendChild(el("span", "sys-name-text", t.name));
+    if (ctx.lead) name.appendChild(el("small", "tag tag-lead", T.lead));
+    main.appendChild(name);
+    if (STEP[f.stage]) {
+      var st = el("span", "sys-stage");
+      st.appendChild(dots(f.stage));
+      st.appendChild(el("span", null, T.stage[f.stage]));
+      main.appendChild(st);
+    } else if (group === "later" || group === "no" || group === "other") {
+      main.appendChild(el("span", "sys-stage sys-note", t.note));
+    }
+    if (group === "progress" && ctx.n != null) {
+      var track = el("span", "race-track" + (ctx.lead ? " is-lead" : ""));
+      var bar = el("i");
+      bar.style.width = (ctx.n === 0 ? 0 : Math.max(3, Math.round(ctx.n / Math.max(1, ctx.max) * 100))) + "%";
+      track.appendChild(bar);
+      main.appendChild(track);
+    }
+    label.appendChild(main);
 
-    var dl = facts(f);
-    if (ready) {
-      // Proof first: what it was verified with, and what is included.
-      if (dl) art.appendChild(dl);
-      art.appendChild(el("p", "cp-note", t.note));
-    } else if (dl) {
-      var more = el("details", "cp-more");
-      more.appendChild(el("summary", null, T.details));
-      more.appendChild(dl);
-      art.appendChild(more);
+    if (ctx.n != null && group !== "no" && group !== "other") {
+      var v = el("span", "sys-votes");
+      v.appendChild(el("b", null, num(ctx.n)));
+      v.appendChild(el("small", null, group === "ready" ? T.signups(ctx.n) : T.votes(ctx.n)));
+      label.appendChild(v);
     }
-    art.appendChild(votes(f, group, ctx));
-    return art;
+    wrap.appendChild(label);
+
+    var d = detail(f, group);
+    d.hidden = true;
+    wrap.appendChild(d);
+    return wrap;
   }
 
-  // Later and not planned: one compact row each.
-  function row(f, group, n) {
-    var t = f[lang];
-    var li = el("li", "cp-row");
-    li.id = "sys-" + f.id;
-    var text = el("div", "cp-row-text");
-    text.appendChild(el("b", null, t.name));
-    text.appendChild(el("span", null, t.note));
-    li.appendChild(text);
-    if (group === "later") {
-      var side = el("div", "cp-row-side");
-      if (n != null) side.appendChild(el("small", null, num(n) + " " + T.votes(n)));
-      var a = el("a", "dev-link", T.act.later);
-      a.href = "#waitlist";
-      a.setAttribute("data-pick", f.id);
-      side.appendChild(a);
-      li.appendChild(side);
-    }
-    return li;
+  // The checker's result box moves into the chosen row, so the answer appears where you clicked.
+  var result = root.querySelector(".result");
+  var resultHome = root.querySelector("[data-result-home]");
+
+  // Mark the chosen row, open its details and show the result in it.
+  function sync() {
+    var id = famSel.value;
+    var host = null;
+    Array.prototype.forEach.call(list.querySelectorAll(".sys"), function (s) {
+      var on = s.id === "sys-" + id;
+      s.classList.toggle("is-on", on);
+      var input = s.querySelector("input");
+      if (input) input.checked = on;
+      var d = s.querySelector(".sys-detail");
+      if (d) { d.hidden = !on; if (on) host = d; }
+    });
+    if (!result) return;
+    if (host) { if (result.parentNode !== host) host.insertBefore(result, host.firstChild); }
+    else if (resultHome && result.parentNode !== resultHome) resultHome.appendChild(result);
+    if (resultHome) resultHome.hidden = !!host;
   }
 
   // stats = { total, families: { id: n } }, or null while loading or unavailable.
   function render(stats) {
     var fam = stats ? stats.families || {} : null;
-    var buckets = { ready: [], progress: [], later: [], no: [] };
+    var buckets = { ready: [], progress: [], later: [], no: [], other: [] };
     data.families.forEach(function (f, i) {
       var g = GROUP[f.stage];
       if (g) buckets[g].push({ f: f, i: i, n: fam ? fam[f.id] || 0 : null });
@@ -216,16 +211,21 @@
     var max = 0;
     buckets.progress.forEach(function (x) { if ((x.n || 0) > max) max = x.n; });
 
-    Object.keys(buckets).forEach(function (key) {
-      var box = root.querySelector('[data-group="' + key + '"]');
-      if (!box) return;
-      box.textContent = "";
-      if (!buckets[key].length) { box.appendChild(el("p", "hint", T.empty)); return; }
-      buckets[key].forEach(function (x, idx) {
-        if (key === "later" || key === "no") box.appendChild(row(x.f, key, x.n));
-        else box.appendChild(card(x.f, key, { n: x.n, max: max, lead: key === "progress" && idx === 0 && x.n > 0 }));
+    list.textContent = "";
+    GROUPS.forEach(function (g) {
+      if (!buckets[g].length) return;
+      var group = el("div", "sys-group");
+      group.setAttribute("role", "group");
+      var head = el("p", "sys-group-label", T.group[g]);
+      head.id = "sys-group-" + g;
+      group.setAttribute("aria-labelledby", head.id);
+      group.appendChild(head);
+      buckets[g].forEach(function (x, idx) {
+        group.appendChild(row(x.f, g, { n: x.n, max: max, lead: g === "progress" && idx === 0 && x.n > 0 }));
       });
+      list.appendChild(group);
     });
+    sync();
 
     var total = root.querySelector("[data-board-total]");
     if (total) {
@@ -238,20 +238,17 @@
         n.hidden = false;
       });
     }
-    reveal();
   }
 
-  // #sys-ID (from the checker's "See where this system stands"): outline that card.
-  function reveal() {
-    var id = location.hash.slice(1);
-    Array.prototype.forEach.call(root.querySelectorAll(".is-target"), function (n) { n.classList.remove("is-target"); });
-    if (!/^sys-[a-z0-9-]+$/.test(id)) return;
-    var target = document.getElementById(id);
-    if (target) target.classList.add("is-target");
-  }
-  window.addEventListener("hashchange", reveal);
-
-  root.addEventListener("click", function (e) {
+  // A row chosen here drives the checker's select; site.js then updates the result and the form.
+  list.addEventListener("change", function (e) {
+    if (e.target.name !== "chk-sys") return;
+    famSel.value = e.target.value;
+    famSel.dispatchEvent(new Event("change"));
+  });
+  // A choice made elsewhere (the form's own menu, a ?systeme= link) moves the list too.
+  document.addEventListener("kurant:system", sync);
+  list.addEventListener("click", function (e) {
     var a = e.target.closest ? e.target.closest("[data-pick]") : null;
     if (!a || !window.KurantPick) return;
     e.preventDefault();

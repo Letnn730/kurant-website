@@ -65,27 +65,28 @@
   }
   function find(list, id) { for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
 
-  // The checker links to the chosen system's card in "Where each brand stands" (#sys-ID, assets/board.js).
-  var more = null;
-  if (text) {
-    more = document.createElement("a");
-    more.className = "dev-link chk-more";
-    more.hidden = true;
-    text.parentNode.appendChild(more);
-  }
-  function linkMore(f) {
-    if (!more) return;
-    var listed = f && f.stage && f.stage !== "other";
-    more.hidden = !listed;
-    if (!listed) return;
-    more.href = "#sys-" + f.id;
-    more.textContent = lang === "en" ? "See where this system stands" : "Voir où en est ce système";
+  // The form says the sign-up counts as a vote for the chosen system (not for "not planned" or "other").
+  var voteNote = null;
+  function noteVote(f) {
+    var wlForm = document.getElementById("waitlist");
+    var perk = wlForm ? wlForm.querySelector(".perk") : null;
+    if (!perk) return;
+    var show = f && f.stage !== "no" && f.stage !== "other";
+    if (!voteNote) {
+      voteNote = document.createElement("p");
+      voteNote.className = "invited";
+      perk.parentNode.insertBefore(voteNote, perk.nextSibling);
+    }
+    voteNote.hidden = !show;
+    if (show) voteNote.textContent = (lang === "en" ? "Your confirmed sign-up will count as a vote for: " : "Votre inscription confirmée comptera comme un vote pour : ") + f[lang].name;
   }
 
   function update() {
     var f = find(data.families, famSel.value);
     var v = find(data.voltages, voltSel.value);
-    linkMore(f);
+    noteVote(f);
+    // The system list (assets/board.js) follows the choice, wherever it was made.
+    document.dispatchEvent(new CustomEvent("kurant:system", { detail: famSel.value }));
     if (!f || !v) {
       chip.className = "chip idle"; chip.textContent = T.status.idle; text.textContent = T.idle;
       return;
@@ -113,26 +114,17 @@
     wlFam.addEventListener("change", function () { if (famSel) { famSel.value = wlFam.value; update(); } });
   }
 
-  // "Vote for this system" (assets/board.js), or a shared link ?systeme=ID / ?system=ID:
-  // the system is chosen in the checker and the form, and the form says the sign-up is a vote for it.
-  var voteNote = null;
+  // Choose a system from the list's "Sign up to vote" button (assets/board.js), or from a shared
+  // link ?systeme=ID / ?system=ID. With opts.scroll, the form comes into view, ready for the email.
   function pickSystem(id, opts) {
     var f = data ? find(data.families, String(id || "").toLowerCase()) : null;
     if (!f) return;
-    if (famSel) { famSel.value = f.id; update(); }
+    if (famSel) famSel.value = f.id;
     if (wlFam) wlFam.value = f.id;
+    if (famSel && voltSel) update();
     var wlForm = document.getElementById("waitlist");
-    var perk = wlForm ? wlForm.querySelector(".perk") : null;
-    if (wlForm && perk) {
-      wlForm.classList.add("from-compat");
-      if (!voteNote) {
-        voteNote = document.createElement("p");
-        voteNote.className = "invited";
-        perk.parentNode.insertBefore(voteNote, perk.nextSibling);
-      }
-      voteNote.textContent = (lang === "en" ? "Your confirmed sign-up will count as a vote for: " : "Votre inscription confirmée comptera comme un vote pour : ") + f[lang].name;
-    }
     if (opts && opts.scroll && wlForm) {
+      wlForm.classList.add("from-compat");
       wlForm.scrollIntoView({ block: "start" });
       if (history.replaceState) history.replaceState(null, "", "#waitlist");
       var email = document.getElementById("wl-email");
