@@ -15,6 +15,7 @@ export async function onRequestGet({ request, env }) {
        SUM(confirmed_at IS NOT NULL AND unsubscribed_at IS NULL) AS confirmed,
        SUM(confirmed_at IS NULL AND unsubscribed_at IS NULL) AS pending,
        SUM(unsubscribed_at IS NOT NULL) AS unsubscribed,
+       SUM(confirmed_at IS NOT NULL AND unsubscribed_at IS NULL AND synced_at IS NULL) AS confirmed_not_in_resend,
        SUM(intent = 'yes' AND unsubscribed_at IS NULL) AS day_one_yes,
        SUM(intent = 'maybe' AND unsubscribed_at IS NULL) AS day_one_maybe,
        SUM(intent = 'curious' AND unsubscribed_at IS NULL) AS curious,

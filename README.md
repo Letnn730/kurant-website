@@ -22,7 +22,8 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `functions/api/me.js`, `intent.js` | Thank-you page data, and the day-one question |
 | `functions/api/unsubscribe.js` | Unsubscribe page and one-click unsubscribe (CASL, RFC 8058) |
 | `functions/api/stats.js` | Public counts for the brand race (confirmed sign-ups only) |
-| `functions/api/admin/` | `resend`, `sync`, `report`: protected by `ADMIN_TOKEN` |
+| `functions/api/admin/` | `health`, `resend`, `sync`, `report`: protected by `ADMIN_TOKEN` |
+| `functions/api/webhooks/resend.js` | Resend webhook: newsletter unsubscribes and spam complaints mark the sign-up unsubscribed here too. Signed with `RESEND_WEBHOOK_SECRET` |
 | `functions/_lib/` | Shared code: email (Resend), email texts, helpers |
 | `merci/`, `en/thanks/` | Thank-you page: founder number, personal link, referral ladder, brand race |
 | `assets/race.js`, `assets/thanks.js` | Brand race (now on the thank-you page only; the home page shows the ranking in the checker, from `board.js`) and thank-you page scripts. The promises shown on the thank-you page are at the top of `thanks.js` |
@@ -84,7 +85,7 @@ Links: `kurant.ca/?systeme=ID#waitlist` (or `/en/?system=ID#waitlist`) opens the
 2. The person clicks **Confirmer** → `/api/confirm`. They get the next founder number, they are copied to Resend's contact list (FR or EN segment), and they land on `/merci/` or `/en/thanks/`.
 3. The thank-you page shows the founder number, asks the day-one question, and gives a personal link `kurant.ca/?r=CODE`. A friend who signs up through it and confirms counts as one referral.
 4. `/api/stats` feeds the brand race on the home page and the thank-you page. It appears once 50 people have confirmed.
-5. Broadcasts (weekly emails, launch email) are written and sent from Resend's dashboard, to the FR and EN segments. Resend adds its unsubscribe link and handles those unsubscribes.
+5. Broadcasts (newsletters, launch email) are written and sent from Resend's dashboard, to the FR and EN segments (see "Sending a newsletter"). Resend's unsubscribe link handles those unsubscribes, and the webhook `/api/webhooks/resend` copies them back to the list here.
 
 Only confirmed, still-subscribed sign-ups count anywhere. One inbox is one person: `Jo.Doe+x@gmail.com` and `jodoe@gmail.com` share an entry, so aliases can't farm referrals. One IP can sign up 8 times an hour. An address that never confirms is deleted 30 days after its last confirmation email.
 
@@ -95,8 +96,8 @@ Only confirmed, still-subscribed sign-ups count anywhere. One inbox is one perso
    - The records go on a `send` subdomain and a `resend._domainkey` record, so they don't touch Email Routing for `bonjour@kurant.ca`.
    - Wait for **Verified**.
    - If a record stays pending after an hour, check that it isn't proxied (DNS only, grey cloud).
-3. **API key.** In Resend, open **API Keys → Create**, with permission **Sending access**, then copy the key.
-   - Sending access is enough for confirmation emails. Copying contacts to segments needs a **Full access** key; use one only if you want the contact sync.
+3. **API key.** In Resend, open **API Keys → Create**, with permission **Full access**, then copy the key.
+   - Full access is required for newsletters: it lets the site copy each confirmed sign-up into the FR or EN segment. A **Sending access** key only sends the confirmation emails, and the segments stay empty.
 4. **Segments.** In Resend's contacts area (**Audience** or **Contacts**, then **Segments**), create `Kurant FR` and `Kurant EN`. Copy each segment's id.
 5. **Variables.** In the Pages project, open **Settings → Variables and secrets** and add the values below under Production:
 
@@ -109,6 +110,7 @@ Only confirmed, still-subscribed sign-ups count anywhere. One inbox is one perso
    | `ADMIN_TOKEN` | Secret | a long random string (for example, 40 characters from a password manager) |
    | `IP_SALT` | Secret | another random string |
    | `MAIL_POSTAL` | Text | FORGE's mailing address (a PO box works). CASL requires one in every email; until it's set, emails show only "Montréal (Québec), Canada" |
+   | `RESEND_WEBHOOK_SECRET` | Secret | the signing secret (`whsec_...`) of the webhook in step 10 |
 
    Never set `MAIL_DEV` in production: it turns sending off.
 6. **Database.** In the D1 console of `kurant-waitlist`, paste `migrations/0002_prelaunch.sql` and run it **once**.
@@ -117,6 +119,9 @@ Only confirmed, still-subscribed sign-ups count anywhere. One inbox is one perso
 8. **Test.** Sign up with your own address. You should get the email within a minute, land on `/merci/` with a founder number, and see your row with `confirmed_at` set.
    - **No email?** In Resend, open **Logs**. A `403` means the domain isn't verified yet. No entry at all means `RESEND_API_KEY` or `MAIL_FROM` is missing (Pages, **Functions → Logs**, shows `mail not configured`).
 9. **Older sign-ups.** People who joined before this update have founder numbers 1, 2, 3… in sign-up order, but they still need to confirm. Send them the confirmation email (step "Admin calls" below, `resend`).
+10. **Webhook.** In Resend, open **Webhooks → Add endpoint**: URL `https://kurant.ca/api/webhooks/resend`, events `contact.updated` and `email.complained`. Copy its signing secret into `RESEND_WEBHOOK_SECRET` (step 5), then redeploy. From then on, someone who unsubscribes from a newsletter, or marks one as spam, is also marked unsubscribed here: they stop counting in the votes and the site never emails them again.
+11. **DMARC.** In Cloudflare DNS, add a TXT record named `_dmarc` with the value `v=DMARC1; p=none; rua=mailto:bonjour@kurant.ca`. Gmail and Yahoo expect one from senders of bulk mail; `p=none` only asks for reports and blocks nothing.
+12. **Check.** Run the health call below. `"ok": true` means confirmation emails and newsletters are both wired up; otherwise `problems` says what to fix.
 
 Resend's free plan sends 100 emails a day and 3,000 a month, with up to 1,000 marketing contacts. On a busy day, confirmations past the daily cap aren't lost: the person sees "may take a few hours", and `resend` sends them the next day. For the launch month, if the list passes 1,000 contacts, take the paid Marketing plan for that month.
 
@@ -125,6 +130,9 @@ Resend's free plan sends 100 emails a day and 3,000 a month, with up to 1,000 ma
 Replace `TOKEN` with your `ADMIN_TOKEN`. Use `curl.exe`: plain `curl` in PowerShell is a different command.
 
 ```powershell
+# Is everything wired up? Settings present, database, Resend key, sending domain, segments, sync backlog
+curl.exe -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/health
+
 # The launch gates: confirmed, pending, day-one answers, per system, referral leaders
 curl.exe -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/report
 
@@ -137,6 +145,19 @@ curl.exe -X POST -H "Authorization: Bearer TOKEN" "https://kurant.ca/api/admin/r
 # Copy confirmed sign-ups to Resend's segments (after setting up segments late; repeat until left is 0)
 curl.exe -X POST -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/sync
 ```
+
+### Sending a newsletter
+
+1. In Resend, open **Broadcasts → Create**. Send one broadcast per language: segment **Kurant FR** in French, **Kurant EN** in English.
+2. **From:** `Kurant <bonjour@kurant.ca>`. **Reply-to:** `bonjour@kurant.ca`.
+3. End every broadcast with this footer (CASL: sender, mailing address, working unsubscribe link). Replace the address with the one in `MAIL_POSTAL`:
+   - FR: `FORGE · [adresse postale] · bonjour@kurant.ca` then a link **Se désabonner** pointing to `{{{RESEND_UNSUBSCRIBE_URL}}}`
+   - EN: `FORGE · [mailing address] · bonjour@kurant.ca` then a link **Unsubscribe** pointing to `{{{RESEND_UNSUBSCRIBE_URL}}}`
+   - Or add Resend's built-in **Unsubscribe Footer** block, which inserts the same link.
+4. **Send test** to yourself first, check both languages, then **Send** or schedule.
+5. Before a big send, run `health`: `confirmed_not_in_resend` should be 0 (if not, run `sync`), otherwise those people won't get the newsletter.
+
+Only people who confirmed their address are in the segments. Unconfirmed sign-ups never get newsletters.
 
 ### Useful D1 queries
 
