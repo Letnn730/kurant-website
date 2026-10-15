@@ -11,9 +11,8 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `en/index.html` | English home page |
 | `confidentialite/`, `en/privacy/` | Privacy policy (Quebec Law 25) |
 | `assets/site.css` | Styles, following the FORGE brand guide (Obsidienne / Blanc Titane / Cyan Glacial, Inter + JetBrains Mono) |
-| `assets/compat.js` | Compatibility list used by "Vérifier mon vélo" and the compatibility pages. Keep in step with `ebike-profiles` |
-| `compatibilite/`, `en/compatibility/` | Compatibility pages: where each brand stands, grouped by stage, with a 4-step progress meter |
-| `assets/compat-page.js` | Renders the compatibility pages from `compat.js` |
+| `assets/compat.js` | Compatibility list used by "Vérifier mon vélo": the checker and the ranking below it. Keep in step with `ebike-profiles` |
+| `assets/board.js` | "Où en est chaque marque": every system by stage, with a 4-step meter and the real confirmed votes from `/api/stats`. Systems in progress are ranked by votes; "Voter pour ce système" picks it in the form |
 | `assets/site.js` | Compatibility tool and waitlist form |
 | `assets/demo.js`, `assets/demo.css` | Hero demo: the app's Ride and Settings screens running its simulator in the browser. Mirrors `ebike-app` (screens, wording, safety rules); only the Simulator source is offered. Keep in step when the app's UI changes |
 | `assets/campaign.json`, `assets/campaign.js` | Kickstarter state and link; the script shows the matching banner and buttons |
@@ -26,7 +25,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `functions/api/admin/` | `resend`, `sync`, `report`: protected by `ADMIN_TOKEN` |
 | `functions/_lib/` | Shared code: email (Resend), email texts, helpers |
 | `merci/`, `en/thanks/` | Thank-you page: founder number, personal link, referral ladder, brand race |
-| `assets/race.js`, `assets/thanks.js` | Brand race and thank-you page scripts. The promises shown on the thank-you page are at the top of `thanks.js` |
+| `assets/race.js`, `assets/thanks.js` | Brand race (now on the thank-you page only; the home page shows the ranking from `board.js`) and thank-you page scripts. The promises shown on the thank-you page are at the top of `thanks.js` |
 | `assets/module3d.js` | "Le module, ouvert": the 3D model that opens as you scroll (three.js, loaded only near that section; falls back to the animation video) |
 | `assets/model/crown.bin`, `crown.json` | The model, built from the CAD by `tools/build_crown_model.py` (see below) |
 | `assets/vendor/three.module.min.js` | three.js r160 (MIT, see `three.LICENSE.txt`), self-hosted for the CSP |
@@ -71,11 +70,13 @@ Edit only `assets/campaign.json`, then push:
 
 ## Updating compatibility
 
-Edit `assets/compat.js`: the checker and the compatibility pages both read it.
+Edit `assets/compat.js`: the checker and the ranking under it both read it.
 
 - `status` drives the checker: `"ok"` only when the family's profile in `ebike-profiles` is `bench-verified`.
-- `stage` drives the pages: `dev` (in development) → `bench` (a controller on the bench) → `verified` (bench-verified, set together with `status: "ok"`) → `road` (confirmed by riders). `later` and `no` list systems for a future module or not planned.
-- Per language, `look` (how to recognize the system), `tested` (hardware it was verified or is being recorded on) and `next` (next step) are optional and only shown on the pages.
+- `stage` drives the ranking: `dev` (in development) → `bench` (a controller on the bench) → `verified` (bench-verified, set together with `status: "ok"`) → `road` (confirmed by riders). `later` and `no` list systems for a future module or not planned.
+- Per language, `look` (how to recognize the system), `tested` (hardware it was verified or is being recorded on) and `next` (next step) are optional and shown on the system's card.
+
+Links: `kurant.ca/?systeme=ID#waitlist` (or `/en/?system=ID#waitlist`) opens the form with that system chosen, for example to share "vote for Bafang". The checker links to each system's card at `#sys-ID`. Add `?race=demo` on a non-production URL to see the ranking with made-up numbers.
 
 ## Pre-launch list: how it works
 
