@@ -253,38 +253,45 @@
       <div class="section-head">
         <p class="eyebrow">Compatibilité</p>
         <h2>Vérifier mon vélo</h2>
-        <p>Un seul module pour tous les vélos : seul le câble change d'une marque à l'autre. Vérifiez où en est votre système, puis inscrivez-vous. Votre inscription confirmée compte comme un vote : après KT, le système le plus voté passe au banc en premier.</p>
+        <p>Un seul module pour tous les vélos : seul le câble change d'une marque à l'autre. Choisissez votre système pour voir où il en est, puis inscrivez-vous. Votre inscription confirmée compte comme un vote : après KT, le système le plus voté passe au banc en premier.</p>
       </div>
       <ol class="path" aria-label="En trois étapes">
-        <li><b>Vérifiez</b><span>votre système et votre batterie</span></li>
+        <li><b>Choisissez</b><span>votre système dans la liste</span></li>
         <li><b>Inscrivez-vous</b><span>c'est un vote pour votre système</span></li>
-        <li><b>Suivez</b><span>votre marque dans le classement</span></li>
+        <li><b>Soyez averti</b><span>quand il est prêt pour votre vélo</span></li>
       </ol>
 
       <div class="check-grid">
-        <div class="panel">
-          <h3>Ma configuration</h3>
-          <div class="field">
-            <label for="chk-family">Système ou marque du vélo</label>
-            <select id="chk-family" name="family"></select>
+        <div class="panel check-panel" data-board="fr">
+          <div class="check-head">
+            <h3>Ma configuration</h3>
+            <p class="board-total" data-board-total hidden></p>
           </div>
           <div class="field">
             <label for="chk-volt">Tension de la batterie</label>
             <select id="chk-volt" name="voltage"></select>
           </div>
-          <div class="result" aria-live="polite">
-            <span id="chk-chip" class="chip idle">En attente</span>
-            <p id="chk-text">Choisissez le système et la tension de votre vélo pour voir le résultat.</p>
+          <fieldset class="sys-pick">
+            <legend class="legend">Système ou marque du vélo</legend>
+            <p class="hint">Chaque système passe par quatre étapes : étudié, au banc, vérifié au banc, puis confirmé sur la route. Ceux en cours sont classés par votes confirmés.</p>
+            <details class="find-sys">
+              <summary>Comment trouver mon système ?</summary>
+              <ul>
+                <li><b>Écran</b> Le modèle est souvent imprimé sur l'écran ou au dos : KT-LCD3, LCD5, LCD8, VM-T8, S866…</li>
+                <li><b>Connecteur</b> Chez Bafang, le connecteur du câble d'écran indique le système : rond à 5 broches, ou triangulaire.</li>
+                <li><b>Étiquette</b> La marque du contrôleur figure sur son étiquette, par exemple KT36/48SVPRL. En cas de doute, recopiez-la dans le formulaire.</li>
+                <li><b>Batterie</b> La tension est inscrite sur la batterie ou le chargeur.</li>
+              </ul>
+            </details>
+            <div class="sys-list" data-sys-list><p class="hint">La liste s'affiche quand JavaScript est activé.</p></div>
+            <select id="chk-family" name="family" hidden tabindex="-1" aria-hidden="true"></select>
+          </fieldset>
+          <div class="result-home" data-result-home>
+            <div class="result" aria-live="polite">
+              <span id="chk-chip" class="chip idle">En attente</span>
+              <p id="chk-text">Choisissez le système et la tension de votre vélo pour voir le résultat.</p>
+            </div>
           </div>
-          <details class="find-sys">
-            <summary>Comment trouver mon système ?</summary>
-            <ul>
-              <li><b>Écran</b> Le modèle est souvent imprimé sur l'écran ou au dos : KT-LCD3, LCD5, LCD8, VM-T8, S866…</li>
-              <li><b>Connecteur</b> Chez Bafang, le connecteur du câble d'écran indique le système : rond à 5 broches, ou triangulaire.</li>
-              <li><b>Étiquette</b> La marque du contrôleur figure sur son étiquette, par exemple KT36/48SVPRL. En cas de doute, recopiez-la dans le formulaire.</li>
-              <li><b>Batterie</b> La tension est inscrite sur la batterie ou le chargeur.</li>
-            </ul>
-          </details>
         </div>
 
         <form class="panel" id="waitlist" novalidate data-consent-version="2026-10-08b">
@@ -344,38 +351,6 @@
         </form>
       </div>
 
-      <div class="board" id="marques" data-board="fr">
-        <div class="board-head">
-          <p class="eyebrow">Où en est chaque marque</p>
-          <h3>Le classement des systèmes</h3>
-          <p>Chaque système franchit quatre étapes avant d'être offert. Ceux en cours sont classés par votes confirmés ; pendant la campagne, les réservations à 1&nbsp;$ s'ajoutent.</p>
-          <p class="board-total" data-board-total hidden></p>
-        </div>
-        <ol class="cp-legend">
-          <li><b>Étudié</b><span>Documenté, rien de mesuré encore</span></li>
-          <li><b>Au banc</b><span>Un vrai contrôleur est branché au banc d'essai</span></li>
-          <li><b>Vérifié au banc</b><span>Chaque donnée et chaque réglage mesuré : offert au lancement</span></li>
-          <li><b>Confirmé sur la route</b><span>Par les premiers cyclistes</span></li>
-        </ol>
-        <div class="board-group">
-          <h4>Prêt au lancement</h4>
-          <div class="cp-grid cp-grid-ready" data-group="ready"><p class="hint">La liste s'affiche quand JavaScript est activé.</p></div>
-        </div>
-        <div class="board-group">
-          <h4>En cours, du plus voté au moins voté</h4>
-          <div class="cp-grid" data-group="progress"></div>
-        </div>
-        <div class="board-group board-split">
-          <div>
-            <h4>Plus tard</h4>
-            <ul class="cp-rows" data-group="later"></ul>
-          </div>
-          <div>
-            <h4>Pas prévu</h4>
-            <ul class="cp-rows" data-group="no"></ul>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -392,7 +367,7 @@
         <details><summary>Le support de téléphone est-il inclus ?</summary><p>Non : utilisez votre support de guidon. Un modèle avec recharge est recommandé pour les longues sorties.</p></details>
         <details><summary>L'installation demande-t-elle de souder ?</summary><p>Non. Kurant se branche sur le connecteur de l'écran d'origine, avec un câble adapté à votre contrôleur. Gardez l'écran d'origine : vous pouvez le rebrancher en tout temps.</p></details>
         <details><summary>Où s'installe le module ?</summary><p>Sur le guidon avant, à la place de l'écran d'origine, sur le même connecteur.</p></details>
-        <details><summary>Quels vélos seront pris en charge ?</summary><p>Au lancement, les contrôleurs KT (écrans LCD3, LCD5, LCD8) sur batterie de 48 ou 52 V : ils sont vérifiés au banc. Bafang UART, Lishui, Rad Power Bikes, Lectric et Aventon (48 V) sont en développement ; les systèmes 36 V comme Shimano STEPS viendront plus tard. Réservez votre système à 1 $ sur Kickstarter : les plus réservés passent au banc en premier. Bosch n'est pas prévu : son système est fermé. Utilisez l'outil de vérification plus haut pour votre vélo, ou voyez <a href="#marques">où en est chaque marque</a>.</p></details>
+        <details><summary>Quels vélos seront pris en charge ?</summary><p>Au lancement, les contrôleurs KT (écrans LCD3, LCD5, LCD8) sur batterie de 48 ou 52 V : ils sont vérifiés au banc. Bafang UART, Lishui, Rad Power Bikes, Lectric et Aventon (48 V) sont en développement ; les systèmes 36 V comme Shimano STEPS viendront plus tard. Réservez votre système à 1 $ sur Kickstarter : les plus réservés passent au banc en premier. Bosch n'est pas prévu : son système est fermé. Utilisez l'outil de vérification plus haut pour votre vélo, ou voyez <a href="#verifier">où en est chaque marque</a>.</p></details>
         <details><summary>Quel sera le prix ?</summary><p>Le prix prévu est de 159 $ CA, taxes en sus, module et application compris. Pendant la campagne Kickstarter : 119 $ pour les 100 premiers, puis 139 $. L'application ne demande aucun abonnement.</p></details>
         <details><summary>Faut-il créer un compte ?</summary><p>Non. L'application ne demande pas de compte, et l'historique des trajets reste sur votre téléphone.</p></details>
         <details><summary>Quand Kurant sera-t-il offert ?</summary><p>Le prototype fonctionne déjà sur un vrai contrôleur KT ; il reste à ajouter les profils des autres marques. Kurant sera lancé par une campagne Kickstarter, livrée au Canada environ six mois après sa fin : circuit et boîtier finaux, certification, puis production. La liste d'attente sera avertie en premier.</p></details>
