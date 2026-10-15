@@ -11,7 +11,9 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `en/index.html` | English home page |
 | `confidentialite/`, `en/privacy/` | Privacy policy (Quebec Law 25) |
 | `assets/site.css` | Styles, following the FORGE brand guide (Obsidienne / Blanc Titane / Cyan Glacial, Inter + JetBrains Mono) |
-| `assets/compat.js` | Compatibility list used by "Vérifier mon vélo". Keep in step with `ebike-profiles` |
+| `assets/compat.js` | Compatibility list used by "Vérifier mon vélo" and the compatibility pages. Keep in step with `ebike-profiles` |
+| `compatibilite/`, `en/compatibility/` | Compatibility pages: where each brand stands, grouped by stage, with a 4-step progress meter |
+| `assets/compat-page.js` | Renders the compatibility pages from `compat.js` |
 | `assets/site.js` | Compatibility tool and waitlist form |
 | `assets/demo.js`, `assets/demo.css` | Hero demo: the app's Ride and Settings screens running its simulator in the browser. Mirrors `ebike-app` (screens, wording, safety rules); only the Simulator source is offered. Keep in step when the app's UI changes |
 | `assets/campaign.json`, `assets/campaign.js` | Kickstarter state and link; the script shows the matching banner and buttons |
@@ -69,7 +71,11 @@ Edit only `assets/campaign.json`, then push:
 
 ## Updating compatibility
 
-Edit `assets/compat.js`. A family moves to `"ok"` only when its profile in `ebike-profiles` is `bench-verified`.
+Edit `assets/compat.js`: the checker and the compatibility pages both read it.
+
+- `status` drives the checker: `"ok"` only when the family's profile in `ebike-profiles` is `bench-verified`.
+- `stage` drives the pages: `dev` (in development) → `bench` (a controller on the bench) → `verified` (bench-verified, set together with `status: "ok"`) → `road` (confirmed by riders). `later` and `no` list systems for a future module or not planned.
+- Per language, `look` (how to recognize the system), `tested` (hardware it was verified or is being recorded on) and `next` (next step) are optional and only shown on the pages.
 
 ## Pre-launch list: how it works
 
