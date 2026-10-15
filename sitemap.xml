@@ -30,4 +30,14 @@
     <xhtml:link rel="alternate" hreflang="fr-CA" href="https://kurant.ca/journal/"/>
     <xhtml:link rel="alternate" hreflang="en-CA" href="https://kurant.ca/en/journal/"/>
   </url>
+  <url>
+    <loc>https://kurant.ca/compatibilite/</loc>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://kurant.ca/compatibilite/"/>
+    <xhtml:link rel="alternate" hreflang="en-CA" href="https://kurant.ca/en/compatibility/"/>
+  </url>
+  <url>
+    <loc>https://kurant.ca/en/compatibility/</loc>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://kurant.ca/compatibilite/"/>
+    <xhtml:link rel="alternate" hreflang="en-CA" href="https://kurant.ca/en/compatibility/"/>
+  </url>
 </urlset>
