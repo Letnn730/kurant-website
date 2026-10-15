@@ -10,14 +10,14 @@
   /* ---- Promises shown on this page. Alex: edit these before the page goes live. ---- */
   var PERKS = {
     fr: {
-      founder: "Gardez-le : si vous contribuez, votre numéro sera imprimé sur la carte de démarrage dans votre boîte, et les 500 premiers numéros auront l'insigne Fondateur dans l'application.",
+      founder: "Gardez-le\u202F: si vous contribuez, votre numéro sera imprimé sur la carte de démarrage dans votre boîte, et les 500 premiers numéros auront l'insigne Fondateur dans l'application.",
       ladder: [
-        { n: 1, text: "Le courriel du lancement en priorité, 30 minutes avant tout le monde." },
+        { n: 1, text: "Le courriel du lancement en priorité, 30\u00A0minutes avant tout le monde." },
         { n: 3, text: "Votre nom dans l'écran de remerciements de l'application." },
         { n: 5, text: "Un deuxième câble offert pour une autre marque, dès qu'elle est vérifiée (avec un module contribué)." }
       ],
       top: "Les 3 meilleurs parrains au lancement reçoivent un module Kurant.",
-      rules: "Seuls les amis qui confirment leur adresse comptent. Les inscriptions sont vérifiées à la main avant toute récompense ; les inscriptions fictives sont retirées."
+      rules: "Seuls les amis qui confirment leur adresse comptent. Les inscriptions sont vérifiées à la main avant toute récompense\u202F; les inscriptions fictives sont retirées."
     },
     en: {
       founder: "Keep it: if you back Kurant, your number will be printed on the quick-start card in your box, and the first 500 numbers get the Founder badge in the app.",
@@ -41,7 +41,7 @@
       saved: "Merci, c'est noté.",
       fail: "La réponse n'a pas été enregistrée. Réessayez.",
       shareTitle: "Kurant",
-      shareText: "J'attends Kurant : un module qui transforme le téléphone en écran de vélo électrique. Essayez l'application dans votre navigateur :",
+      shareText: "J'attends Kurant\u202F: un module qui transforme le téléphone en écran de vélo électrique. Essayez l'application dans votre navigateur\u202F:",
       mailSubject: "Ton téléphone comme écran de vélo électrique",
       home: "/"
     },

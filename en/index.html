@@ -24,8 +24,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261015">
-<link rel="stylesheet" href="../assets/demo.css?v=20261015">
+<link rel="stylesheet" href="../assets/site.css?v=20261016">
+<link rel="stylesheet" href="../assets/demo.css?v=20261016">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -44,7 +44,7 @@
       <a href="#safety">Safety</a>
       <a href="#kickstarter">Kickstarter</a>
       <a href="#faq">FAQ</a>
-      <a href="journal/index.html">Log</a>
+      <a href="#check">Compatibility</a>
     </nav>
     <div class="top-actions">
       <a class="lang" href="../index.html" lang="fr" hreflang="fr">FR</a>
@@ -64,7 +64,7 @@
         <p class="lede">Kurant replaces your e-bike's display. A small module plugs in where the screen was, and your phone shows speed, power and battery, with settings explained in plain words.</p>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="#check">Check my bike</a>
-          <a class="btn btn-ghost" href="#module">See the module, opened</a>
+          <a class="btn btn-ghost" href="#module">See inside the module</a>
         </div>
         <p class="hero-note">The prototype already works on a real KT controller: it turns the bike on, shows live data and changes assist from the phone. Kickstarter campaign planned: people on the waitlist hear first.</p>
       </div>
@@ -90,10 +90,10 @@
 
   <section class="facts" aria-label="Key figures">
     <div class="wrap">
+      <div class="fact"><b>CAD 159</b><span>Planned price, module and app. CAD 119 for the first 100</span></div>
+      <div class="fact"><b>iPhone and Android</b><span>Free app, no account, no subscription</span></div>
+      <div class="fact"><b>No soldering</b><span>The original display plugs back in any time</span></div>
       <div class="fact"><b>48–52 V</b><span>Supported batteries</span></div>
-      <div class="fact"><b>0.5 km/h</b><span>Above this, settings lock</span></div>
-      <div class="fact"><b>1.5 s</b><span>No fresh data, the screen shows “--”</span></div>
-      <div class="fact"><b>1 module</b><span>One cable per brand, KT first</span></div>
     </div>
   </section>
 
@@ -102,7 +102,8 @@
       <div class="section-head">
         <p class="eyebrow">How it works</p>
         <h2>One module, one cable per brand</h2>
-        <p>The module is the same for every bike: only the cable changes from one brand to the next. KT first; Bafang, Lishui, Rad, Lectric and Aventon next, each once it's verified on a real controller. Your phone connects to it wirelessly and becomes the display.</p>
+        <p>The module is the same for every bike: only the cable changes from one brand to the next. KT first; other brands next, in order of votes, each once it's verified on a real controller. Your phone connects to it wirelessly and becomes the display.</p>
+        <a class="dev-link" href="#check">See where your brand stands</a>
       </div>
 
       <div class="flow">
@@ -127,7 +128,7 @@
       </div>
 
       <ol class="steps">
-        <li><h3>Plug in the module</h3><p>Unplug the original display and plug Kurant in its place, with its KT cable. No soldering, and the original display plugs back in any time.</p></li>
+        <li><h3>Plug in the module</h3><p>Unplug the original display and plug Kurant in its place, with the cable for your brand (KT at launch). No soldering, and the original display plugs back in any time.</p></li>
         <li><h3>Open the app</h3><p>The app, on iPhone or Android, finds the module and recognizes the controller type.</p></li>
         <li><h3>Ride</h3><p>Turn the bike on from the app. Data shows live and you change assist on the screen. Settings are changed when stopped.</p></li>
       </ol>
@@ -230,15 +231,10 @@
         <h2>The list goes first</h2>
         <p>Kurant will be funded by an all-or-nothing Kickstarter campaign. The pre-launch list is the shortest way to the 100 modules at CAD&nbsp;119: its members get the link before anyone else.</p>
       </div>
-      <ol class="steps ks-steps">
-        <li><h3>Sign up</h3><p>Confirm your email: you get a founder number and your personal link.</p></li>
-        <li><h3>Hear first</h3><p>On launch morning, the list gets the link before any public announcement.</p></li>
-        <li><h3>100 spots at CAD&nbsp;119</h3><p>Instead of 159 after the campaign. Shipped in Canada, about six months after it ends.</p></li>
-      </ol>
       <dl class="ks-facts">
         <div><dt>Goal</dt><dd>CAD&nbsp;24,000</dd></div>
         <div><dt>All or nothing</dt><dd>Nobody is charged if the goal isn't reached</dd></div>
-        <div><dt>Not a KT bike?</dt><dd>Reserve your system for $1 during the campaign</dd></div>
+        <div><dt>Not a KT bike?</dt><dd>Reserve your system for CAD 1 during the campaign</dd></div>
         <div><dt>Delivery</dt><dd>Canada, about 6 months</dd></div>
       </dl>
       <div class="ks-cta">
@@ -253,7 +249,7 @@
       <div class="section-head">
         <p class="eyebrow">Compatibility</p>
         <h2>Check my bike</h2>
-        <p>One module for every bike: only the cable changes from one brand to the next. Choose your system to see where it stands, then sign up. Your confirmed sign-up counts as a vote: after KT, the most voted system goes on the bench first.</p>
+        <p>Choose your system to see where it stands, then sign up. Your confirmed sign-up counts as a vote: after KT, the most voted system goes on the bench first.</p>
       </div>
       <ol class="path" aria-label="In three steps">
         <li><b>Choose</b><span>your system in the list</span></li>
@@ -271,6 +267,12 @@
             <label for="chk-volt">Battery voltage</label>
             <select id="chk-volt" name="voltage"></select>
           </div>
+          <div class="result-home" data-result-home>
+            <div class="result" aria-live="polite">
+              <span id="chk-chip" class="chip idle">Waiting</span>
+              <p id="chk-text">Choose your bike's system and voltage to see the result.</p>
+            </div>
+          </div>
           <fieldset class="sys-pick">
             <legend class="legend">Bike system or brand</legend>
             <p class="hint">Every system goes through four steps: researched, on the bench, bench-verified, then road-confirmed. Those in progress are ranked by confirmed votes.</p>
@@ -286,12 +288,6 @@
             <div class="sys-list" data-sys-list><p class="hint">The list appears when JavaScript is on.</p></div>
             <select id="chk-family" name="family" hidden tabindex="-1" aria-hidden="true"></select>
           </fieldset>
-          <div class="result-home" data-result-home>
-            <div class="result" aria-live="polite">
-              <span id="chk-chip" class="chip idle">Waiting</span>
-              <p id="chk-text">Choose your bike's system and voltage to see the result.</p>
-            </div>
-          </div>
         </div>
 
         <form class="panel" id="waitlist" novalidate data-consent-version="2026-10-08b">
@@ -367,7 +363,7 @@
         <details><summary>Is a phone mount included?</summary><p>No: use your own handlebar mount. One with charging is a good idea for long rides.</p></details>
         <details><summary>Does installation need soldering?</summary><p>No. Kurant plugs into the original display's connector, with a cable made for your controller. Keep the original display: you can plug it back in at any time.</p></details>
         <details><summary>Where does the module go?</summary><p>On the front handlebar, where the original display was, on the same connector.</p></details>
-        <details><summary>Which bikes will be supported?</summary><p>At launch, KT controllers (LCD3, LCD5, LCD8 displays) on a 48 or 52 V battery: they are bench-verified. Bafang UART, Lishui, Rad Power Bikes, Lectric and Aventon (48 V) are in development; 36 V systems such as Shimano STEPS come later. Reserve your system for $1 on Kickstarter: the most reserved go on the bench first. Bosch isn't planned: its system is closed. Use the checker above for your bike, or see <a href="#check">where each brand stands</a>.</p></details>
+        <details><summary>Which bikes will be supported?</summary><p>At launch, KT controllers (LCD3, LCD5, LCD8 displays) on a 48 or 52 V battery: they are bench-verified. Bafang UART, Lishui, Rad Power Bikes, Lectric and Aventon (48 V) are in development; 36 V systems such as Shimano STEPS come later. Reserve your system for CAD 1 on Kickstarter: the most reserved go on the bench first. Bosch isn't planned: its system is closed. Use the checker above for your bike, or see <a href="#check">where each brand stands</a>.</p></details>
         <details><summary>How much will it cost?</summary><p>The planned price is CAD 159 plus tax, module and app included. During the Kickstarter campaign: CAD 119 for the first 100, then CAD 139. The app has no subscription.</p></details>
         <details><summary>Do I need an account?</summary><p>No. The app doesn't ask for an account, and your ride history stays on your phone.</p></details>
         <details><summary>When will Kurant be available?</summary><p>The prototype already works on a real KT controller; what's left is adding the other brands' profiles. Kurant launches through a Kickstarter campaign, delivered in Canada about six months after it ends: final board and enclosure, certification, then production. The waitlist hears first.</p></details>
@@ -397,11 +393,11 @@
 
 <a class="m-cta" href="#waitlist" hidden><b>100 spots at CAD&nbsp;119</b><span>Join the list</span></a>
 
-<script src="../assets/compat.js?v=20261015" defer></script>
-<script src="../assets/site.js?v=20261015" defer></script>
-<script src="../assets/board.js?v=20261015" defer></script>
-<script src="../assets/demo.js?v=20261015" defer></script>
-<script src="../assets/campaign.js?v=20261015" defer></script>
-<script src="../assets/module3d.js?v=20261015" type="module"></script>
+<script src="../assets/compat.js?v=20261016" defer></script>
+<script src="../assets/site.js?v=20261016" defer></script>
+<script src="../assets/board.js?v=20261016" defer></script>
+<script src="../assets/demo.js?v=20261016" defer></script>
+<script src="../assets/campaign.js?v=20261016" defer></script>
+<script src="../assets/module3d.js?v=20261016" type="module"></script>
 </body>
 </html>

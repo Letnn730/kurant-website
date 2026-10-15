@@ -12,7 +12,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `confidentialite/`, `en/privacy/` | Privacy policy (Quebec Law 25) |
 | `assets/site.css` | Styles, following the FORGE brand guide (Obsidienne / Blanc Titane / Cyan Glacial, Inter + JetBrains Mono) |
 | `assets/compat.js` | Compatibility list used by "Vérifier mon vélo": the system list and the form. Keep in step with `ebike-profiles` |
-| `assets/board.js` | The checker's system list: every system with its stage (4-step meter) and real confirmed votes from `/api/stats`, systems in progress ranked by votes. The chosen row opens with the result, its details and "M'inscrire pour voter", and stays in sync with the form |
+| `assets/board.js` | The checker's system list: every system with its stage (4-step meter) and real confirmed votes from `/api/stats`, systems in progress ranked by votes. Later, not planned and other systems share a collapsed "Other systems" disclosure that opens for a selected system, including shared links. The chosen row opens with the result, its details and "M'inscrire pour voter", and stays in sync with the form |
 | `assets/site.js` | Compatibility tool and waitlist form |
 | `assets/demo.js`, `assets/demo.css` | Hero demo: the app's Ride and Settings screens running its simulator in the browser. Mirrors `ebike-app` (screens, wording, safety rules); only the Simulator source is offered. Keep in step when the app's UI changes |
 | `assets/campaign.json`, `assets/campaign.js` | Kickstarter state and link; the script shows the matching banner and buttons |
@@ -32,7 +32,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `assets/media/` | The R4 design-file animation (`crown_r6_story_680.mp4`) and its poster frame |
 | `schema.sql` | D1 schema for a new database |
 | `migrations/0002_prelaunch.sql` | Run once on the existing database to add the pre-launch list |
-| `_headers` | Security headers (CSP, HSTS), and no-cache on `/assets/` so browsers always check for a newer CSS, JS or `campaign.json`. The home pages also tag their CSS and JS links with `?v=DATE`: change it when you change those files |
+| `_headers` | Security headers (CSP, HSTS), and no-cache on `/assets/` so browsers always check for a newer CSS, JS or `campaign.json`. The home pages also tag their CSS and JS links with `?v=DATE`: bump it on both home pages when you change those files, and keep the shared `site.css` tags in the journal, privacy, thank-you and 404 pages in step. Also bump shared script tags on any other page loading a changed file |
 | `404.html`, `robots.txt`, `sitemap.xml` | Not-found page, crawler rules, sitemap with FR/EN alternates |
 | `assets/og-fr.png`, `assets/og-en.png` | Share images (1200 × 630) for social posts |
 
