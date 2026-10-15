@@ -35,7 +35,7 @@
       signups: function (n) { return n === 1 ? "inscrit" : "inscrits"; },
       total: function (n) { return n.toLocaleString(locale) + (n === 1 ? " vote confirmé au total" : " votes confirmés au total"); },
       lead: "En tête",
-      done: "Terminé",
+      more: function (n) { return "Autres systèmes (" + n + ")"; },
       act: { ready: "M'inscrire", vote: "M'inscrire pour voter" },
       ks: function (n) { return n.toLocaleString(locale) + " personnes ont déjà confirmé leur inscription."; }
     },
@@ -50,7 +50,7 @@
       signups: function (n) { return n === 1 ? "sign-up" : "sign-ups"; },
       total: function (n) { return n.toLocaleString(locale) + (n === 1 ? " confirmed vote in total" : " confirmed votes in total"); },
       lead: "Leading",
-      done: "Done",
+      more: function (n) { return "Other systems (" + n + ")"; },
       act: { ready: "Sign up", vote: "Sign up to vote" },
       ks: function (n) { return n.toLocaleString(locale) + " people have already confirmed."; }
     }
@@ -134,19 +134,13 @@
 
     var main = el("span", "sys-main");
     var name = el("span", "sys-name");
-    if (group === "ready") {
-      var badge = el("span", "cp-badge");
-      badge.setAttribute("role", "img");
-      badge.setAttribute("aria-label", T.done);
-      badge.appendChild(checkMark());
-      name.appendChild(badge);
-    }
     name.appendChild(el("span", "sys-name-text", t.name));
     if (ctx.lead) name.appendChild(el("small", "tag tag-lead", T.lead));
     main.appendChild(name);
     if (STEP[f.stage]) {
       var st = el("span", "sys-stage");
       st.appendChild(dots(f.stage));
+      if (group === "ready") st.appendChild(checkMark());
       st.appendChild(el("span", null, T.stage[f.stage]));
       main.appendChild(st);
     } else if (group === "later" || group === "no" || group === "other") {
@@ -190,6 +184,10 @@
       if (input) input.checked = on;
       var d = s.querySelector(".sys-detail");
       if (d) { d.hidden = !on; if (on) host = d; }
+      if (on) {
+        var more = s.closest(".sys-more");
+        if (more) more.open = true;
+      }
     });
     if (!result) return;
     if (host) { if (result.parentNode !== host) host.insertBefore(result, host.firstChild); }
@@ -211,6 +209,10 @@
     var max = 0;
     buckets.progress.forEach(function (x) { if ((x.n || 0) > max) max = x.n; });
 
+    var previousMore = list.querySelector(".sys-more");
+    var more = el("details", "sys-more");
+    more.open = !!previousMore && previousMore.open;
+    more.appendChild(el("summary", null, T.more(buckets.later.length + buckets.no.length + buckets.other.length)));
     list.textContent = "";
     GROUPS.forEach(function (g) {
       if (!buckets[g].length) return;
@@ -223,7 +225,10 @@
       buckets[g].forEach(function (x, idx) {
         group.appendChild(row(x.f, g, { n: x.n, max: max, lead: g === "progress" && idx === 0 && x.n > 0 }));
       });
-      list.appendChild(group);
+      if (g === "later" || g === "no" || g === "other") {
+        if (!more.parentNode) list.appendChild(more);
+        more.appendChild(group);
+      } else list.appendChild(group);
     });
     sync();
 

@@ -186,6 +186,7 @@ h3 { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
 
 /* Compatibility check + waitlist */
 .check-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+@media (min-width: 861px) and (min-height: 1000px) { #waitlist { position: sticky; top: 88px; } }
 @media (max-width: 860px) { .check-grid { grid-template-columns: minmax(0, 1fr); } }
 .field { display: grid; gap: 8px; }
 .field > label, .legend { font-size: 14px; font-weight: 600; }
@@ -232,6 +233,7 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 .foot a { color: var(--mute); }
 .foot a:hover { color: var(--fg); }
 .foot .brand-word { color: var(--fg); }
+@media (max-width: 760px) { .foot { padding-bottom: 96px; } }
 .contact { font-family: var(--mono); user-select: all; color: var(--fg); }
 
 /* Legal pages */
@@ -334,7 +336,6 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 }
 
 /* Kickstarter section */
-.ks-steps { margin-top: 0; }
 .ks-facts { margin: 40px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-block: 1px solid var(--line); }
 .ks-facts div { padding: 18px 16px 18px 0; display: grid; gap: 4px; align-content: start; }
 .ks-facts dt { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
@@ -343,7 +344,7 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 .ks-cta { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
 
 /* "Le module, ouvert": 3D model on a light drafting card, opened by scrolling (assets/module3d.js) */
-.m3d { padding-block: 0; height: 260vh; }
+.m3d { padding-block: 0; height: 200vh; }
 .m3d-sticky { position: sticky; top: 64px; height: calc(100vh - 64px); min-height: 520px; display: flex; align-items: center; }
 .m3d-grid { width: 100%; display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 40px; align-items: center; }
 .m3d-copy { display: grid; gap: 18px; align-content: center; }
@@ -391,7 +392,7 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 .m3d.m3d-fallback .m3d-control, .m3d.m3d-fallback .m3d-actions { display: none; }
 
 @media (max-width: 860px) {
-  .m3d { height: 230vh; }
+  .m3d { height: 180vh; }
   .m3d-sticky { top: 64px; align-items: stretch; }
   .m3d-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; gap: 14px; align-content: start; padding-top: 12px; }
   .m3d-stage { order: -1; height: 52vh; min-height: 300px; }
@@ -422,7 +423,10 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 .check-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
 .check-head .board-total { font-family: var(--mono); font-size: 13px; color: var(--cyan); font-variant-numeric: tabular-nums; }
 .sys-pick > .hint { margin-top: -2px; }
+.sys-pick > legend { padding: 0; margin-bottom: 4px; }
 .sys-list { display: grid; gap: 14px; margin-top: 4px; }
+.sys-more > summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--mute); }
+.sys-more > .sys-group { margin-top: 14px; }
 .sys-group { display: grid; gap: 6px; }
 .sys-group-label { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); padding-top: 4px; }
 .sys { border: 1px solid var(--line); border-radius: 10px; background: var(--bg); scroll-margin-top: 96px; }
@@ -449,7 +453,6 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 .sys.is-lead .sys-votes b { color: var(--cyan); }
 .sys-detail { display: grid; gap: 14px; justify-items: start; padding: 2px 14px 16px 44px; }
 @media (max-width: 520px) { .sys-detail { padding-left: 14px; } }
-.cp-badge { width: 20px; height: 20px; border-radius: 50%; flex: none; display: inline-grid; place-items: center; background: var(--cyan); color: var(--on-cyan); box-shadow: 0 0 12px var(--glow); }
 .cp-check { width: 12px; height: 12px; flex: none; }
 .cp-check path { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
 .cp-facts { margin: 0; display: grid; gap: 10px; }
@@ -469,7 +472,6 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 .sys-detail .result { width: 100%; padding: 14px; }
 .sys-pick .find-sys { border-top: 0; padding-top: 0; }
 .sys-name { flex-wrap: nowrap; align-items: flex-start; }
-.sys-name .cp-badge { margin-top: -1px; }
 .sys-name-text { min-width: 0; }
 .sys-name .tag { margin-top: 2px; }
 .sys-progress .sys-name { flex-wrap: wrap; }

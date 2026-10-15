@@ -13,14 +13,14 @@
     { id: "lishui", fams: ["lishui"], fr: "Lishui (écrans S866)", en: "Lishui (S866 displays)" },
     { id: "rad", fams: ["rad-lishui", "rad-asi"], fr: "Rad Power Bikes", en: "Rad Power Bikes" },
     { id: "lectric", fams: ["lectric"], fr: "Lectric XP", en: "Lectric XP" },
-    { id: "happyrun", fams: ["happyrun-48"], fr: "HappyRun G100 (48 V)", en: "HappyRun G100 (48 V)" },
-    { id: "aventon", fams: ["aventon"], fr: "Aventon (48 V)", en: "Aventon (48 V)" }
+    { id: "happyrun", fams: ["happyrun-48"], fr: "HappyRun G100 (48\u00A0V)", en: "HappyRun G100 (48 V)" },
+    { id: "aventon", fams: ["aventon"], fr: "Aventon (48\u00A0V)", en: "Aventon (48 V)" }
   ];
 
   var T = {
     fr: {
       total: function (n) { return n.toLocaleString("fr-CA") + " inscrits confirmés"; },
-      kt: function (n) { return n.toLocaleString("fr-CA") + " sur KT, déjà pris en charge au lancement. Les systèmes 36 V (Shimano STEPS) viendront avec une version future du module."; },
+      kt: function (n) { return n.toLocaleString("fr-CA") + " sur KT, déjà pris en charge au lancement. Les systèmes 36\u00A0V (Shimano STEPS) viendront avec une version future du module."; },
       lead: "En tête",
       yours: "Votre système",
       count: function (n) { return n.toLocaleString("fr-CA"); }

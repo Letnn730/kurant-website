@@ -15,14 +15,14 @@
       idle: "Choisissez le système et la tension de votre vélo pour voir le résultat.",
       okText: "Votre configuration est prévue au lancement.",
       sending: "Envoi…",
-      done: function (e) { return "Presque fini : ouvrez le courriel envoyé à " + e + " et cliquez « Confirmer » pour obtenir votre numéro de fondateur et votre lien personnel. Pensez à vérifier les indésirables."; },
-      again: function (e) { return "Vous êtes déjà inscrit : nous venons d'envoyer à " + e + " le lien vers votre page (numéro de fondateur et parrainages)."; },
-      recent: "Un courriel vous a été envoyé il y a quelques minutes : vérifiez votre boîte de réception et les indésirables.",
+      done: function (e) { return "Presque fini\u202F: ouvrez le courriel envoyé à " + e + " et cliquez «\u202FConfirmer\u202F» pour obtenir votre numéro de fondateur et votre lien personnel. Pensez à vérifier les indésirables."; },
+      again: function (e) { return "Vous êtes déjà inscrit\u202F: nous venons d'envoyer à " + e + " le lien vers votre page (numéro de fondateur et parrainages)."; },
+      recent: "Un courriel vous a été envoyé il y a quelques minutes\u202F: vérifiez votre boîte de réception et les indésirables.",
       queued: "Inscription reçue. Le courriel de confirmation peut prendre quelques heures à arriver.",
       slow: "Trop d'inscriptions depuis cet appareil. Réessayez dans une heure.",
-      family: "Choisissez le système de votre vélo (ou « Autre marque »).",
+      family: "Choisissez le système de votre vélo (ou «\u202FAutre marque\u202F»).",
       devLink: "Lien de confirmation (test local)",
-      preview: "Aperçu : rien n'a été envoyé. Le formulaire sera actif sur kurant.ca.",
+      preview: "Aperçu\u202F: rien n'a été envoyé. Le formulaire sera actif sur kurant.ca.",
       fail: "L'inscription n'a pas fonctionné. Vérifiez votre connexion et réessayez.",
       email: "Entrez une adresse courriel valide.",
       consent: "Cochez la case de consentement pour vous inscrire."
@@ -78,7 +78,7 @@
       perk.parentNode.insertBefore(voteNote, perk.nextSibling);
     }
     voteNote.hidden = !show;
-    if (show) voteNote.textContent = (lang === "en" ? "Your confirmed sign-up will count as a vote for: " : "Votre inscription confirmée comptera comme un vote pour : ") + f[lang].name;
+    if (show) voteNote.textContent = (lang === "en" ? "Your confirmed sign-up will count as a vote for: " : "Votre inscription confirmée comptera comme un vote pour\u202F: ") + f[lang].name;
   }
 
   function update() {
