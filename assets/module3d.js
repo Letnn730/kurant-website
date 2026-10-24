@@ -1,11 +1,11 @@
-/* "Le module, ouvert": the Kurant module from its design files (Crown R6), in 3D.
+/* "Le module, ouvert": the Kurant module from its design files (Crown R7), in 3D.
    Scrolling through the section opens it part by part; dragging turns it.
    Loaded only when the section comes near the screen. Falls back to the animation video when WebGL
    isn't available, and stays still (slider only) for people who ask for reduced motion. */
 const root = document.querySelector("[data-m3d]");
 if (root) { start(root); dialog(root); }
 
-// "Voir l'animation": the R4 animation in a dialog. Works with or without WebGL.
+// "Voir l'animation": the R7 design-file animation in a dialog. Works with or without WebGL.
 function dialog(root) {
   const dlg = root.querySelector(".m3d-dialog");
   const open = root.querySelector("[data-video-open]");
@@ -66,7 +66,7 @@ function start(root) {
     scene.add(camera);
     scene.add(new THREE.AmbientLight(0xffffff, 1.35));
     const key = new THREE.DirectionalLight(0xffffff, 1.9);
-    key.position.set(-0.45, 0.65, 0.62);           // up-left-front of the camera, as in the R4 animation
+    key.position.set(-0.45, 0.65, 0.62);           // up-left-front of the camera, as in the animation
     camera.add(key, key.target);
     key.target.position.set(0, 0, -1);
 
@@ -75,10 +75,11 @@ function start(root) {
     ramp.minFilter = ramp.magFilter = THREE.NearestFilter;
     ramp.needsUpdate = true;
 
-    const TONE = { housing: 0xffffff, cover: 0xffffff, rails: 0xf2f5f7, board: 0xc9ecf4, mount: 0xe4e9ed,
-                   clamps: 0xdfe5ea, cable: 0xc4ccd3, other: 0xffffff };
+    const TONE = { housing: 0xffffff, cover: 0xffffff, lights: 0xf2f5f7, board: 0xc9ecf4, mount: 0xe4e9ed, other: 0xffffff };
     const INK = new THREE.Color(0x2c3237), CYAN = new THREE.Color(0x0091b3), HW = new THREE.Color(0x6f7880);
-    const fillFor = (p) => p.kind === "hardware" ? 0xd3d9de : p.kind === "rubber" && p.group !== "cover" ? 0xb9c2ca : TONE[p.group] || 0xffffff;
+    // Lenses read as the status lights (pale cyan), the KURANT paint fill as ink.
+    const fillFor = (p) => p.kind === "optic" ? 0xbdeffa : p.kind === "paint" ? 0x2c3237 : p.kind === "hardware" ? 0xd3d9de
+      : p.kind === "rubber" ? 0xb9c2ca : TONE[p.group] || 0xffffff;
     const inkFor = (p) => p.group === "board" ? CYAN : p.kind === "hardware" ? HW : INK;
 
     const outlineUniforms = { width: { value: 0.4 } };
@@ -107,18 +108,21 @@ function start(root) {
       const fill = new THREE.Mesh(geo, new THREE.MeshToonMaterial({ color: fillFor(p), gradientMap: ramp,
         polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }));
       const hull = new THREE.Mesh(geo, hullMaterial(inkFor(p)));
-      holder.add(hull, fill);
-      if (p.edgeCount) {
+      // The KURANT paint fill and the lenses sit in openings of the shell, whose own outline frames them:
+      // no outline shell or edge lines of their own (they would bloat the letters and spill past the windows).
+      const flat = p.kind === "paint" || p.kind === "optic";
+      if (flat) holder.add(fill); else holder.add(hull, fill);
+      if (p.edgeCount && !flat) {
         const eg = new THREE.BufferGeometry();
         eg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(bin, p.edges, p.edgeCount * 6), 3));
         holder.add(new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: inkFor(p), transparent: true, opacity: 0.55 })));
       }
-      // Wider spread for the clamps and the mount so nothing hides the board when open (R4 multipliers).
-      const k = p.group === "clamps" ? 1.7 : p.group === "mount" ? 1.35 : p.group === "cover" ? 1.25 : p.group === "cable" ? 1.3 : 1.1;
+      // Wider spread for the clip and the back plate so nothing hides the board when open.
+      const k = p.group === "mount" ? 1.35 : p.group === "cover" ? 1.25 : 1.1;
       const shift = new THREE.Vector3(...p.shift).multiplyScalar(k);
-      // The board (and its rails) also rise above the rest, so the open view shows it unhidden.
-      if (p.group === "board" || p.group === "rails") shift.z += 46;
-      parts.push({ p, holder, shift });
+      // The board also rises above the rest, so the open view shows it unhidden.
+      if (p.group === "board") shift.z += 46;
+      parts.push({ p, holder, shift, fill });
       group.add(holder);
     }
 
@@ -126,7 +130,7 @@ function start(root) {
     const barMat = new THREE.MeshBasicMaterial({ color: 0xc9d0d6, transparent: true, opacity: 0.55, depthWrite: false });
     const barGeo = new THREE.CylinderGeometry(15.9, 15.9, 240, 48, 1, true);
     barGeo.rotateZ(Math.PI / 2);
-    barGeo.translate(0, 44, 54);
+    barGeo.translate(0, 38.3, 18);                  // 31.8 mm bar in the R7 clip (CAD frame)
     const bar = new THREE.Mesh(barGeo, barMat);
     bar.renderOrder = -1;
     group.add(bar);
@@ -136,7 +140,7 @@ function start(root) {
     for (const it of parts) {
       it.holder.position.copy(it.shift);
       it.holder.updateMatrixWorld(true);
-      box.expandByObject(it.holder.children[1]);
+      box.expandByObject(it.fill);
       it.holder.position.set(0, 0, 0);
     }
     const center = box.getCenter(new THREE.Vector3());
@@ -144,7 +148,7 @@ function start(root) {
     group.position.sub(center);
     // Each part's own box corners, to frame the view on what is actually on screen.
     const corners = parts.map((it) => {
-      const b = new THREE.Box3().setFromBufferAttribute(it.holder.children[1].geometry.attributes.position);
+      const b = new THREE.Box3().setFromBufferAttribute(it.fill.geometry.attributes.position);
       const out = [];
       for (let i = 0; i < 8; i++) out.push(new THREE.Vector3(i & 1 ? b.max.x : b.min.x, i & 2 ? b.max.y : b.min.y, i & 4 ? b.max.z : b.min.z));
       return out;
@@ -227,7 +231,7 @@ function start(root) {
         if (!show || !l.its.length) { l.el.classList.remove("on"); continue; }
         v.set(0, 0, 0);
         const b = new THREE.Box3();
-        for (const it of l.its) { it.holder.updateMatrixWorld(true); b.expandByObject(it.holder.children[1]); }
+        for (const it of l.its) { it.holder.updateMatrixWorld(true); b.expandByObject(it.fill); }
         b.getCenter(v).project(camera);
         // Keep the whole label inside the card.
         const x = Math.min(((v.x + 1) / 2) * W, W - l.el.offsetWidth - 20);
