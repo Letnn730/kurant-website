@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build the web model of the Kurant module (Crown R6) for the "Le module, ouvert" section.
+"""Build the web model of the Kurant module (Crown R7) for the "Le module, ouvert" section.
 
-Input:  parts.json exported from the CAD (02_FULL_DESIGN): one entry per part with
+Input:  parts.json exported from the CAD (Crown_R7/01_SOURCE/export_web_parts.py): one entry per part with
         name, kind, shift (explode vector, mm), v (vertices, mm) and f (triangles).
 Output: assets/model/crown.bin  + assets/model/crown.json (layout of the binary)
 
@@ -12,8 +12,9 @@ Per part the binary holds:
   indices     uint16/uint32 triangles
   edges       float32 x6  crease segments (design edges), drawn as lines
 
-Small parts that can't be resolved on a phone screen are left out, as in the R4 animation.
-The housing is decimated to keep the download under ~1 MB.
+Small parts that can't be resolved on a phone screen are left out (pads, inserts, screws, LEDs).
+The shell, back plate and clip arrive re-tessellated from STEP at web resolution; TARGET_FACES can
+still decimate a part if a future export is too heavy (keep the download under ~1 MB).
 
 Usage: python3 tools/build_crown_model.py path/to/parts.json
 Needs: numpy, fast-simplification (pip install fast-simplification)
@@ -25,23 +26,20 @@ from pathlib import Path
 
 import numpy as np
 
-SKIP_PREFIX = ("PCBPad_", "PCBInsert_", "PCBWasher_", "PCBSpacer_", "CoverInsert_", "MountInsert_",
-               "ClampNut_", "YokeNut_", "LED_")
-SKIP_NAMES = {"LightingBoardEnvelope", "OpticalBond_1", "CableGlandWasher", "CableGlandNut"}
-TARGET_FACES = {"Housing": 16000}       # decimation targets; other parts are already light
+SKIP_PREFIX = ("Pad", "Insert", "Screw", "LED_", "ORing")
+SKIP_NAMES = {"Cord"}
+TARGET_FACES = {}                       # optional decimation targets; R7 parts come pre-tessellated (export_web_parts.py)
 CREASE_DEG = 38.0                       # dihedral angle above which an edge is a design edge
-CREASE_DEG_PART = {"Housing": 50.0}     # curved, filleted shell: only its real design edges
+CREASE_DEG_PART = {"Front": 55.0, "Back": 55.0, "NameFill": 89.0}   # curved shells: only their real design edges
 SMOOTH_DEG = 38.0                       # faces closer than this share a shading normal
 
 # What each part is called on screen, and its group in the exploded view.
 GROUP = [
-    ("Housing", "housing"), ("CrownLightGuide", "housing"),
-    ("PCBReference", "board"), ("U10", "board"), ("C1IN", "board"),
-    ("PCBRetainingRail", "rails"), ("PCBScrew", "rails"),
-    ("RearCover", "cover"), ("RearGasket", "cover"), ("CoverScrew", "cover"),
-    ("ContinuousMetalYoke", "mount"), ("WingSkin", "mount"), ("MountScrew", "mount"), ("YokeScrew", "mount"),
-    ("Clamp", "clamps"), ("BarLiner", "clamps"),
-    ("Cable", "cable"),
+    ("Front", "housing"), ("LensLine", "housing"), ("LensLogo", "housing"), ("NameFill", "housing"),
+    ("LedCarrier", "lights"),
+    ("PCB", "board"), ("Components", "board"),
+    ("Back", "cover"), ("LensBack", "cover"),
+    ("ClipBand", "mount"), ("Clip", "mount"),
 ]
 
 
