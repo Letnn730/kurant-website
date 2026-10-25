@@ -23,9 +23,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
 <link rel="stylesheet" href="assets/site.css?v=20261016">
-<link rel="stylesheet" href="assets/demo.css?v=20261016">
+<link rel="stylesheet" href="assets/demo.css?v=20261024">
 </head>
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -72,18 +72,18 @@
       <figure class="device">
         <div class="phone" data-demo>
           <div class="screen">
-            <div class="screen-top"><span class="screen-brand">KURANT</span><span class="live">Connecté</span></div>
+            <div class="screen-top"><span class="live">Simulateur</span><span class="screen-brand">ROUTE · 32</span></div>
             <div class="speed"><b>24,6</b><span>km/h</span></div>
             <div class="tiles">
               <div class="tile"><small>Batterie</small><b>78&nbsp;%</b></div>
-              <div class="tile"><small>Assist.</small><b>2</b></div>
-              <div class="tile"><small>Puiss.</small><b>312&nbsp;W</b></div>
+              <div class="tile"><small>Assist.</small><b>2&nbsp;/&nbsp;5</b></div>
+              <div class="tile"><small>Moteur</small><b>312&nbsp;W</b></div>
             </div>
-            <div class="mode"><span>Mode Ville</span><span>32&nbsp;km/h max</span></div>
+            <div class="mode"><span>Mode Route</span><span>32&nbsp;km/h max</span></div>
             <p class="screen-foot">Réglages à l'arrêt</p>
           </div>
         </div>
-        <figcaption class="demo-hint"><b>Démo en simulation.</b> Les écrans de l'application, branchés sur un vélo virtuel. Faites défiler, choisissez une assistance pour rouler, ou OFF pour vous arrêter et déverrouiller les réglages.</figcaption>
+        <figcaption class="demo-hint"><b>Démo en simulation.</b> L'écran de conduite de l'application, branché sur un vélo virtuel. Touchez une barre d'assistance pour changer de niveau, ARRÊT pour vous arrêter, ou l'engrenage pour les réglages. La carte est une illustration.</figcaption>
       </figure>
     </div>
   </section>
@@ -196,7 +196,7 @@
           <dl class="spec">
             <div><dt>Taille de roue</dt><dd>po</dd></div>
             <div><dt>Limite de vitesse</dt><dd>km/h</dd></div>
-            <div><dt>Modes</dt><dd>Ville · Hors-route</dd></div>
+            <div><dt>Modes</dt><dd>Route · Hors route</dd></div>
             <div><dt>Éclairage</dt><dd>marche / arrêt</dd></div>
             <div><dt>Historique des trajets</dt><dd>sur votre téléphone</dd></div>
             <div><dt>Mises à jour du module</dt><dd>par l'application</dd></div>
@@ -218,7 +218,7 @@
         <li><span class="rule-key">&gt; 0,5&nbsp;km/h</span><div><h3>Aucun réglage en roulant</h3><p>Au-delà de 0,5&nbsp;km/h, ou si la vitesse est inconnue, les réglages sensibles sont verrouillés.</p></div></li>
         <li><span class="rule-key">1,5&nbsp;s</span><div><h3>Pas de valeur figée</h3><p>Sans nouvelle donnée depuis 1,5&nbsp;seconde, l'écran affiche «&#8239;--&#8239;» au lieu d'un ancien chiffre.</p></div></li>
         <li><span class="rule-key">Vérifié</span><div><h3>Réglages ouverts seulement après vérification</h3><p>Un réglage n'est modifiable que si son codage a été mesuré sur un vrai contrôleur. Les plus importants demandent une confirmation écrite.</p></div></li>
-        <li><span class="rule-key">32&nbsp;km/h</span><div><h3>Mode Ville par défaut</h3><p>À la livraison, la vitesse est limitée au maximum permis dans votre province&#8239;: 32&nbsp;km/h au Québec.</p></div></li>
+        <li><span class="rule-key">32&nbsp;km/h</span><div><h3>Mode Route par défaut</h3><p>À la livraison, la vitesse est limitée au maximum permis dans votre province&#8239;: 32&nbsp;km/h au Québec.</p></div></li>
         <li><span class="rule-key warn">Hors-route</span><div><h3>Un mode pour terrain privé</h3><p>Il s'active à l'arrêt, par un appui de 1,5&nbsp;seconde suivi d'une confirmation. Sur la voie publique, un vélo réglé au-delà de 32&nbsp;km/h n'est plus considéré comme un vélo à assistance électrique. Le cycliste est responsable de l'usage de ce mode.</p></div></li>
       </ul>
     </div>
@@ -396,7 +396,7 @@
 <script src="assets/compat.js?v=20261016" defer></script>
 <script src="assets/site.js?v=20261016" defer></script>
 <script src="assets/board.js?v=20261016" defer></script>
-<script src="assets/demo.js?v=20261016" defer></script>
+<script src="assets/demo.js?v=20261024" defer></script>
 <script src="assets/campaign.js?v=20261016" defer></script>
 <script src="assets/module3d.js?v=20261024" type="module"></script>
 </body>
