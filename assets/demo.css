@@ -238,9 +238,11 @@
 .kd-mode-tile .kd-readout { margin-top: 2px; font-size: 22px; }
 .kd-row-btn { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 64px; padding: 10px 0; }
 .kd-lock { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12px; color: var(--muted); }
-.kd-setting { padding: 16px; display: grid; gap: 10px; }
+.kd-setting { padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
 .kd-int { display: flex; align-items: center; gap: 10px; }
-.kd-staged { display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 14px; border-radius: 14px; background: var(--highest); font-weight: 700; }
+.kd-staged { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px; padding-top: 8px; font-size: 14px; color: var(--muted); }
+.kd-staged > span { flex: 1 0 auto; }
+.kd-staged button { white-space: nowrap; flex: none; }
 .kd-footer { text-align: center; font-size: 12px; color: var(--faint); margin-top: 28px; }
 
 /* Ride display */

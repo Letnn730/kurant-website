@@ -1308,7 +1308,7 @@
       chipNodes.forEach((chip, i) => chip.setAttribute("aria-checked", String(setting.options[i] === draft)));
       if (range) { range.value = String(draft); minus.disabled = draft <= setting.min; plus.disabled = draft >= setting.max; }
       staged.hidden = draft === held;
-      text(stagedText, `${formatSetting(setting, held)}  →  ${formatSetting(setting, draft)}`);
+      text(stagedText, `${formatSetting(setting, held)}\u00A0\u00A0→\u00A0\u00A0${formatSetting(setting, draft)}`);
       text(valueNode, formatSetting(setting, held));
     }
     let locked = null;
@@ -1742,7 +1742,7 @@
     Promise.all([document.fonts.load(`700 20px Roboto`), document.fonts.load(`400 12px Roboto`)]).then(() => { dirty = true; if (!rideDisplayPage.hidden) drawRideDisplayStatics(); }).catch(() => {});
   }
 
-  // Hooks for the recording script (tools/record_demo.js): drive the demo to fixed states.
+  // Hooks for screen recordings (story GIFs): drive the demo to fixed states.
   window.__kurantDemo = {
     state: S, setAssist, showScreen, openRideControls, closeOverlay,
     setStyle(style) { S.style = style; syncRideDisplay(); dirty = true; },
