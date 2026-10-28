@@ -343,6 +343,21 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 @media (max-width: 860px) { .ks-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .ks-cta { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
 
+/* Where the money goes: same lines and amounts as the campaign's budget graphic */
+.budget { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 24px 48px; align-items: start; }
+.budget-head { display: grid; gap: 10px; }
+.budget-head p { color: var(--mute); font-size: 15px; }
+.budget-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.budget-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; align-items: baseline; padding-block: 14px; border-top: 1px solid var(--line); }
+.budget-name { min-width: 0; font-size: 15px; }
+.budget-amt { font-family: var(--mono); font-size: 15px; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.budget-bar { grid-column: 1 / -1; height: 6px; width: var(--w); border-radius: 3px; background: rgba(163, 169, 174, .32); }
+.budget-list li.lead .budget-bar { background: var(--cyan); }
+.budget-list li.total { border-bottom: 1px solid var(--line); }
+.budget-list li.total .budget-name { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
+.budget-list li.total .budget-amt { font-weight: 600; }
+@media (max-width: 860px) { .budget { grid-template-columns: minmax(0, 1fr); } }
+
 /* "Le module, ouvert": 3D model on a light drafting card, opened by scrolling (assets/module3d.js) */
 .m3d { padding-block: 0; height: 200vh; }
 .m3d-sticky { position: sticky; top: 64px; height: calc(100vh - 64px); min-height: 520px; display: flex; align-items: center; }
