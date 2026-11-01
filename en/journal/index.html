@@ -10,7 +10,7 @@
 <meta name="description" content="What has been done on Kurant, dated, as it happens: every entry is measured on the bench.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=20261016">
+<link rel="stylesheet" href="../../assets/site.css?v=20261031">
 </head>
 <body>
 <header class="top">
@@ -28,14 +28,31 @@
     <header class="section-head">
       <p class="eyebrow">Development log</p>
       <h1 style="font-size:clamp(32px,5vw,48px)">What's done, with the date</h1>
-      <p>An entry goes here only once it has been measured on the bench, on a real controller. Entries marked “Design” are checked in the design files, until the prototype tests. Newest first.</p>
+      <p>An entry goes here only once it has been measured on the bench, on a real controller. Entries marked “Design” are checked in the design files, until the prototype tests. Problems found are posted here too. Newest first.</p>
     </header>
     <ol class="log-list">
+    <li class="log-item">
+      <time datetime="2026-10-31">October 31, 2026</time>
+      <h2>First test on the bike: one part with the wrong value, found and fixed</h2>
+      <p>On the bike, the first circuit boards lost their connection as soon as the bike was switched on, and two modules were damaged. Powered on the bench without the bike's battery, they worked.</p>
+      <p>The cause is measured: in the parts list, one resistor in the circuit that watches the bike's power switch had the wrong part number, 2.4&nbsp;Ω instead of 470&nbsp;kΩ (about 3&nbsp;Ω measured on an unused board). When the bike switched on, it let the battery voltage through to the microcontroller. On the remaining module, the resistor is replaced and the switch-on is softened: the bike now turns on over a fraction of a second instead of all at once. Revision 0.2 fixes the parts list at the source.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-10-30">October 30, 2026</time>
+      <h2>Circuit board, revision 0.2: the version meant for sale <span class="tag tag-mine">Design</span></h2>
+      <p>Revision 0.2 fixes the parts list and separates the bike's power from the module's own supply: switching the bike on can no longer starve the module. The soft switch-on is built in, surge protection is tightened, and the 3.3&nbsp;V regulator tolerates a much higher input voltage. It adds the R7 enclosure's status lights.</p>
+      <p>The schematic and the board layout match part for part, and every part is in stock at the manufacturer. Next: order the prototypes and test them on the bike. The results will be posted here.</p>
+    </li>
     <li class="log-item">
       <time datetime="2026-10-24">October 24, 2026</time>
       <h2>R7 enclosure: slimmer, stronger <span class="tag tag-mine">Design</span></h2>
       <p>The enclosure is redesigned and checked in the design files: clearance around the board on every side, screw depths, seal squeeze, the cable-gland thread and pad compression. It measures 62&nbsp;×&nbsp;85&nbsp;×&nbsp;29&nbsp;mm, 41% thinner than the first printed prototype (49&nbsp;mm), with 60% less material.</p>
       <p>One-piece shell with a continuous seal, board held without screws, two screws instead of eight, a tool-free clip for 22.2 to 35&nbsp;mm bars, and three status lights: module powered, phone connected, latch state. Next: print the prototypes and test sealing, mounting and cold. The results will be posted here.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-10-14">October 14, 2026</time>
+      <h2>First circuit boards received</h2>
+      <p>Kurant's first factory-assembled circuit boards (revision 0.1) have arrived. The firmware installed on the first try, through the programming connector.</p>
     </li>
     <li class="log-item">
       <time datetime="2026-10-10">October 10, 2026</time>
