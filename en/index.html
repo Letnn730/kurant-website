@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261031">
+<link rel="stylesheet" href="../assets/site.css?v=20261101">
 <link rel="stylesheet" href="../assets/demo.css?v=20261024">
 </head>
 <body>
@@ -63,14 +63,27 @@
         <p class="eyebrow">E-bike interface</p>
         <h1>Unplug the display. Plug in Kurant.</h1>
         <p class="lede">Kurant replaces your e-bike's display. A small module plugs in where the screen was, and your phone shows speed, power and battery, with settings explained in plain words.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="#check">Check my bike</a>
-          <a class="btn btn-ghost" href="#module">See inside the module</a>
-        </div>
-        <p class="hero-note">The prototype already works on a real KT controller: it turns the bike on, shows live data and changes assist from the phone. Kickstarter campaign planned: people on the waitlist hear first.</p>
+        <form class="hero-form" id="hero-waitlist" data-waitlist="hero" novalidate data-consent-version="2026-10-08b">
+          <p class="hero-offer"><b>CAD&nbsp;119 instead of 159</b> for the first 100 backers. Confirmed sign-ups get the campaign link before anyone else.</p>
+          <div class="hero-fields">
+            <label class="sr-only" for="hero-email">Email</label>
+            <input id="hero-email" name="email" type="email" autocomplete="email" placeholder="Your email" required>
+            <label class="sr-only" for="hero-family">Your bike's system</label>
+            <select id="hero-family" name="wl_family" required data-placeholder="Your bike's system…"></select>
+            <button class="btn btn-primary" type="submit">Notify me first</button>
+          </div>
+          <label class="consent consent-sm" for="hero-consent">
+            <input id="hero-consent" name="consent" type="checkbox">
+            <span>I agree to receive emails from FORGE about Kurant: availability, compatibility with my bike, launch and the Kickstarter campaign. I can unsubscribe at any time. See the <a href="privacy/index.html">privacy policy</a>.</span>
+          </label>
+          <div class="hp" aria-hidden="true"><label for="hero-website">Website</label><input id="hero-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="form-msg" role="status" data-form-msg></p>
+        </form>
+        <p class="hero-links"><a href="#check">Check my bike</a><span aria-hidden="true">·</span><a href="#module">See inside the module</a></p>
+        <p class="hero-note">The prototype already works on a real KT controller: it turns the bike on, shows live data and changes assist from the phone.</p>
       </div>
 
-      <figure class="device">
+      <figure class="device" id="demo">
         <div class="phone" data-demo>
           <div class="screen">
             <div class="screen-top"><span class="live">Simulator</span><span class="screen-brand">STREET · 32</span></div>
@@ -320,9 +333,9 @@
           </fieldset>
         </div>
 
-        <form class="panel" id="waitlist" novalidate data-consent-version="2026-10-08b">
+        <form class="panel" id="waitlist" data-waitlist="main" novalidate data-consent-version="2026-10-08b">
           <h3>Pre-launch list</h3>
-          <p class="perk"><b>100 spots at CAD&nbsp;119</b> during the Kickstarter campaign, instead of 159. Confirmed sign-ups hear first and get a founder number.</p>
+          <p class="perk"><b>100 spots at CAD&nbsp;119</b> during the Kickstarter campaign, instead of 159. Confirmed sign-ups hear first and get a founder number. Shipping within Canada only during the campaign.</p>
           <p class="invited" id="wl-invited" hidden>A friend invited you: your sign-up counts for them.</p>
           <div class="field">
             <label for="wl-email">Email</label>
@@ -332,48 +345,13 @@
             <label for="wl-family">Your bike's system</label>
             <select id="wl-family" name="wl_family" required></select>
           </div>
-          <div class="field">
-            <label for="wl-bike">Bike: brand and model</label>
-            <input id="wl-bike" name="bike" type="text" placeholder="e.g. Lectric XP 3.0" maxlength="120">
-          </div>
-          <div class="field">
-            <label for="wl-label">Controller label <span class="hint">(optional)</span></label>
-            <input id="wl-label" name="controller_label" type="text" placeholder="e.g. KT36/48SVPRL" maxlength="120">
-          </div>
-          <fieldset>
-            <legend class="legend">Phone</legend>
-            <div class="radios">
-              <label class="radio"><input type="radio" id="wl-android" name="phone" value="android" checked> Android</label>
-              <label class="radio"><input type="radio" id="wl-ios" name="phone" value="ios"> iPhone</label>
-            </div>
-          </fieldset>
-          <div class="field">
-            <label for="wl-province">Province or territory</label>
-            <select id="wl-province" name="province">
-              <option value="QC" selected>Quebec</option>
-              <option value="ON">Ontario</option>
-              <option value="BC">British Columbia</option>
-              <option value="AB">Alberta</option>
-              <option value="MB">Manitoba</option>
-              <option value="SK">Saskatchewan</option>
-              <option value="NS">Nova Scotia</option>
-              <option value="NB">New Brunswick</option>
-              <option value="NL">Newfoundland and Labrador</option>
-              <option value="PE">Prince Edward Island</option>
-              <option value="YT">Yukon</option>
-              <option value="NT">Northwest Territories</option>
-              <option value="NU">Nunavut</option>
-              <option value="XX">Outside Canada</option>
-            </select>
-            <p class="hint">During the campaign, rewards ship within Canada only.</p>
-          </div>
           <label class="consent" for="wl-consent">
             <input id="wl-consent" name="consent" type="checkbox">
             <span>I agree to receive emails from FORGE about Kurant: availability, compatibility with my bike, launch and the Kickstarter campaign. I can unsubscribe at any time. See the <a href="privacy/index.html">privacy policy</a>.</span>
           </label>
           <div class="hp" aria-hidden="true"><label for="wl-website">Website</label><input id="wl-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
           <button class="btn btn-primary" type="submit">Sign me up</button>
-          <p id="form-msg" class="form-msg" role="status"></p>
+          <p id="form-msg" class="form-msg" role="status" data-form-msg></p>
         </form>
       </div>
 
@@ -424,8 +402,8 @@
 <a class="m-cta" href="#waitlist" hidden><b>100 spots at CAD&nbsp;119</b><span>Join the list</span></a>
 
 <script src="../assets/compat.js?v=20261016" defer></script>
-<script src="../assets/site.js?v=20261016" defer></script>
-<script src="../assets/board.js?v=20261016" defer></script>
+<script src="../assets/site.js?v=20261101" defer></script>
+<script src="../assets/board.js?v=20261101" defer></script>
 <script src="../assets/demo.js?v=20261024" defer></script>
 <script src="../assets/campaign.js?v=20261016" defer></script>
 <script src="../assets/journal.js?v=20261031" defer></script>

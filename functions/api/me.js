@@ -10,7 +10,9 @@ export async function onRequestPost({ request, env }) {
   if (!TOKEN_RE.test(token)) return json({ ok: false, error: "token" }, 400);
 
   const row = await env.DB.prepare(
-    "SELECT lang, family, ref_code, founder_no, confirmed_at, unsubscribed_at, intent FROM waitlist WHERE token = ?1"
+    `SELECT lang, family, ref_code, founder_no, confirmed_at, unsubscribed_at, intent,
+            bike, controller_label, phone_os, province
+       FROM waitlist WHERE token = ?1`
   ).bind(token).first();
   if (!row) return json({ ok: false, error: "token" }, 404);
 
@@ -24,6 +26,10 @@ export async function onRequestPost({ request, env }) {
     founder_no: row.confirmed_at ? row.founder_no : null,
     referrals: row.confirmed_at ? await referralCount(env, row.ref_code) : 0,
     intent: row.intent || "",
+    // The thank-you page's optional "your bike" answers, to show what is already saved.
+    profile: row.confirmed_at
+      ? { bike: row.bike || "", controller_label: row.controller_label || "", phone_os: row.phone_os || "", province: row.province || "" }
+      : null,
   });
 }
 

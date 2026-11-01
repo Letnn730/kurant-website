@@ -5,14 +5,22 @@
 import { json, clip, oneOf, EMAIL_RE, CODE_RE, normEmail, randomHex, randomCode, sha256Hex, origin, readJson } from "../_lib/util.js";
 import { sendConfirmation, RESEND_GAP_MINUTES } from "../_lib/list.js";
 import { syncContact } from "../_lib/mail.js";
+import { PROVINCES } from "../_lib/fields.js";
 
-const PROVINCES = ["QC", "ON", "BC", "AB", "MB", "SK", "NS", "NB", "NL", "PE", "YT", "NT", "NU", "XX"];
 // Keep in step with assets/compat.js.
 const FAMILIES = ["kt", "bafang-uart", "bafang-can", "lishui", "rad-lishui", "rad-asi", "lectric",
   "happyrun-48", "happyrun-pro", "aventon", "bosch", "shimano", "other"];
 const VOLTAGES = ["36", "48", "52", "60-72", "unknown"];
 
 const MAX_PER_IP_PER_HOUR = 8;
+
+// Traffic source, sent by assets/site.js. Lower-case tokens and a plain path only, so a mistyped or
+// hostile tag can't pollute GET /api/admin/report.
+const tag = (value) => clip(value, 60).toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
+const pagePath = (value) => {
+  const p = clip(value, 120);
+  return /^\/[A-Za-z0-9/._-]*$/.test(p) ? p : "";
+};
 
 export async function onRequestPost({ request, env, waitUntil }) {
   const data = await readJson(request);
@@ -52,6 +60,14 @@ export async function onRequestPost({ request, env, waitUntil }) {
     lang,
     clip(data.consent_version, 20),
   ];
+  // Where the sign-up came from: kept from the first sign-up, never overwritten by a later one.
+  const source = [
+    tag(data.src),
+    tag(data.medium),
+    tag(data.campaign),
+    pagePath(data.landing),
+    oneOf(data.form, ["hero", "main"]),
+  ];
   const norm = normEmail(email);
   const base = origin(request);
 
@@ -77,9 +93,14 @@ export async function onRequestPost({ request, env, waitUntil }) {
            unsubscribed_at = NULL,
            email_norm = COALESCE(email_norm, ?9),
            token = COALESCE(token, ?10),
-           ref_code = COALESCE(ref_code, ?11)
+           ref_code = COALESCE(ref_code, ?11),
+           src = COALESCE(src, NULLIF(?13, '')),
+           medium = COALESCE(medium, NULLIF(?14, '')),
+           campaign = COALESCE(campaign, NULLIF(?15, '')),
+           landing = COALESCE(landing, NULLIF(?16, '')),
+           form = COALESCE(form, NULLIF(?17, ''))
          WHERE id = ?12`
-      ).bind(...fields, norm, randomHex(16), randomCode(), row.id).run();
+      ).bind(...fields, norm, randomHex(16), randomCode(), row.id, ...source).run();
       row = await DB.prepare("SELECT * FROM waitlist WHERE id = ?1").bind(row.id).first();
 
       if (wasUnsubscribed && row.confirmed_at) {
@@ -114,9 +135,10 @@ export async function onRequestPost({ request, env, waitUntil }) {
         await DB.prepare(
           `INSERT INTO waitlist
              (email, bike, controller_label, family, voltage, phone_os, province, lang, consent_version,
-              email_norm, token, ref_code, referred_by)
-           VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)`
-        ).bind(email, ...fields, norm, token, randomCode(), referredBy).run();
+              email_norm, token, ref_code, referred_by, src, medium, campaign, landing, form)
+           VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13,
+                   NULLIF(?14, ''), NULLIF(?15, ''), NULLIF(?16, ''), NULLIF(?17, ''), NULLIF(?18, ''))`
+        ).bind(email, ...fields, norm, token, randomCode(), referredBy, ...source).run();
         created = await DB.prepare("SELECT * FROM waitlist WHERE token = ?1").bind(token).first();
       } catch (err) {
         // A referral code collision is retried with a new code; anything else is a real failure.

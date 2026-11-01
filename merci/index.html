@@ -8,7 +8,7 @@
 <title>Merci – Kurant</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261031">
+<link rel="stylesheet" href="../assets/site.css?v=20261101">
 </head>
 <body>
 <header class="top">
@@ -82,6 +82,50 @@
       <p class="hint" id="t-rules"></p>
     </section>
 
+    <section class="panel t-profile">
+      <h2>Votre vélo, en 30&nbsp;secondes</h2>
+      <p class="hint">Facultatif. Vos réponses nous aident à choisir les prochains vélos et téléphones à prendre en charge.</p>
+      <form class="t-profile-form" id="t-profile" novalidate>
+        <div class="field">
+          <label for="p-bike">Vélo&#8239;: marque et modèle</label>
+          <input id="p-bike" name="bike" type="text" placeholder="p. ex. Lectric XP 3.0" maxlength="120">
+        </div>
+        <div class="field">
+          <label for="p-label">Étiquette du contrôleur <span class="hint">(facultatif)</span></label>
+          <input id="p-label" name="controller_label" type="text" placeholder="p. ex. KT36/48SVPRL" maxlength="120">
+        </div>
+        <fieldset>
+          <legend class="legend">Téléphone</legend>
+          <div class="radios">
+            <label class="radio"><input type="radio" name="phone" value="android"> Android</label>
+            <label class="radio"><input type="radio" name="phone" value="ios"> iPhone</label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="p-province">Province ou territoire</label>
+          <select id="p-province" name="province">
+            <option value="">Choisir…</option>
+            <option value="QC">Québec</option>
+            <option value="ON">Ontario</option>
+            <option value="BC">Colombie-Britannique</option>
+            <option value="AB">Alberta</option>
+            <option value="MB">Manitoba</option>
+            <option value="SK">Saskatchewan</option>
+            <option value="NS">Nouvelle-Écosse</option>
+            <option value="NB">Nouveau-Brunswick</option>
+            <option value="NL">Terre-Neuve-et-Labrador</option>
+            <option value="PE">Île-du-Prince-Édouard</option>
+            <option value="YT">Yukon</option>
+            <option value="NT">Territoires du Nord-Ouest</option>
+            <option value="NU">Nunavut</option>
+            <option value="XX">Hors du Canada</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
+        <p class="form-msg" id="t-profile-msg" role="status"></p>
+      </form>
+    </section>
+
     <div class="race panel" id="race" hidden>
       <div class="race-head">
         <p class="eyebrow">La course des marques</p>
@@ -107,6 +151,6 @@
 </footer>
 
 <script src="../assets/race.js?v=20261016" defer></script>
-<script src="../assets/thanks.js?v=20261016" defer></script>
+<script src="../assets/thanks.js?v=20261101" defer></script>
 </body>
 </html>

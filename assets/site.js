@@ -25,7 +25,8 @@
       preview: "Aperçu\u202F: rien n'a été envoyé. Le formulaire sera actif sur kurant.ca.",
       fail: "L'inscription n'a pas fonctionné. Vérifiez votre connexion et réessayez.",
       email: "Entrez une adresse courriel valide.",
-      consent: "Cochez la case de consentement pour vous inscrire."
+      consent: "Cochez la case de consentement pour vous inscrire.",
+      demo: "En attendant, essayez l'application dans la démo"
     },
     en: {
       choose: "Choose…",
@@ -43,7 +44,8 @@
       preview: "Preview: nothing was sent. The form will be live on kurant.ca.",
       fail: "Sign-up didn't go through. Check your connection and try again.",
       email: "Enter a valid email address.",
-      consent: "Tick the consent box to sign up."
+      consent: "Tick the consent box to sign up.",
+      demo: "Meanwhile, try the app in the demo"
     }
   }[lang];
 
@@ -55,7 +57,7 @@
 
   function fill(select, list) {
     var first = document.createElement("option");
-    first.value = ""; first.textContent = T.choose;
+    first.value = ""; first.textContent = select.getAttribute("data-placeholder") || T.choose;
     select.appendChild(first);
     list.forEach(function (item) {
       var o = document.createElement("option");
@@ -101,27 +103,33 @@
     text.textContent = notes.join(" ");
   }
 
-  var wlFam = document.getElementById("wl-family");
+  // Every sign-up form (hero and main) has its own system menu; a choice in any of them, or in the
+  // checker, moves them all.
+  var forms = Array.prototype.slice.call(document.querySelectorAll("form[data-waitlist]"));
+  var famMenus = forms.map(function (f) { return f.querySelector('select[name="wl_family"]'); }).filter(Boolean);
+  function setFamily(id, except) {
+    famMenus.forEach(function (sel) { if (sel !== except) sel.value = id; });
+    if (famSel && famSel !== except) famSel.value = id;
+    if (famSel && voltSel) update();
+  }
   if (famSel && voltSel && data) {
     fill(famSel, data.families);
     fill(voltSel, data.voltages);
-    famSel.addEventListener("change", function () { if (wlFam) wlFam.value = famSel.value; update(); });
+    famSel.addEventListener("change", function () { setFamily(famSel.value, famSel); });
     voltSel.addEventListener("change", update);
     update();
   }
-  if (wlFam && data) {
-    fill(wlFam, data.families);
-    wlFam.addEventListener("change", function () { if (famSel) { famSel.value = wlFam.value; update(); } });
-  }
+  if (data) famMenus.forEach(function (sel) {
+    fill(sel, data.families);
+    sel.addEventListener("change", function () { setFamily(sel.value, sel); });
+  });
 
   // Choose a system from the list's "Sign up to vote" button (assets/board.js), or from a shared
   // link ?systeme=ID / ?system=ID. With opts.scroll, the form comes into view, ready for the email.
   function pickSystem(id, opts) {
     var f = data ? find(data.families, String(id || "").toLowerCase()) : null;
     if (!f) return;
-    if (famSel) famSel.value = f.id;
-    if (wlFam) wlFam.value = f.id;
-    if (famSel && voltSel) update();
+    setFamily(f.id, null);
     var wlForm = document.getElementById("waitlist");
     if (opts && opts.scroll && wlForm) {
       wlForm.classList.add("from-compat");
@@ -144,6 +152,34 @@
   } catch (err) { ref = m ? m[1].toLowerCase() : ""; }
   var invited = document.getElementById("wl-invited");
   if (ref && invited) invited.hidden = false;
+
+  // Where this visitor came from, sent with the sign-up so GET /api/admin/report can rank traffic
+  // channels by confirmed sign-ups. A link with utm_source/utm_campaign wins (an ad click replaces an
+  // earlier visit); otherwise the first visit on this device is kept: a friend's ?r= link, the
+  // referring site's host, or nothing (typed in, bookmark). Kept 30 days on this device only.
+  var source = (function () {
+    var KEY = "kurant-src", DAYS = 30;
+    function param(name) {
+      var r = new RegExp("[?&]" + name + "=([^&#]*)").exec(location.search);
+      try { return r ? decodeURIComponent(r[1].replace(/\+/g, " ")).slice(0, 60) : ""; } catch (err) { return ""; }
+    }
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (err) { saved = null; }
+    if (saved && !(Date.now() - saved.at < DAYS * 864e5)) saved = null;
+    var utm = { src: param("utm_source"), medium: param("utm_medium"), campaign: param("utm_campaign") };
+    var next = saved;
+    if (utm.src || utm.campaign) {
+      next = { src: utm.src, medium: utm.medium, campaign: utm.campaign, landing: location.pathname, at: Date.now() };
+    } else if (!saved) {
+      var host = "";
+      try { host = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, "") : ""; } catch (err) { host = ""; }
+      if (host === location.hostname.replace(/^www\./, "")) host = "";
+      next = m ? { src: "friend", medium: "referral", campaign: "", landing: location.pathname, at: Date.now() }
+               : { src: host, medium: host ? "referral" : "", campaign: "", landing: location.pathname, at: Date.now() };
+    }
+    if (next !== saved) { try { localStorage.setItem(KEY, JSON.stringify(next)); } catch (err) { /* this visit only */ } }
+    return next || {};
+  })();
 
   // Navigation: highlight the section on screen.
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
@@ -175,60 +211,74 @@
     new IntersectionObserver(function (en) { atForm = en[0].isIntersecting; sync(); }).observe(formZone);
   }
 
-  // Waitlist
-  var form = document.getElementById("waitlist");
-  var msg = document.getElementById("form-msg");
-  if (!form) return;
-  function say(kind, s) { msg.className = "form-msg " + kind; msg.textContent = s; }
-  // Local test runs only (MAIL_DEV=1): the API returns the confirmation link instead of emailing it.
-  function devLink(url) {
-    var a = document.createElement("a");
-    a.href = url; a.textContent = T.devLink; a.className = "dev-link";
-    msg.appendChild(document.createElement("br"));
-    msg.appendChild(a);
-  }
+  // Waitlist: the hero form and the main form send the same thing (email, system, consent), with
+  // which form it was. The rest (bike, controller label, phone, province) is asked on the thank-you
+  // page, once the address is confirmed.
+  forms.forEach(function (form) {
+    var msg = form.querySelector("[data-form-msg]");
+    var menu = form.querySelector('select[name="wl_family"]');
+    var which = form.getAttribute("data-waitlist");
+    function say(kind, s) { msg.className = "form-msg " + kind; msg.textContent = s; }
+    // Local test runs only (MAIL_DEV=1): the API returns the confirmation link instead of emailing it.
+    function devLink(url) {
+      var a = document.createElement("a");
+      a.href = url; a.textContent = T.devLink; a.className = "dev-link";
+      msg.appendChild(document.createElement("br"));
+      msg.appendChild(a);
+    }
+    // After a hero sign-up, keep the visit going: the demo is the next thing to try.
+    function demoLink() {
+      if (which !== "hero" || !document.getElementById("demo")) return;
+      var a = document.createElement("a");
+      a.href = "#demo"; a.textContent = T.demo + " →"; a.className = "dev-link";
+      msg.appendChild(document.createElement("br"));
+      msg.appendChild(a);
+    }
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var email = form.email.value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { say("err", T.email); form.email.focus(); return; }
-    var family = wlFam ? wlFam.value : (famSel ? famSel.value : "");
-    if (wlFam && !family) { say("err", T.family); wlFam.focus(); return; }
-    if (!form.consent.checked) { say("err", T.consent); form.consent.focus(); return; }
-    var phone = form.querySelector('input[name="phone"]:checked');
-    var payload = {
-      email: email,
-      bike: form.bike.value.trim(),
-      controller_label: form.controller_label.value.trim(),
-      family: family,
-      voltage: voltSel ? voltSel.value : "",
-      phone_os: phone ? phone.value : "",
-      province: form.province.value,
-      lang: lang,
-      consent: true,
-      consent_version: form.getAttribute("data-consent-version"),
-      website: form.website.value,
-      ref: ref
-    };
-    if (!LIVE) { say("ok", T.preview); return; }
-    var btn = form.querySelector('button[type="submit"]');
-    btn.disabled = true; say("", T.sending);
-    fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
-      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
-      .then(function (res) {
-        if (res && res.ok) {
-          if (res.throttled) say("ok", T.recent);
-          else if (res.email_sent === false) say("ok", T.queued);
-          else if (res.status === "confirmed") say("ok", T.again(email));
-          else say("ok", T.done(email));
-          if (res.dev_links) devLink(res.dev_links.confirmUrl);
-          form.reset();
-        }
-        else if (res && res.error === "email") say("err", T.email);
-        else if (res && res.error === "slow_down") say("err", T.slow);
-        else say("err", T.fail);
-      })
-      .catch(function () { say("err", T.fail); })
-      .then(function () { btn.disabled = false; });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = form.email.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { say("err", T.email); form.email.focus(); return; }
+      var family = menu ? menu.value : (famSel ? famSel.value : "");
+      if (menu && !family) { say("err", T.family); menu.focus(); return; }
+      if (!form.consent.checked) { say("err", T.consent); form.consent.focus(); return; }
+      var payload = {
+        email: email,
+        family: family,
+        voltage: voltSel ? voltSel.value : "",
+        lang: lang,
+        consent: true,
+        consent_version: form.getAttribute("data-consent-version"),
+        website: form.website.value,
+        ref: ref,
+        src: source.src || "",
+        medium: source.medium || "",
+        campaign: source.campaign || "",
+        landing: source.landing || "",
+        form: which
+      };
+      if (!LIVE) { say("ok", T.preview); demoLink(); return; }
+      var btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true; say("", T.sending);
+      fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+        .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+        .then(function (res) {
+          if (res && res.ok) {
+            if (res.throttled) say("ok", T.recent);
+            else if (res.email_sent === false) say("ok", T.queued);
+            else if (res.status === "confirmed") say("ok", T.again(email));
+            else say("ok", T.done(email));
+            if (res.dev_links) devLink(res.dev_links.confirmUrl);
+            demoLink();
+            form.reset();
+            if (menu) menu.value = family; // keep the system shown in the checker and the other form
+          }
+          else if (res && res.error === "email") say("err", T.email);
+          else if (res && res.error === "slow_down") say("err", T.slow);
+          else say("err", T.fail);
+        })
+        .catch(function () { say("err", T.fail); })
+        .then(function () { btn.disabled = false; });
+    });
   });
 })();

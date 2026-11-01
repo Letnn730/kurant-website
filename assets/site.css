@@ -223,6 +223,26 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 .form-msg.ok { color: var(--cyan); }
 .form-msg.err { color: var(--coral); }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.consent-sm { font-size: 12.5px; line-height: 1.45; gap: 10px; }
+.consent-sm input { width: 16px; height: 16px; margin-top: 1px; }
+
+/* Hero sign-up: the offer, two fields and the button where the visit starts (assets/site.js).
+   Desktop: email and system side by side, the button below them. Phones: stacked. */
+.hero-form { justify-self: stretch; display: grid; gap: 14px; max-width: 560px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.hero-offer { font-size: 15px; color: var(--mute); border-left: 3px solid var(--cyan); padding: 2px 0 2px 12px; }
+.hero-offer b { color: var(--fg); font-weight: 600; }
+.hero-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.hero-fields .btn { grid-column: 1 / -1; }
+.hero-form .form-msg:empty { display: none; }
+.hero-links { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: 14px; color: var(--mute); }
+.hero-links a { color: var(--fg); text-underline-offset: 3px; }
+.hero-links a:hover { color: var(--cyan); }
+@media (max-width: 520px) { .hero-fields { grid-template-columns: minmax(0, 1fr); } .hero-form { padding: 16px; } }
+
+/* Thank-you page: the optional "your bike" details. */
+.t-profile-form { display: grid; gap: 16px; }
+.t-profile-form .btn { justify-self: start; }
 
 /* FAQ */
 .faq { max-width: 780px; display: grid; }
@@ -278,6 +298,11 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 .log-preview .log-item p { color: var(--mute); }
 @media (max-width: 860px) {
   .journal-home { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; grid-template-areas: "head" "list" "more"; gap: 28px; }
+}
+/* Phones: two entries, date and title only; the button opens the full log. */
+@media (max-width: 760px) {
+  .log-preview .log-item p, .log-preview .log-item:nth-child(n+3) { display: none; }
+  .log-preview { gap: 20px; }
 }
 
 /* Pre-launch list: perk line, invited note */
