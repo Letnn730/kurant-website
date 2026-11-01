@@ -1,5 +1,5 @@
 -- Kurant waitlist (Cloudflare D1). Full schema for a NEW database.
--- An existing database (created before the pre-launch list) runs migrations/0002_prelaunch.sql instead.
+-- An existing database runs the migrations it hasn't run yet instead: migrations/0002_prelaunch.sql, then 0003_attribution.sql.
 
 CREATE TABLE IF NOT EXISTS waitlist (
   id               INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,7 +24,13 @@ CREATE TABLE IF NOT EXISTS waitlist (
   confirmed_at     TEXT,                       -- double opt-in: counts only once set
   confirm_sent_at  TEXT,                       -- last confirmation email, for throttling and resends
   intent           TEXT,                       -- day-one answer: yes | maybe | curious
-  synced_at        TEXT                        -- last copy to the email provider's contact list
+  synced_at        TEXT,                       -- last copy to the email provider's contact list
+  -- Where the sign-up came from (first visit with a source on this device; see assets/site.js)
+  src              TEXT,                       -- utm_source, or the referring site's host when there is none
+  medium           TEXT,                       -- utm_medium
+  campaign         TEXT,                       -- utm_campaign
+  landing          TEXT,                       -- the page the visit started on, e.g. /en/
+  form             TEXT                        -- which form was used: hero | main
 );
 
 CREATE INDEX IF NOT EXISTS waitlist_family ON waitlist (family);
@@ -33,6 +39,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS waitlist_ref_code ON waitlist (ref_code);
 CREATE UNIQUE INDEX IF NOT EXISTS waitlist_founder_no ON waitlist (founder_no);
 CREATE INDEX IF NOT EXISTS waitlist_email_norm ON waitlist (email_norm);
 CREATE INDEX IF NOT EXISTS waitlist_referred_by ON waitlist (referred_by);
+CREATE INDEX IF NOT EXISTS waitlist_src ON waitlist (src, campaign);
 
 -- Sign-up attempts per hashed IP, kept 24 hours, to stop one machine from flooding the form.
 CREATE TABLE IF NOT EXISTS signup_events (

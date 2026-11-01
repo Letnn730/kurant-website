@@ -39,6 +39,7 @@
       copied: "Copié",
       copy: "Copier",
       saved: "Merci, c'est noté.",
+      profileSaved: "Merci, c'est enregistré.",
       fail: "La réponse n'a pas été enregistrée. Réessayez.",
       shareTitle: "Kurant",
       shareText: "J'attends Kurant\u202F: un module qui transforme le téléphone en écran de vélo électrique. Essayez l'application dans votre navigateur\u202F:",
@@ -52,6 +53,7 @@
       copied: "Copied",
       copy: "Copy",
       saved: "Thanks, noted.",
+      profileSaved: "Thanks, saved.",
       fail: "Your answer wasn't saved. Try again.",
       shareTitle: "Kurant",
       shareText: "I'm waiting for Kurant: a module that turns your phone into your e-bike's display. Try the app in your browser:",
@@ -144,6 +146,34 @@
     PERKS.ladder.forEach(function (r) { ladder.appendChild(rung(T.rung(r.n), r.text, n >= r.n)); });
     ladder.appendChild(rung(T.top, PERKS.top, false));
     $("t-rules").textContent = PERKS.rules;
+
+    // "Your bike": the optional details that used to be on the sign-up form.
+    var pf = $("t-profile");
+    if (pf) {
+      var p = me.profile || {};
+      pf.bike.value = p.bike || "";
+      pf.controller_label.value = p.controller_label || "";
+      pf.province.value = p.province || "";
+      Array.prototype.forEach.call(pf.querySelectorAll('input[name="phone"]'), function (r) { r.checked = r.value === p.phone_os; });
+      pf.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var phone = pf.querySelector('input[name="phone"]:checked');
+        var msg = $("t-profile-msg");
+        var btn = pf.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        post("/api/profile", {
+          t: token,
+          bike: pf.bike.value.trim(),
+          controller_label: pf.controller_label.value.trim(),
+          phone_os: phone ? phone.value : "",
+          province: pf.province.value
+        }).then(function (r) {
+          msg.className = "form-msg " + (r && r.ok ? "ok" : "err");
+          msg.textContent = r && r.ok ? T.profileSaved : T.fail;
+        }).catch(function () { msg.className = "form-msg err"; msg.textContent = T.fail; })
+          .then(function () { btn.disabled = false; });
+      });
+    }
 
     if (window.KurantRace) window.KurantRace.load($("race"), { lang: lang, highlight: me.family });
   }

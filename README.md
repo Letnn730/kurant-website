@@ -13,14 +13,14 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `assets/site.css` | Styles, following the FORGE brand guide (Obsidienne / Blanc Titane / Cyan Glacial, Inter + JetBrains Mono) |
 | `assets/compat.js` | Compatibility list used by "Vérifier mon vélo": the system list and the form. Keep in step with `ebike-profiles` |
 | `assets/board.js` | The checker's system list: every system with its stage (4-step meter) and real confirmed votes from `/api/stats`, systems in progress ranked by votes. Later, not planned and other systems share a collapsed "Other systems" disclosure that opens for a selected system, including shared links. The chosen row opens with the result, its details and "M'inscrire pour voter", and stays in sync with the form |
-| `assets/site.js` | Compatibility tool and waitlist form |
+| `assets/site.js` | Compatibility tool, the two sign-up forms (hero and main: email and system only) and the traffic source sent with a sign-up |
 | `assets/journal.js` | Home page "Journal" section: reads the newest 3 entries (date, title, first paragraph) and the entry count from `journal/index.html` (`en/journal/index.html` in English). The log pages are the only source: add an entry there and the home pages follow |
 | `assets/demo.js`, `assets/demo.css` | Hero demo: the app's ride screen v2 (map, gauge in 4 styles, assist ladder, chips, Ride controls sheet), Settings and Ride display, running its simulator in the browser at the app's 390×844 dp geometry. Mirrors `ebike-app` 0.9 (layout, palette, wording, safety rules); only the Simulator source is offered and the map is an illustration in the Kurant Night palette. `window.__kurantDemo` drives it to fixed states for recordings. Keep in step when the app's UI changes |
 | `assets/campaign.json`, `assets/campaign.js` | Kickstarter state and link; the script shows the matching banner and buttons |
 | `functions/kickstarter.js` | `kurant.ca/kickstarter` short link, redirects to the URL in `campaign.json` (Kickstarter only), else to the waitlist |
 | `functions/api/waitlist.js` | Sign-up: stores it in D1 and sends the confirmation email (double opt-in) |
 | `functions/api/confirm.js` | The confirmation link: founder number, contact copied to Resend, then the thank-you page |
-| `functions/api/me.js`, `intent.js` | Thank-you page data, and the day-one question |
+| `functions/api/me.js`, `intent.js`, `profile.js` | Thank-you page data, the day-one question, and the optional "your bike" details (bike, controller label, phone, province) |
 | `functions/api/unsubscribe.js` | Unsubscribe page and one-click unsubscribe (CASL, RFC 8058) |
 | `functions/api/stats.js` | Public counts for the brand race (confirmed sign-ups only) |
 | `functions/api/admin/` | `health`, `resend`, `sync`, `report`: protected by `ADMIN_TOKEN` |
@@ -34,6 +34,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `assets/media/` | The R7 design-file animation (`crown_r7_story_680.mp4`, 12 s, technical-illustration style) and its poster frame (`crown-r7-poster.jpg`) |
 | `schema.sql` | D1 schema for a new database |
 | `migrations/0002_prelaunch.sql` | Run once on the existing database to add the pre-launch list |
+| `migrations/0003_attribution.sql` | Run once after 0002: where each sign-up came from (source, medium, campaign, landing page, form) |
 | `_headers` | Security headers (CSP, HSTS), and no-cache on `/assets/` so browsers always check for a newer CSS, JS or `campaign.json`. The home pages also tag their CSS and JS links with `?v=DATE`: bump it on both home pages when you change those files, and keep the shared `site.css` tags in the journal, privacy, thank-you and 404 pages in step. Also bump shared script tags on any other page loading a changed file |
 | `404.html`, `robots.txt`, `sitemap.xml` | Not-found page, crawler rules, sitemap with FR/EN alternates |
 | `assets/og-fr.png`, `assets/og-en.png` | Share images (1200 × 630) for social posts |
@@ -82,10 +83,10 @@ Links: `kurant.ca/?systeme=ID#waitlist` (or `/en/?system=ID#waitlist`) opens the
 
 ## Pre-launch list: how it works
 
-1. The form sends the sign-up to `/api/waitlist`. It is stored, and a confirmation email goes out.
+1. A form sends the sign-up to `/api/waitlist`: the hero form or the main one, both asking only for the email and the bike's system. It is stored with where the visit came from (see "Traffic: where sign-ups come from"), and a confirmation email goes out.
 2. The person clicks **Confirmer** → `/api/confirm`. They get the next founder number, they are copied to Resend's contact list (FR or EN segment), and they land on `/merci/` or `/en/thanks/`.
-3. The thank-you page shows the founder number, asks the day-one question, and gives a personal link `kurant.ca/?r=CODE`. A friend who signs up through it and confirms counts as one referral.
-4. `/api/stats` feeds the brand race on the home page and the thank-you page. It appears once 50 people have confirmed.
+3. The thank-you page shows the founder number, asks the day-one question, gives a personal link `kurant.ca/?r=CODE`, and asks the optional "your bike" details (`/api/profile`). A friend who signs up through the link and confirms counts as one referral.
+4. `/api/stats` feeds the system list on the home page and the brand race on the thank-you page. The home page shows vote counts once 25 people have confirmed (stages only before that); the race and the "N people have confirmed" line appear at 50.
 5. Broadcasts (newsletters, launch email) are written and sent from Resend's dashboard, to the FR and EN segments (see "Sending a newsletter"). Resend's unsubscribe link handles those unsubscribes, and the webhook `/api/webhooks/resend` copies them back to the list here.
 
 Only confirmed, still-subscribed sign-ups count anywhere. One inbox is one person: `Jo.Doe+x@gmail.com` and `jodoe@gmail.com` share an entry, so aliases can't farm referrals. One IP can sign up 8 times an hour. An address that never confirms is deleted 30 days after its last confirmation email.
@@ -114,7 +115,7 @@ Only confirmed, still-subscribed sign-ups count anywhere. One inbox is one perso
    | `RESEND_WEBHOOK_SECRET` | Secret | the signing secret (`whsec_...`) of the webhook in step 10 |
 
    Never set `MAIL_DEV` in production: it turns sending off.
-6. **Database.** In the D1 console of `kurant-waitlist`, paste `migrations/0002_prelaunch.sql` and run it **once**.
+6. **Database.** In the D1 console of `kurant-waitlist`, paste `migrations/0002_prelaunch.sql` and run it **once**. Then do the same with `migrations/0003_attribution.sql` (once).
    - If it says `duplicate column name`, it has already run.
 7. **Deploy.** Merge the pull request, or retry the last deployment so the variables take effect.
 8. **Test.** Sign up with your own address. You should get the email within a minute, land on `/merci/` with a founder number, and see your row with `confirmed_at` set.
@@ -134,7 +135,7 @@ Replace `TOKEN` with your `ADMIN_TOKEN`. Use `curl.exe`: plain `curl` in PowerSh
 # Is everything wired up? Settings present, database, Resend key, sending domain, segments, sync backlog
 curl.exe -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/health
 
-# The launch gates: confirmed, pending, day-one answers, per system, referral leaders
+# The launch gates: confirmed, pending, day-one answers, per system, per traffic source, referral leaders
 curl.exe -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/report
 
 # Send the confirmation email to sign-ups that never got one (up to 50 per call; repeat until never_emailed_left is 0)
@@ -146,6 +147,17 @@ curl.exe -X POST -H "Authorization: Bearer TOKEN" "https://kurant.ca/api/admin/r
 # Copy confirmed sign-ups to Resend's segments (after setting up segments late; repeat until left is 0)
 curl.exe -X POST -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/sync
 ```
+
+### Traffic: where sign-ups come from
+
+Judge every channel by **confirmed** sign-ups, in `sources` of `/api/admin/report`: signups, confirmed, and how many came through the hero form.
+
+- **Tag every link you post or pay for:** `https://kurant.ca/?utm_source=facebook&utm_medium=paid&utm_campaign=kt-owners-oct` (English page: `https://kurant.ca/en/?utm_source=…`). Use lower case and dashes; anything else is turned into dashes. One `utm_campaign` per ad or post you want to compare.
+- **Untagged visits** keep the referring site's host as the source (`reddit.com`, `google.com`), or nothing when typed in. A friend's `?r=CODE` link is recorded as source `friend`.
+- **Which visit counts:** a tagged link always wins, so an ad click replaces an earlier visit. Otherwise the first visit on the device is kept. The browser keeps it 30 days.
+- **Existing sign-ups** show as `(none)`: they came before sources were recorded.
+
+**Visits** (how many people saw the page, from where, on what device) are counted by Cloudflare Web Analytics, which uses no cookies. Switch it on once: your Pages project → **Metrics** → **Web Analytics** → **Enable**. The security headers already allow its script. Signups ÷ visits per source is the conversion rate to compare.
 
 ### Sending a newsletter
 

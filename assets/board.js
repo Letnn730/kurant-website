@@ -11,7 +11,11 @@
    next step, and a "Sign up to vote" button that brings the form up (window.KurantPick).
 
    Also fills the Kickstarter section's "N people have confirmed" line once
-   SHOW_TOTAL_MIN people have confirmed, as the brand race did. */
+   SHOW_TOTAL_MIN people have confirmed, as the brand race did.
+
+   Vote counts, bars, the "Leading" tag and the total appear only once COUNTS_MIN people have
+   confirmed: a column of zeros tells a new visitor nobody is here yet. Below that, the list keeps
+   its planned order and shows stages only. */
 (function () {
   "use strict";
   var root = document.querySelector("[data-board]");
@@ -22,6 +26,7 @@
   var lang = root.getAttribute("data-board") === "en" ? "en" : "fr";
   var locale = lang === "en" ? "en-CA" : "fr-CA";
   var SHOW_TOTAL_MIN = 50;
+  var COUNTS_MIN = 25;
 
   var T = {
     fr: {
@@ -197,6 +202,8 @@
 
   // stats = { total, families: { id: n } }, or null while loading or unavailable.
   function render(stats) {
+    var kicker = stats;
+    if (stats && (stats.total || 0) < COUNTS_MIN) stats = null; // too few to show: stages only
     var fam = stats ? stats.families || {} : null;
     var buckets = { ready: [], progress: [], later: [], no: [], other: [] };
     data.families.forEach(function (f, i) {
@@ -237,9 +244,9 @@
       total.hidden = !stats;
       if (stats) total.textContent = T.total(stats.total || 0);
     }
-    if (stats && stats.total >= SHOW_TOTAL_MIN) {
+    if (kicker && kicker.total >= SHOW_TOTAL_MIN) {
       Array.prototype.forEach.call(document.querySelectorAll("[data-ks-count]"), function (n) {
-        n.textContent = T.ks(stats.total);
+        n.textContent = T.ks(kicker.total);
         n.hidden = false;
       });
     }

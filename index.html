@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="assets/site.css?v=20261031">
+<link rel="stylesheet" href="assets/site.css?v=20261101">
 <link rel="stylesheet" href="assets/demo.css?v=20261024">
 </head>
 <body>
@@ -63,14 +63,27 @@
         <p class="eyebrow">Interface pour vélo électrique</p>
         <h1>Débranchez l'écran. Branchez Kurant.</h1>
         <p class="lede">Kurant remplace l'afficheur de votre vélo électrique. Un petit module se branche à la place de l'écran, et votre téléphone affiche la vitesse, la puissance et la batterie, avec des réglages expliqués en mots simples.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="#verifier">Vérifier mon vélo</a>
-          <a class="btn btn-ghost" href="#module">Voir l'intérieur du module</a>
-        </div>
-        <p class="hero-note">Le prototype fonctionne déjà sur un vrai contrôleur KT&#8239;: il allume le vélo, affiche les données en direct et change l'assistance depuis le téléphone. Campagne Kickstarter prévue&#8239;: les personnes inscrites seront averties en premier.</p>
+        <form class="hero-form" id="hero-waitlist" data-waitlist="hero" novalidate data-consent-version="2026-10-08b">
+          <p class="hero-offer"><b>119&nbsp;$ au lieu de 159&nbsp;$</b> pour les 100 premiers contributeurs. Les inscrits confirmés reçoivent le lien de la campagne avant tout le monde.</p>
+          <div class="hero-fields">
+            <label class="sr-only" for="hero-email">Courriel</label>
+            <input id="hero-email" name="email" type="email" autocomplete="email" placeholder="Votre courriel" required>
+            <label class="sr-only" for="hero-family">Système de votre vélo</label>
+            <select id="hero-family" name="wl_family" required data-placeholder="Système de votre vélo…"></select>
+            <button class="btn btn-primary" type="submit">M'avertir en premier</button>
+          </div>
+          <label class="consent consent-sm" for="hero-consent">
+            <input id="hero-consent" name="consent" type="checkbox">
+            <span>J'accepte de recevoir des courriels de FORGE au sujet de Kurant&#8239;: disponibilité, compatibilité de mon vélo, lancement et campagne Kickstarter. Je peux me désabonner en tout temps. Voir la <a href="confidentialite/index.html">politique de confidentialité</a>.</span>
+          </label>
+          <div class="hp" aria-hidden="true"><label for="hero-website">Site web</label><input id="hero-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <p class="form-msg" role="status" data-form-msg></p>
+        </form>
+        <p class="hero-links"><a href="#verifier">Vérifier mon vélo</a><span aria-hidden="true">·</span><a href="#module">Voir l'intérieur du module</a></p>
+        <p class="hero-note">Le prototype fonctionne déjà sur un vrai contrôleur KT&#8239;: il allume le vélo, affiche les données en direct et change l'assistance depuis le téléphone.</p>
       </div>
 
-      <figure class="device">
+      <figure class="device" id="demo">
         <div class="phone" data-demo>
           <div class="screen">
             <div class="screen-top"><span class="live">Simulateur</span><span class="screen-brand">ROUTE · 32</span></div>
@@ -320,9 +333,9 @@
           </fieldset>
         </div>
 
-        <form class="panel" id="waitlist" novalidate data-consent-version="2026-10-08b">
+        <form class="panel" id="waitlist" data-waitlist="main" novalidate data-consent-version="2026-10-08b">
           <h3>Liste de prélancement</h3>
-          <p class="perk"><b>100 places à 119&nbsp;$</b> pendant la campagne Kickstarter, au lieu de 159&nbsp;$. Les inscrits confirmés sont avertis en premier et reçoivent un numéro de fondateur.</p>
+          <p class="perk"><b>100 places à 119&nbsp;$</b> pendant la campagne Kickstarter, au lieu de 159&nbsp;$. Les inscrits confirmés sont avertis en premier et reçoivent un numéro de fondateur. Livraison au Canada seulement pendant la campagne.</p>
           <p class="invited" id="wl-invited" hidden>Un ami vous a invité&#8239;: votre inscription compte pour lui.</p>
           <div class="field">
             <label for="wl-email">Courriel</label>
@@ -332,48 +345,13 @@
             <label for="wl-family">Système de votre vélo</label>
             <select id="wl-family" name="wl_family" required></select>
           </div>
-          <div class="field">
-            <label for="wl-bike">Vélo&#8239;: marque et modèle</label>
-            <input id="wl-bike" name="bike" type="text" placeholder="p. ex. Lectric XP 3.0" maxlength="120">
-          </div>
-          <div class="field">
-            <label for="wl-label">Étiquette du contrôleur <span class="hint">(facultatif)</span></label>
-            <input id="wl-label" name="controller_label" type="text" placeholder="p. ex. KT36/48SVPRL" maxlength="120">
-          </div>
-          <fieldset>
-            <legend class="legend">Téléphone</legend>
-            <div class="radios">
-              <label class="radio"><input type="radio" id="wl-android" name="phone" value="android" checked> Android</label>
-              <label class="radio"><input type="radio" id="wl-ios" name="phone" value="ios"> iPhone</label>
-            </div>
-          </fieldset>
-          <div class="field">
-            <label for="wl-province">Province ou territoire</label>
-            <select id="wl-province" name="province">
-              <option value="QC" selected>Québec</option>
-              <option value="ON">Ontario</option>
-              <option value="BC">Colombie-Britannique</option>
-              <option value="AB">Alberta</option>
-              <option value="MB">Manitoba</option>
-              <option value="SK">Saskatchewan</option>
-              <option value="NS">Nouvelle-Écosse</option>
-              <option value="NB">Nouveau-Brunswick</option>
-              <option value="NL">Terre-Neuve-et-Labrador</option>
-              <option value="PE">Île-du-Prince-Édouard</option>
-              <option value="YT">Yukon</option>
-              <option value="NT">Territoires du Nord-Ouest</option>
-              <option value="NU">Nunavut</option>
-              <option value="XX">Hors du Canada</option>
-            </select>
-            <p class="hint">Pendant la campagne, livraison au Canada seulement.</p>
-          </div>
           <label class="consent" for="wl-consent">
             <input id="wl-consent" name="consent" type="checkbox">
             <span>J'accepte de recevoir des courriels de FORGE au sujet de Kurant&#8239;: disponibilité, compatibilité de mon vélo, lancement et campagne Kickstarter. Je peux me désabonner en tout temps. Voir la <a href="confidentialite/index.html">politique de confidentialité</a>.</span>
           </label>
           <div class="hp" aria-hidden="true"><label for="wl-website">Site web</label><input id="wl-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
           <button class="btn btn-primary" type="submit">M'inscrire</button>
-          <p id="form-msg" class="form-msg" role="status"></p>
+          <p id="form-msg" class="form-msg" role="status" data-form-msg></p>
         </form>
       </div>
 
@@ -424,8 +402,8 @@
 <a class="m-cta" href="#waitlist" hidden><b>100 places à 119&nbsp;$</b><span>Rejoindre la liste</span></a>
 
 <script src="assets/compat.js?v=20261016" defer></script>
-<script src="assets/site.js?v=20261016" defer></script>
-<script src="assets/board.js?v=20261016" defer></script>
+<script src="assets/site.js?v=20261101" defer></script>
+<script src="assets/board.js?v=20261101" defer></script>
 <script src="assets/demo.js?v=20261024" defer></script>
 <script src="assets/campaign.js?v=20261016" defer></script>
 <script src="assets/journal.js?v=20261031" defer></script>

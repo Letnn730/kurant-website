@@ -1,5 +1,5 @@
 // GET /api/admin/report: the launch gates in one call.
-// Confirmed and pending counts, day-one answers, sign-ups per system, and the referral leaders
+// Confirmed and pending counts, day-one answers, sign-ups per system and per traffic source, and the referral leaders
 // (with their email, so you can check them by hand before giving a prize).
 
 import { json } from "../../_lib/util.js";
@@ -19,7 +19,7 @@ export async function onRequestGet({ request, env }) {
        SUM(intent = 'yes' AND unsubscribed_at IS NULL) AS day_one_yes,
        SUM(intent = 'maybe' AND unsubscribed_at IS NULL) AS day_one_maybe,
        SUM(intent = 'curious' AND unsubscribed_at IS NULL) AS curious,
-       SUM(province IS NOT NULL AND province <> 'XX' AND confirmed_at IS NOT NULL AND unsubscribed_at IS NULL) AS confirmed_in_canada
+       SUM(NULLIF(province, '') IS NOT NULL AND province <> 'XX' AND confirmed_at IS NOT NULL AND unsubscribed_at IS NULL) AS confirmed_in_canada
      FROM waitlist`
   ).first();
 
@@ -38,5 +38,16 @@ export async function onRequestGet({ request, env }) {
       GROUP BY r.id ORDER BY referrals DESC LIMIT 20`
   ).all()).results;
 
-  return json({ ok: true, totals, families, leaders });
+  // Traffic channels: sign-ups and confirmations per source and campaign (see assets/site.js).
+  // "(none)" = signed up before sources were recorded, or arrived with no source and no referrer.
+  const sources = (await DB.prepare(
+    `SELECT COALESCE(src, '(none)') AS src, COALESCE(medium, '') AS medium, COALESCE(campaign, '') AS campaign,
+            COUNT(*) AS signups,
+            SUM(confirmed_at IS NOT NULL AND unsubscribed_at IS NULL) AS confirmed,
+            SUM(form = 'hero') AS from_hero_form
+       FROM waitlist
+      GROUP BY 1, 2, 3 ORDER BY confirmed DESC, signups DESC LIMIT 50`
+  ).all()).results;
+
+  return json({ ok: true, totals, families, sources, leaders });
 }
