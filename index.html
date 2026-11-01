@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="assets/site.css?v=20261028">
+<link rel="stylesheet" href="assets/site.css?v=20261031">
 <link rel="stylesheet" href="assets/demo.css?v=20261024">
 </head>
 <body>
@@ -42,6 +42,7 @@
       <a href="#fonctionnement">Fonctionnement</a>
       <a href="#module">Le module</a>
       <a href="#securite">Sécurité</a>
+      <a href="#journal">Journal</a>
       <a href="#kickstarter">Kickstarter</a>
       <a href="#faq">FAQ</a>
       <a href="#verifier">Compatibilité</a>
@@ -221,6 +222,18 @@
         <li><span class="rule-key">32&nbsp;km/h</span><div><h3>Mode Route par défaut</h3><p>À la livraison, la vitesse est limitée au maximum permis dans votre province&#8239;: 32&nbsp;km/h au Québec.</p></div></li>
         <li><span class="rule-key warn">Hors-route</span><div><h3>Un mode pour terrain privé</h3><p>Il s'active à l'arrêt, par un appui de 1,5&nbsp;seconde suivi d'une confirmation. Sur la voie publique, un vélo réglé au-delà de 32&nbsp;km/h n'est plus considéré comme un vélo à assistance électrique. Le cycliste est responsable de l'usage de ce mode.</p></div></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="section" id="journal" aria-labelledby="journal-titre">
+    <div class="wrap journal-home">
+      <div class="section-head">
+        <p class="eyebrow">Journal de développement</p>
+        <h2 id="journal-titre">Où en est Kurant, avec la date</h2>
+        <p>Chaque étape est publiée une fois mesurée au banc, sur un vrai contrôleur, et les problèmes trouvés aussi. Voici les dernières entrées.</p>
+      </div>
+      <ol class="log-list log-preview" data-journal-preview aria-label="Dernières entrées du journal" hidden></ol>
+      <a class="btn btn-ghost journal-more" href="journal/index.html" data-journal-src data-journal-label="Lire les {n}&nbsp;entrées du journal">Lire tout le journal</a>
     </div>
   </section>
 
@@ -415,6 +428,7 @@
 <script src="assets/board.js?v=20261016" defer></script>
 <script src="assets/demo.js?v=20261024" defer></script>
 <script src="assets/campaign.js?v=20261016" defer></script>
+<script src="assets/journal.js?v=20261031" defer></script>
 <script src="assets/module3d.js?v=20261024" type="module"></script>
 </body>
 </html>

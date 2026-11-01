@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261028">
+<link rel="stylesheet" href="../assets/site.css?v=20261031">
 <link rel="stylesheet" href="../assets/demo.css?v=20261024">
 </head>
 <body>
@@ -42,6 +42,7 @@
       <a href="#how-it-works">How it works</a>
       <a href="#module">The module</a>
       <a href="#safety">Safety</a>
+      <a href="#journal">Log</a>
       <a href="#kickstarter">Kickstarter</a>
       <a href="#faq">FAQ</a>
       <a href="#check">Compatibility</a>
@@ -221,6 +222,18 @@
         <li><span class="rule-key">32 km/h</span><div><h3>Street mode by default</h3><p>Out of the box, speed is limited to your province's legal maximum: 32 km/h in Quebec.</p></div></li>
         <li><span class="rule-key warn">Offroad</span><div><h3>A mode for private land</h3><p>It switches on only when stopped, with a 1.5-second press followed by a confirmation. On public roads, a bike set above 32 km/h no longer counts as a power-assisted bicycle. The rider is responsible for how this mode is used.</p></div></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="section" id="journal" aria-labelledby="journal-title">
+    <div class="wrap journal-home">
+      <div class="section-head">
+        <p class="eyebrow">Development log</p>
+        <h2 id="journal-title">Where Kurant stands, with dates</h2>
+        <p>Every step is posted once it's measured on the bench, on a real controller, and so are the problems found. Here are the latest entries.</p>
+      </div>
+      <ol class="log-list log-preview" data-journal-preview aria-label="Latest log entries" hidden></ol>
+      <a class="btn btn-ghost journal-more" href="journal/index.html" data-journal-src data-journal-label="Read all {n} log entries">Read the full log</a>
     </div>
   </section>
 
@@ -415,6 +428,7 @@
 <script src="../assets/board.js?v=20261016" defer></script>
 <script src="../assets/demo.js?v=20261024" defer></script>
 <script src="../assets/campaign.js?v=20261016" defer></script>
+<script src="../assets/journal.js?v=20261031" defer></script>
 <script src="../assets/module3d.js?v=20261024" type="module"></script>
 </body>
 </html>

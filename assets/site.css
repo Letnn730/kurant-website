@@ -89,6 +89,15 @@ h3 { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
 .btn-ghost:hover { border-color: var(--mute); }
 .btn-sm { padding: 9px 14px; font-size: 14px; }
 
+/* The French nav is the widest: below these widths it no longer fits beside the brand and buttons. */
+@media (max-width: 1100px) {
+  .top .brand-by { display: none; }
+  .nav { gap: 16px; }
+}
+@media (max-width: 960px) {
+  .nav { display: none; }
+  .top-actions { margin-left: auto; }
+}
 @media (max-width: 760px) {
   .nav, .top .brand-by { display: none; }
   .top-actions { margin-left: auto; }
@@ -257,6 +266,19 @@ select:focus, input[type="email"]:focus, input[type="text"]:focus { outline: non
 .log-item time { font-family: var(--mono); font-size: 13px; letter-spacing: .08em; color: var(--cyan); }
 .log-item h2 { font-size: 20px; margin: 0; color: var(--fg); }
 .log-item p { margin: 0; }
+
+/* Home page: the latest log entries (assets/journal.js reads them from journal/, the only source).
+   Desktop: intro and button on the left, entries on the right. Phones: intro, entries, button. */
+.journal-home { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); grid-template-rows: auto 1fr; grid-template-areas: "head list" "more list"; gap: 24px 56px; align-items: start; }
+.journal-home > .section-head { grid-area: head; margin-bottom: 0; }
+.journal-home > .log-list { grid-area: list; }
+.journal-home > .journal-more { grid-area: more; justify-self: start; }
+.log-preview .log-item h3 { font-size: 18px; line-height: 1.35; margin: 0; color: var(--fg); }
+.log-preview .log-item h3 .tag { vertical-align: 2px; margin-left: 4px; }
+.log-preview .log-item p { color: var(--mute); }
+@media (max-width: 860px) {
+  .journal-home { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; grid-template-areas: "head" "list" "more"; gap: 28px; }
+}
 
 /* Pre-launch list: perk line, invited note */
 .perk { font-size: 15px; color: var(--mute); border-left: 3px solid var(--cyan); padding: 2px 0 2px 12px; }
