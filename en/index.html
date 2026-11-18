@@ -14,18 +14,43 @@
 <meta property="og:image" content="https://kurant.ca/assets/og-en.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kurant: the phone shows the e-bike's speed, battery and assist level">
 <meta property="og:locale" content="en_CA">
 <meta property="og:locale:alternate" content="fr_CA">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Kurant replaces your e-bike's display: your phone shows speed, power and battery. Check whether your bike is compatible.">
 <link rel="alternate" hreflang="fr-CA" href="https://kurant.ca/">
 <link rel="alternate" hreflang="en-CA" href="https://kurant.ca/en/">
+<link rel="alternate" hreflang="x-default" href="https://kurant.ca/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261031">
+<link rel="stylesheet" href="../assets/site.css?v=20261118">
 <link rel="stylesheet" href="../assets/demo.css?v=20261024">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://kurant.ca/#forge",
+      "name": "FORGE",
+      "url": "https://kurant.ca/",
+      "email": "bonjour@kurant.ca",
+      "address": { "@type": "PostalAddress", "addressLocality": "Montréal", "addressRegion": "QC", "addressCountry": "CA" }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://kurant.ca/#site",
+      "name": "Kurant",
+      "url": "https://kurant.ca/",
+      "inLanguage": ["fr-CA", "en-CA"],
+      "publisher": { "@id": "https://kurant.ca/#forge" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -40,51 +65,61 @@
     </a>
     <nav class="nav" aria-label="Sections">
       <a href="#how-it-works">How it works</a>
+      <a href="#check">Compatibility</a>
       <a href="#module">The module</a>
-      <a href="#safety">Safety</a>
       <a href="#journal">Log</a>
       <a href="#kickstarter">Kickstarter</a>
       <a href="#faq">FAQ</a>
-      <a href="#check">Compatibility</a>
     </nav>
     <div class="top-actions">
       <a class="lang" href="../index.html" lang="fr" hreflang="fr">FR</a>
-      <a class="btn btn-primary btn-sm" href="#waitlist">Pre-launch list</a>
+      <a class="btn btn-primary btn-sm" href="#signup" data-track="cta_nav_signup">Early access</a>
     </div>
   </div>
 </header>
 
 <main id="content" data-lang="en">
 
+  <!-- 1. What it is, in three seconds: the headline, the phone running the app, the module -->
   <section class="hero">
     <div class="wrap">
       <div class="hero-copy">
         <span class="slit" aria-hidden="true"></span>
         <p class="eyebrow">E-bike interface</p>
         <h1>Unplug the display. Plug in Kurant.</h1>
-        <p class="lede">Kurant replaces your e-bike's display. A small module plugs in where the screen was, and your phone shows speed, power and battery, with settings explained in plain words.</p>
+        <p class="lede">Replace your e-bike's display with your phone. The Kurant module plugs in where the stock display was: speed, battery, power and assist show up large, with settings explained in plain words.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="#check">Check my bike</a>
-          <a class="btn btn-ghost" href="#module">See inside the module</a>
+          <a class="btn btn-primary" href="#signup" data-track="cta_hero_signup">Early access</a>
+          <a class="btn btn-ghost" href="#check" data-track="cta_hero_compat">Will it work on my bike?</a>
         </div>
-        <p class="hero-note">The prototype already works on a real KT controller: it turns the bike on, shows live data and changes assist from the phone. Kickstarter campaign planned: people on the waitlist hear first.</p>
+        <ul class="status" aria-label="Where Kurant stands">
+          <li><span class="dot ok" aria-hidden="true"></span>KT controllers: bench-verified</li>
+          <li><span class="dot now" aria-hidden="true"></span>Board rev.&nbsp;0.2 and R7 enclosure: in development</li>
+          <li><span class="dot now" aria-hidden="true"></span>Kickstarter campaign planned: pre-launch list open</li>
+        </ul>
       </div>
 
       <figure class="device">
-        <div class="phone" data-demo>
-          <div class="screen">
-            <div class="screen-top"><span class="live">Simulator</span><span class="screen-brand">STREET · 32</span></div>
-            <div class="speed"><b>24.6</b><span>km/h</span></div>
-            <div class="tiles">
-              <div class="tile"><small>Battery</small><b>78%</b></div>
-              <div class="tile"><small>Assist</small><b>2&nbsp;/&nbsp;5</b></div>
-              <div class="tile"><small>Motor</small><b>312&nbsp;W</b></div>
+        <div class="device-stack">
+          <div class="phone" data-demo>
+            <div class="screen">
+              <div class="screen-top"><span class="live">Simulator</span><span class="screen-brand">STREET · 32</span></div>
+              <div class="speed"><b>24.6</b><span>km/h</span></div>
+              <div class="tiles">
+                <div class="tile"><small>Battery</small><b>78%</b></div>
+                <div class="tile"><small>Assist</small><b>2&nbsp;/&nbsp;5</b></div>
+                <div class="tile"><small>Motor</small><b>312&nbsp;W</b></div>
+              </div>
+              <div class="mode"><span>Street mode</span><span>32&nbsp;km/h max</span></div>
+              <p class="screen-foot">Settings while stopped</p>
             </div>
-            <div class="mode"><span>Street mode</span><span>32&nbsp;km/h max</span></div>
-            <p class="screen-foot">Settings while stopped</p>
+          </div>
+          <div class="hero-module">
+            <img src="../assets/media/r7-module.jpg" width="450" height="495" alt="The Kurant R7 module on a handlebar, a rendering from the design files" decoding="async">
+            <span>R7 · rendering</span>
           </div>
         </div>
-        <figcaption class="demo-hint"><b>Simulation demo.</b> The app's ride screen, connected to a virtual bike. Tap an assist bar to change level, OFF to stop, or the gear for settings. The map is an illustration.</figcaption>
+        <figcaption class="demo-hint"><span class="try" aria-hidden="true">Try it</span> <b>Simulation demo.</b> The app's ride screen, connected to a virtual bike: the values are simulated. Tap an assist bar to change level, OFF to stop, or the gear for settings. The map is an illustration.</figcaption>
       </figure>
     </div>
   </section>
@@ -98,24 +133,117 @@
     </div>
   </section>
 
-  <section class="section" id="how-it-works">
+  <!-- 2. Before / after -->
+  <section class="section" id="before-after" aria-labelledby="ba-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Before · After</p>
+        <h2 id="ba-title">Your bike already has the technology. Kurant gives you a better way to use it.</h2>
+        <p>The controller, motor and battery stay the same. Only the display changes: the stock one goes in a drawer, your phone takes its place.</p>
+      </div>
+      <div class="ba">
+        <figure class="ba-card">
+          <div class="ba-art">
+            <svg viewBox="0 0 600 380" role="img" aria-labelledby="ba-before-t">
+              <title id="ba-before-t">Illustration: a stock LCD display on the handlebar, with its three-button remote</title>
+              <path class="bar" d="M-10 262 L610 214 L610 252 L-10 300 Z"/>
+              <path class="bar-top" d="M-10 262 L610 214"/>
+              <path class="cable" d="M112 274 C 140 330, 210 330, 250 300"/>
+              <path class="cable" d="M300 268 C 300 320, 330 350, 330 390"/>
+              <rect class="pod" x="70" y="232" width="78" height="54" rx="10" transform="rotate(-4.4 109 259)"/>
+              <circle class="pod-btn" cx="92" cy="258" r="8"/><circle class="pod-btn" cx="111" cy="257" r="8"/><circle class="pod-btn" cx="130" cy="255" r="8"/>
+              <path class="clamp" d="M282 226 h40 v52 h-40 z"/>
+              <rect class="lcd-body" x="180" y="62" width="244" height="168" rx="16"/>
+              <rect class="lcd-glass" x="198" y="80" width="208" height="122" rx="6"/>
+              <g class="lcd-ink">
+                <rect x="210" y="92" width="7" height="12"/><rect x="219" y="92" width="7" height="12"/><rect x="228" y="92" width="7" height="12"/><rect x="237" y="92" width="7" height="12"/><rect x="246" y="92" width="7" height="12" opacity=".25"/>
+                <text x="276" y="166" class="lcd-big">25</text>
+                <text x="350" y="166" class="lcd-small">km/h</text>
+                <text x="210" y="192" class="lcd-small">PAS 2</text>
+                <text x="306" y="192" class="lcd-small">ODO 01234</text>
+                <text x="360" y="104" class="lcd-small">P1</text>
+              </g>
+              <rect class="lcd-btn" x="228" y="210" width="34" height="9" rx="4"/><rect class="lcd-btn" x="342" y="210" width="34" height="9" rx="4"/>
+            </svg>
+          </div>
+          <figcaption>
+            <p class="ba-tag">Before · the stock display</p>
+            <ul>
+              <li>A few numbers on a small segment screen</li>
+              <li>Error codes to look up in a manual</li>
+              <li>Settings hidden behind codes (P1, C5…)</li>
+            </ul>
+          </figcaption>
+        </figure>
+        <figure class="ba-card ba-after">
+          <div class="ba-art">
+            <svg viewBox="0 0 600 380" role="img" aria-labelledby="ba-after-t">
+              <title id="ba-after-t">Illustration: a phone on its handlebar mount shows the Kurant app, and the Kurant module is mounted on the handlebar</title>
+              <path class="bar" d="M-10 262 L610 214 L610 252 L-10 300 Z"/>
+              <path class="bar-top" d="M-10 262 L610 214"/>
+              <path class="cable" d="M130 318 C 130 350, 150 370, 150 400"/>
+              <!-- module R7 -->
+              <path class="strap" d="M178 250 c 22 -6, 26 34, 4 40"/>
+              <rect class="r7" x="96" y="214" width="84" height="104" rx="16"/>
+              <path class="r7-logo-a" d="M118 236 h40 l-6 10 h-28 z"/>
+              <path class="r7-logo-b" d="M126 250 h24 l-12 17 z"/>
+              <path class="r7-line" d="M106 300 h64"/>
+              <!-- phone mount and phone -->
+              <path class="clamp" d="M352 222 h44 v44 h-44 z"/>
+              <rect class="mount" x="300" y="34" width="148" height="10" rx="5"/>
+              <rect class="mount" x="300" y="210" width="148" height="10" rx="5"/>
+              <rect class="phone-body" x="292" y="22" width="164" height="210" rx="22"/>
+              <rect class="phone-screen" x="302" y="32" width="144" height="190" rx="14"/>
+              <path class="gauge-track" d="M332 132 A 42 42 0 1 1 416 132"/>
+              <path class="gauge-fill" d="M332 132 A 42 42 0 0 1 395 96"/>
+              <text x="374" y="130" class="ui-big" text-anchor="middle">24.6</text>
+              <text x="374" y="146" class="ui-small" text-anchor="middle">km/h</text>
+              <g class="assist">
+                <rect x="316" y="178" width="20" height="26" rx="4" class="on"/><rect x="340" y="178" width="20" height="26" rx="4" class="on"/>
+                <rect x="364" y="178" width="20" height="26" rx="4"/><rect x="388" y="178" width="20" height="26" rx="4"/><rect x="412" y="178" width="20" height="26" rx="4"/>
+              </g>
+              <text x="316" y="56" class="ui-small">78%</text>
+              <text x="432" y="56" class="ui-small" text-anchor="end">312 W</text>
+            </svg>
+          </div>
+          <figcaption>
+            <p class="ba-tag">After · your phone and the module</p>
+            <ul>
+              <li>Speed, battery, power and assist, large</li>
+              <li>Error codes explained in plain words</li>
+              <li>Every setting described in plain words, while stopped</li>
+            </ul>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="hint ba-note">Illustrations. Photos of the prototype installed on a bike will be posted with the first enclosures.</p>
+    </div>
+  </section>
+
+  <!-- 3. How it works -->
+  <section class="section" id="how-it-works" aria-labelledby="how-title">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">How it works</p>
-        <h2>One module, one cable per brand</h2>
-        <p>The module is the same for every bike: only the cable changes from one brand to the next. KT first; other brands next, in order of votes, each once it's verified on a real controller. Your phone connects to it wirelessly and becomes the display.</p>
-        <a class="dev-link" href="#check">See where your brand stands</a>
+        <h2 id="how-title">Three steps, no soldering</h2>
+        <p>The module is the same for every bike: only the cable changes from one brand to the next. KT first; other brands next, in order of votes, each once it's verified on a real controller.</p>
       </div>
+
+      <ol class="steps">
+        <li><h3>Unplug the stock display</h3><p>Keep it: it plugs back in any time, no tools.</p></li>
+        <li><h3>Plug in the module</h3><p>In its place, on the same connector, with the cable for your brand (KT at launch). The module mounts on the handlebar.</p></li>
+        <li><h3>Open the app and ride</h3><p>On iPhone or Android, it finds the module and recognizes the controller. Turn the bike on from the app: data shows live.</p></li>
+      </ol>
 
       <div class="flow">
         <div class="node">
           <small>On your bike</small>
           <b>Controller</b>
-          <p>Runs the motor, battery and sensors.</p>
+          <p>Stays in charge: motor, battery and sensors, as before.</p>
         </div>
         <div class="link" aria-hidden="true"><span>One cable per brand</span></div>
         <div class="node">
-          <small>Kurant module</small>
+          <small>Kurant R7 module</small>
           <b>Reads and relays the data</b>
           <p>Keeps the bike running, even if the phone disconnects.</p>
           <span class="slit" aria-hidden="true"></span>
@@ -128,56 +256,75 @@
         </div>
       </div>
 
-      <ol class="steps">
-        <li><h3>Plug in the module</h3><p>Unplug the original display and plug Kurant in its place, with the cable for your brand (KT at launch). No soldering, and the original display plugs back in any time.</p></li>
-        <li><h3>Open the app</h3><p>The app, on iPhone or Android, finds the module and recognizes the controller type.</p></li>
-        <li><h3>Ride</h3><p>Turn the bike on from the app. Data shows live and you change assist on the screen. Settings are changed when stopped.</p></li>
-      </ol>
+      <div class="callout">
+        <p><b>What you need:</b> a controller whose compatibility is verified, and the cable for its brand. A brand that looks similar or an identical connector isn't enough: every controller is verified on the bench before it's announced.</p>
+        <a class="btn btn-ghost btn-sm" href="#check" data-track="cta_how_compat">Check compatibility</a>
+      </div>
     </div>
   </section>
 
-  <section class="section m3d" id="module" data-m3d aria-labelledby="module-title">
-    <div class="m3d-sticky">
-      <div class="wrap m3d-grid">
-        <div class="m3d-copy">
-          <p class="eyebrow">The module, opened</p>
-          <h2 id="module-title">Straight from the design files</h2>
-          <ol class="m3d-steps">
-            <li data-step class="on"><b>On the front handlebar</b><span>Near where the display cable comes out, facing you, on the same connector as the stock display.</span></li>
-            <li data-step><b>A one-piece shell, one continuous seal</b><span>The seal runs all the way around the back plate. 29&nbsp;mm thick, 41% less than the first prototype.</span></li>
-            <li data-step><b>The board, held without screws</b><span>Ribs and pads keep it in place, rattle-free.</span></li>
-            <li data-step><b>Two screws and a tool-free clip</b><span>The clip twists onto the module and grips 22.2 to 35&nbsp;mm bars. Three lights show the module's state.</span></li>
-          </ol>
-          <label class="m3d-control">
-            <span>Open the module</span>
-            <input class="m3d-slider" type="range" min="0" max="100" value="0">
-          </label>
-          <div class="m3d-actions">
-            <button class="btn btn-ghost btn-sm" type="button" data-video-open>Watch the animation (12&nbsp;s)</button>
-          </div>
-          <p class="hint">Drag the model to turn it. Model from the design files (revision R7): first printed prototypes are next, and the final enclosure may still change.</p>
+  <!-- 4. Compatibility -->
+  <section class="section" id="check" aria-labelledby="check-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Compatibility</p>
+        <h2 id="check-title">Will it work on my bike?</h2>
+        <p>Choose your system to see where it stands. After KT, the system with the most confirmed sign-ups goes on the bench first: every sign-up counts as a vote.</p>
+      </div>
+      <ol class="stages" aria-label="A system's stages">
+        <li><b>Researched</b><span>in development</span></li>
+        <li><b>On the bench</b><span>a controller under test</span></li>
+        <li><b>Bench-verified</b><span>data and settings measured</span></li>
+        <li><b>Road-confirmed</b><span>by riders</span></li>
+      </ol>
+
+      <div class="panel check-panel" data-board="en">
+        <div class="check-head">
+          <h3>My setup</h3>
+          <p class="board-total" data-board-total hidden></p>
         </div>
-        <div class="m3d-stage" data-label="3D model of the Kurant module, opening part by part">
-          <span class="m3d-label" data-anchor="Front">One-piece shell</span>
-          <span class="m3d-label cy" data-anchor="PCB">Board, no screws</span>
-          <span class="m3d-label" data-anchor="Back">Back plate and seal</span>
-          <span class="m3d-label" data-anchor="Clip">Tool-free clip</span>
-          <p class="m3d-loading">Loading the 3D model…</p>
-          <video class="m3d-video" hidden muted loop playsinline controls preload="none" poster="../assets/media/crown-r7-poster.jpg" src="../assets/media/crown_r7_story_680.mp4"></video>
+        <div class="check-cols">
+          <div class="check-side">
+            <div class="field">
+              <label for="chk-volt">Battery voltage</label>
+              <select id="chk-volt" name="voltage"></select>
+            </div>
+            <div class="result-home" data-result-home>
+              <div class="result" aria-live="polite">
+                <span id="chk-chip" class="chip idle">Waiting</span>
+                <p id="chk-text">Choose your bike's system and voltage to see the result.</p>
+              </div>
+            </div>
+            <details class="find-sys">
+              <summary>How do I find my system?</summary>
+              <ul>
+                <li><b>Display</b> The model is often printed on the display or on its back: KT-LCD3, LCD5, LCD8, VM-T8, S866…</li>
+                <li><b>Connector</b> On Bafang, the display cable's connector tells you the system: round with 5 pins, or triangular.</li>
+                <li><b>Label</b> The controller's brand is on its label, for example KT36/48SVPRL. If in doubt, copy it into the form.</li>
+                <li><b>Battery</b> The voltage is printed on the battery or the charger.</li>
+                <li><b>Bike</b> The brand and model help too: add them when you sign up.</li>
+              </ul>
+            </details>
+            <p class="hint">Can't find your bike? <a href="#signup">Sign up anyway</a>: choose “Other brand” and describe it. These answers guide the next profiles.</p>
+          </div>
+          <fieldset class="sys-pick">
+            <legend class="legend">Bike system or brand</legend>
+            <p class="hint">Systems in progress are ranked by confirmed votes.</p>
+            <div class="sys-list" data-sys-list><p class="hint">The list appears when JavaScript is on.</p></div>
+            <select id="chk-family" name="family" hidden tabindex="-1" aria-hidden="true"></select>
+          </fieldset>
         </div>
       </div>
     </div>
-    <dialog class="m3d-dialog" aria-label="Animation of the Kurant module">
-      <video muted loop playsinline controls preload="none" poster="../assets/media/crown-r7-poster.jpg" src="../assets/media/crown_r7_story_680.mp4"></video>
-      <button class="btn btn-primary btn-sm" type="button" data-video-close>Close</button>
-    </dialog>
   </section>
 
-  <section class="section" id="data">
+  <!-- 5. What you see -->
+  <section class="section" id="data" aria-labelledby="data-title">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">What you see</p>
-        <h2>Readable data, settings you understand</h2>
+        <h2 id="data-title">Your whole ride, at a glance</h2>
+        <p>Speed, battery, power and assist, in an interface designed for the road. The <a href="#content" class="dev-link">demo at the top of the page</a> runs in your browser with simulated values.</p>
       </div>
       <div class="split">
         <div class="panel">
@@ -208,48 +355,97 @@
     </div>
   </section>
 
-  <section class="section" id="safety">
+  <!-- 6. The R7 module -->
+  <section class="section m3d" id="module" data-m3d aria-labelledby="module-title">
+    <div class="m3d-sticky">
+      <div class="wrap m3d-grid">
+        <div class="m3d-copy">
+          <p class="eyebrow">The R7 module, opened</p>
+          <h2 id="module-title">Straight from the design files</h2>
+          <ol class="m3d-steps">
+            <li data-step class="on"><b>On the front handlebar</b><span>Near where the display cable comes out, facing you, on the same connector as the stock display.</span></li>
+            <li data-step><b>A one-piece shell, one continuous seal</b><span>The seal runs all the way around the back plate. 29&nbsp;mm thick, 41% less than the first prototype.</span></li>
+            <li data-step><b>The board, held without screws</b><span>Ribs and pads keep it in place, rattle-free.</span></li>
+            <li data-step><b>Two screws and a tool-free clip</b><span>The clip twists onto the module and grips 22.2 to 35&nbsp;mm bars. Three lights show the module's state.</span></li>
+          </ol>
+          <label class="m3d-control">
+            <span>Open the module</span>
+            <input class="m3d-slider" type="range" min="0" max="100" value="0">
+          </label>
+          <div class="m3d-actions">
+            <button class="btn btn-ghost btn-sm" type="button" data-video-open>Watch the animation (12&nbsp;s)</button>
+          </div>
+          <p class="hint">Drag the model to turn it. Model from the design files (revision R7): first printed prototypes are next, and the final enclosure may still change.</p>
+        </div>
+        <div class="m3d-stage" data-label="3D model of the Kurant module, opening part by part">
+          <span class="m3d-badge">R7 design files · not a photo</span>
+          <span class="m3d-label" data-anchor="Front">One-piece shell</span>
+          <span class="m3d-label cy" data-anchor="PCB">Board, no screws</span>
+          <span class="m3d-label" data-anchor="Back">Back plate and seal</span>
+          <span class="m3d-label" data-anchor="Clip">Tool-free clip</span>
+          <p class="m3d-loading">Loading the 3D model…</p>
+          <video class="m3d-video" hidden muted loop playsinline controls preload="none" poster="../assets/media/crown-r7-poster.jpg" src="../assets/media/crown_r7_story_680.mp4"></video>
+        </div>
+      </div>
+    </div>
+    <dialog class="m3d-dialog" aria-label="Animation of the Kurant module">
+      <video muted loop playsinline controls preload="none" poster="../assets/media/crown-r7-poster.jpg" src="../assets/media/crown_r7_story_680.mp4"></video>
+      <button class="btn btn-primary btn-sm" type="button" data-video-close>Close</button>
+    </dialog>
+  </section>
+
+  <!-- 7. Safety -->
+  <section class="section" id="safety" aria-labelledby="safety-title">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Safety</p>
-        <h2>Once on, the bike never depends on the phone</h2>
+        <h2 id="safety-title">Once on, the bike never depends on the phone</h2>
+        <p>These rules are part of the module's and the app's design. The <a class="dev-link" href="journal/index.html">log</a> posts the bench tests, including the one with the phone cut off.</p>
       </div>
-      <ul class="rules">
-        <li><span class="rule-key">No phone</span><div><h3>The bike keeps running</h3><p>The module keeps the link with the controller on its own. A dead phone, a closed app or an update in progress does not cut the assist.</p></div></li>
-        <li><span class="rule-key">&gt; 0.5 km/h</span><div><h3>No settings while riding</h3><p>Above 0.5 km/h, or when the speed is unknown, sensitive settings are locked.</p></div></li>
-        <li><span class="rule-key">1.5 s</span><div><h3>No frozen values</h3><p>With no new data for 1.5 seconds, the screen shows “--” instead of an old number.</p></div></li>
-        <li><span class="rule-key">Verified</span><div><h3>Settings open only after verification</h3><p>A setting can be changed only once its encoding has been measured on a real controller. The most important ones need a typed confirmation.</p></div></li>
-        <li><span class="rule-key">32 km/h</span><div><h3>Street mode by default</h3><p>Out of the box, speed is limited to your province's legal maximum: 32 km/h in Quebec.</p></div></li>
-        <li><span class="rule-key warn">Offroad</span><div><h3>A mode for private land</h3><p>It switches on only when stopped, with a 1.5-second press followed by a confirmation. On public roads, a bike set above 32 km/h no longer counts as a power-assisted bicycle. The rider is responsible for how this mode is used.</p></div></li>
+      <ul class="rules-grid">
+        <li><span class="rule-key">No phone</span><h3>The bike keeps running</h3><p>The module keeps the link with the controller on its own. A dead phone, a closed app or an update in progress does not cut the assist.</p></li>
+        <li><span class="rule-key">&gt; 0.5 km/h</span><h3>No settings while riding</h3><p>Above 0.5 km/h, or when the speed is unknown, sensitive settings are locked.</p></li>
+        <li><span class="rule-key">1.5 s</span><h3>No frozen values</h3><p>With no new data for 1.5 seconds, the screen shows “--” instead of an old number.</p></li>
+        <li><span class="rule-key">Verified</span><h3>Settings open only after verification</h3><p>A setting can be changed only once its encoding has been measured on a real controller. The most important ones need a typed confirmation.</p></li>
+        <li><span class="rule-key">32 km/h</span><h3>Street mode by default</h3><p>Out of the box, speed is limited to your province's legal maximum: 32 km/h in Quebec.</p></li>
+        <li class="warn"><span class="rule-key warn">Offroad</span><h3>A mode for private land</h3><p>It switches on only when stopped, with a 1.5-second press followed by a confirmation. On public roads, a bike set above 32 km/h no longer counts as a power-assisted bicycle. The rider is responsible for how this mode is used.</p></li>
       </ul>
     </div>
   </section>
 
+  <!-- 8. Development log -->
   <section class="section" id="journal" aria-labelledby="journal-title">
     <div class="wrap journal-home">
       <div class="section-head">
         <p class="eyebrow">Development log</p>
-        <h2 id="journal-title">Where Kurant stands, with dates</h2>
-        <p>Every step is posted once it's measured on the bench, on a real controller, and so are the problems found. Here are the latest entries.</p>
+        <h2 id="journal-title">Built in the open, measured on a real controller</h2>
+        <p>Every step is posted once it's measured on the bench, and so are the problems found. Here are the latest entries.</p>
       </div>
       <ol class="log-list log-preview" data-journal-preview aria-label="Latest log entries" hidden></ol>
-      <a class="btn btn-ghost journal-more" href="journal/index.html" data-journal-src data-journal-label="Read all {n} log entries">Read the full log</a>
+      <a class="btn btn-ghost journal-more" href="journal/index.html" data-journal-src data-journal-label="Read all {n} log entries" data-track="journal_open">Read the full log</a>
     </div>
   </section>
 
-  <section class="section" id="kickstarter">
+  <!-- 9. Kickstarter -->
+  <section class="section" id="kickstarter" aria-labelledby="ks-title">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Kickstarter campaign</p>
-        <h2>The list goes first</h2>
-        <p>Kurant will be funded by an all-or-nothing Kickstarter campaign. The pre-launch list is the shortest way to the 100 modules at CAD&nbsp;119: its members get the link before anyone else.</p>
+        <h2 id="ks-title">Be among the first to ride with Kurant</h2>
+        <p>Kurant will be funded by an all-or-nothing Kickstarter campaign. Pre-launch list members get the link before anyone else: it's the shortest way to the 100 modules at CAD&nbsp;119.</p>
+      </div>
+      <div class="prices" role="list">
+        <div class="price lead" role="listitem"><small>First 100</small><b>CAD&nbsp;119</b><span>Planned launch price on Kickstarter</span></div>
+        <div class="price" role="listitem"><small>During the campaign</small><b>CAD&nbsp;139</b><span>After the first 100</span></div>
+        <div class="price" role="listitem"><small>Planned retail price</small><b>CAD&nbsp;159</b><span>Module and app, plus tax</span></div>
       </div>
       <dl class="ks-facts">
-        <div><dt>Goal</dt><dd>CAD&nbsp;24,000</dd></div>
-        <div><dt>All or nothing</dt><dd>Nobody is charged if the goal isn't reached</dd></div>
-        <div><dt>Not a KT bike?</dt><dd>Reserve your system for CAD 1 during the campaign</dd></div>
-        <div><dt>Delivery</dt><dd>Canada, about 6 months</dd></div>
+        <div><dt>Goal</dt><dd>CAD&nbsp;24,000, all or nothing: nobody is charged if it isn't reached</dd></div>
+        <div><dt>App</dt><dd>Free, no subscription, no account</dd></div>
+        <div><dt>Not a KT bike?</dt><dd>Reserve your system for CAD&nbsp;1 during the campaign</dd></div>
+        <div><dt>Delivery</dt><dd>Canada, about 6&nbsp;months after the campaign</dd></div>
       </dl>
+      <p class="not-pledge"><b>Signing up isn't a pledge.</b> No payment is asked for here, and signing up doesn't reserve a module: it lets you hear first. Rewards and their prices are planned, and will be offered on Kickstarter at launch.</p>
       <div class="budget" id="budget">
         <div class="budget-head">
           <h3>Where the money goes</h3>
@@ -268,89 +464,71 @@
         </ol>
       </div>
       <div class="ks-cta">
-        <a class="btn btn-primary" href="#waitlist">Join the pre-launch list</a>
+        <a class="btn btn-primary" href="#signup" data-track="cta_ks_signup">Join the pre-launch list</a>
         <p class="hint" data-ks-count hidden></p>
       </div>
     </div>
   </section>
 
-  <section class="section" id="check">
-    <div class="wrap">
+  <!-- 10. Sign-up: email first, details optional -->
+  <section class="section" id="signup" aria-labelledby="signup-title">
+    <div class="wrap signup-grid">
       <div class="section-head">
-        <p class="eyebrow">Compatibility</p>
-        <h2>Check my bike</h2>
-        <p>Choose your system to see where it stands, then sign up. Your confirmed sign-up counts as a vote: after KT, the most voted system goes on the bench first.</p>
+        <p class="eyebrow">Pre-launch list</p>
+        <h2 id="signup-title">Early access</h2>
+        <p>Your email is all it takes. Details about your bike are optional and can come after.</p>
+        <ol class="next" aria-label="What happens next">
+          <li><b>Confirm your email</b><span>a link is sent right away</span></li>
+          <li><b>Get your founder number</b><span>and your personal link to share</span></li>
+          <li><b>Hear first</b><span>when the campaign launches, before anyone else</span></li>
+        </ol>
       </div>
-      <ol class="path" aria-label="In three steps">
-        <li><b>Choose</b><span>your system in the list</span></li>
-        <li><b>Sign up</b><span>it's a vote for your system</span></li>
-        <li><b>Hear first</b><span>when it's ready for your bike</span></li>
-      </ol>
 
-      <div class="check-grid">
-        <div class="panel check-panel" data-board="en">
-          <div class="check-head">
-            <h3>My setup</h3>
-            <p class="board-total" data-board-total hidden></p>
-          </div>
-          <div class="field">
-            <label for="chk-volt">Battery voltage</label>
-            <select id="chk-volt" name="voltage"></select>
-          </div>
-          <div class="result-home" data-result-home>
-            <div class="result" aria-live="polite">
-              <span id="chk-chip" class="chip idle">Waiting</span>
-              <p id="chk-text">Choose your bike's system and voltage to see the result.</p>
-            </div>
-          </div>
-          <fieldset class="sys-pick">
-            <legend class="legend">Bike system or brand</legend>
-            <p class="hint">Every system goes through four steps: researched, on the bench, bench-verified, then road-confirmed. Those in progress are ranked by confirmed votes.</p>
-            <details class="find-sys">
-              <summary>How do I find my system?</summary>
-              <ul>
-                <li><b>Display</b> The model is often printed on the display or on its back: KT-LCD3, LCD5, LCD8, VM-T8, S866…</li>
-                <li><b>Connector</b> On Bafang, the display cable's connector tells you the system: round with 5 pins, or triangular.</li>
-                <li><b>Label</b> The controller's brand is on its label, for example KT36/48SVPRL. If in doubt, copy it into the form.</li>
-                <li><b>Battery</b> The voltage is printed on the battery or the charger.</li>
-              </ul>
-            </details>
-            <div class="sys-list" data-sys-list><p class="hint">The list appears when JavaScript is on.</p></div>
-            <select id="chk-family" name="family" hidden tabindex="-1" aria-hidden="true"></select>
-          </fieldset>
-        </div>
-
-        <form class="panel" id="waitlist" novalidate data-consent-version="2026-10-08b">
-          <h3>Pre-launch list</h3>
-          <p class="perk"><b>100 spots at CAD&nbsp;119</b> during the Kickstarter campaign, instead of 159. Confirmed sign-ups hear first and get a founder number.</p>
+      <form class="panel signup" id="waitlist" novalidate data-consent-version="2026-10-08b">
+        <div class="su-step1" data-su-step1>
+          <p class="perk"><b>100 spots at CAD&nbsp;119</b> planned during the Kickstarter campaign, instead of 159. Confirmed sign-ups hear first and get a founder number.</p>
           <p class="invited" id="wl-invited" hidden>A friend invited you: your sign-up counts for them.</p>
           <div class="field">
             <label for="wl-email">Email</label>
             <input id="wl-email" name="email" type="email" autocomplete="email" required>
           </div>
+          <label class="consent" for="wl-consent">
+            <input id="wl-consent" name="consent" type="checkbox">
+            <span>I agree to receive emails from FORGE about Kurant: availability, compatibility with my bike, launch and the Kickstarter campaign. I can unsubscribe at any time. See the <a href="privacy/index.html">privacy policy</a>.</span>
+          </label>
+          <div class="hp" aria-hidden="true"><label for="wl-website">Website</label><input id="wl-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <button class="btn btn-primary" type="submit">Sign me up</button>
+        </div>
+
+        <p id="form-msg" class="form-msg" role="status"></p>
+
+        <fieldset class="su-details" data-su-details hidden>
+          <legend>Optional: your bike</legend>
+          <p class="hint">These answers help us choose the next controller profiles. Your chosen system counts as a vote once your email is confirmed.</p>
           <div class="field">
             <label for="wl-family">Your bike's system</label>
-            <select id="wl-family" name="wl_family" required></select>
+            <select id="wl-family" name="wl_family"></select>
           </div>
           <div class="field">
             <label for="wl-bike">Bike: brand and model</label>
             <input id="wl-bike" name="bike" type="text" placeholder="e.g. Lectric XP 3.0" maxlength="120">
           </div>
           <div class="field">
-            <label for="wl-label">Controller label <span class="hint">(optional)</span></label>
+            <label for="wl-label">Controller label</label>
             <input id="wl-label" name="controller_label" type="text" placeholder="e.g. KT36/48SVPRL" maxlength="120">
           </div>
           <fieldset>
             <legend class="legend">Phone</legend>
             <div class="radios">
-              <label class="radio"><input type="radio" id="wl-android" name="phone" value="android" checked> Android</label>
+              <label class="radio"><input type="radio" id="wl-android" name="phone" value="android"> Android</label>
               <label class="radio"><input type="radio" id="wl-ios" name="phone" value="ios"> iPhone</label>
             </div>
           </fieldset>
           <div class="field">
             <label for="wl-province">Province or territory</label>
             <select id="wl-province" name="province">
-              <option value="QC" selected>Quebec</option>
+              <option value="">Choose…</option>
+              <option value="QC">Quebec</option>
               <option value="ON">Ontario</option>
               <option value="BC">British Columbia</option>
               <option value="AB">Alberta</option>
@@ -367,37 +545,54 @@
             </select>
             <p class="hint">During the campaign, rewards ship within Canada only.</p>
           </div>
-          <label class="consent" for="wl-consent">
-            <input id="wl-consent" name="consent" type="checkbox">
-            <span>I agree to receive emails from FORGE about Kurant: availability, compatibility with my bike, launch and the Kickstarter campaign. I can unsubscribe at any time. See the <a href="privacy/index.html">privacy policy</a>.</span>
-          </label>
-          <div class="hp" aria-hidden="true"><label for="wl-website">Website</label><input id="wl-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-          <button class="btn btn-primary" type="submit">Sign me up</button>
-          <p id="form-msg" class="form-msg" role="status"></p>
-        </form>
-      </div>
-
+          <div class="su-actions">
+            <button class="btn btn-primary" type="button" data-su-send>Send these details</button>
+            <button class="btn btn-ghost" type="button" data-su-skip>Later</button>
+          </div>
+        </fieldset>
+      </form>
     </div>
   </section>
 
-  <section class="section" id="faq">
+  <!-- 11. FAQ, grouped -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Questions</p>
-        <h2>Frequently asked questions</h2>
+        <h2 id="faq-title">Frequently asked questions</h2>
       </div>
-      <div class="faq">
-        <details><summary>Does it work with iPhone?</summary><p>Yes. The app will be free on iPhone and Android, with no account.</p></details>
-        <details><summary>What happens if my phone dies?</summary><p>Mid-ride, the bike keeps the assist level you chose; you lose the display until the phone reconnects. If your phone is dead before a ride, plug the original display back in: it takes a few seconds, no tools.</p></details>
-        <details><summary>How do I turn the bike on?</summary><p>From the app. The module then keeps the bike on, even if the phone disconnects.</p></details>
-        <details><summary>Is a phone mount included?</summary><p>No: use your own handlebar mount. One with charging is a good idea for long rides.</p></details>
-        <details><summary>Does installation need soldering?</summary><p>No. Kurant plugs into the original display's connector, with a cable made for your controller. Keep the original display: you can plug it back in at any time.</p></details>
-        <details><summary>Where does the module go?</summary><p>On the front handlebar, where the original display was, on the same connector.</p></details>
-        <details><summary>Which bikes will be supported?</summary><p>At launch, KT controllers (LCD3, LCD5, LCD8 displays) on a 48 or 52 V battery: they are bench-verified. Bafang UART, Lishui, Rad Power Bikes, Lectric and Aventon (48 V) are in development; 36 V systems such as Shimano STEPS come later. Reserve your system for CAD 1 on Kickstarter: the most reserved go on the bench first. Bosch isn't planned: its system is closed. Use the checker above for your bike, or see <a href="#check">where each brand stands</a>.</p></details>
-        <details><summary>How much will it cost?</summary><p>The planned price is CAD 159 plus tax, module and app included. During the Kickstarter campaign: CAD 119 for the first 100, then CAD 139. The app has no subscription.</p></details>
-        <details><summary>Do I need an account?</summary><p>No. The app doesn't ask for an account, and your ride history stays on your phone.</p></details>
-        <details><summary>When will Kurant be available?</summary><p>The prototype already works on a real KT controller; what's left is adding the other brands' profiles. Kurant launches through a Kickstarter campaign, delivered in Canada about six months after it ends: final board and enclosure, certification, then production. The waitlist hears first.</p></details>
-        <details><summary>Why “Kurant”?</summary><p>From the French <i lang="fr">courant</i>: the electric current that moves your bike, and being <i lang="fr">au courant</i>, in the know about everything it does.</p></details>
+      <div class="faq-groups">
+        <div class="faq-group">
+          <h3>Compatibility</h3>
+          <div class="faq">
+            <details><summary>Which bikes will be supported?</summary><p>At launch, KT controllers (LCD3, LCD5, LCD8 displays) on a 48 or 52 V battery: they are bench-verified. Bafang UART, Lishui, Rad Power Bikes, Lectric and Aventon (48 V) are in development; 36 V systems such as Shimano STEPS come later. Reserve your system for CAD 1 on Kickstarter: the most reserved go on the bench first. Bosch isn't planned: its system is closed. Use the checker above for your bike, or see <a href="#check">where each brand stands</a>.</p></details>
+            <details><summary>Does it work with iPhone?</summary><p>Yes. The app will be free on iPhone and Android, with no account.</p></details>
+          </div>
+        </div>
+        <div class="faq-group">
+          <h3>Installation</h3>
+          <div class="faq">
+            <details><summary>Does installation need soldering?</summary><p>No. Kurant plugs into the original display's connector, with a cable made for your controller. Keep the original display: you can plug it back in at any time.</p></details>
+            <details><summary>Where does the module go?</summary><p>On the front handlebar, where the original display was, on the same connector.</p></details>
+            <details><summary>Is a phone mount included?</summary><p>No: use your own handlebar mount. One with charging is a good idea for long rides.</p></details>
+          </div>
+        </div>
+        <div class="faq-group">
+          <h3>App and safety</h3>
+          <div class="faq">
+            <details><summary>How do I turn the bike on?</summary><p>From the app. The module then keeps the bike on, even if the phone disconnects.</p></details>
+            <details><summary>What happens if my phone dies?</summary><p>Mid-ride, the bike keeps the assist level you chose; you lose the display until the phone reconnects. If your phone is dead before a ride, plug the original display back in: it takes a few seconds, no tools.</p></details>
+            <details><summary>Do I need an account?</summary><p>No. The app doesn't ask for an account, and your ride history stays on your phone.</p></details>
+          </div>
+        </div>
+        <div class="faq-group">
+          <h3>Kickstarter and price</h3>
+          <div class="faq">
+            <details><summary>How much will it cost?</summary><p>The planned price is CAD 159 plus tax, module and app included. During the Kickstarter campaign: CAD 119 for the first 100, then CAD 139. The app has no subscription.</p></details>
+            <details><summary>When will Kurant be available?</summary><p>The prototype already works on a real KT controller; what's left is adding the other brands' profiles. Kurant launches through a Kickstarter campaign, delivered in Canada about six months after it ends: final board and enclosure, certification, then production. The waitlist hears first.</p></details>
+            <details><summary>Why “Kurant”?</summary><p>From the French <i lang="fr">courant</i>: the electric current that moves your bike, and being <i lang="fr">au courant</i>, in the know about everything it does.</p></details>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -411,7 +606,7 @@
           <svg class="forge-mark" viewBox="0 0 100 84" aria-hidden="true"><path class="a" d="M0 0H100L82 30H18Z"/><path class="b" d="M22.8 38H77.2L50 83.3Z"/></svg>
           FORGE · Montreal, Quebec</span></span>
       <div class="foot-links">
-        <a href="journal/index.html">Development log</a>
+        <a href="journal/index.html" data-track="journal_open">Development log</a>
         <a href="privacy/index.html">Privacy</a>
         <a href="../index.html" lang="fr" hreflang="fr">Français</a>
       </div>
@@ -421,10 +616,10 @@
   </div>
 </footer>
 
-<a class="m-cta" href="#waitlist" hidden><b>100 spots at CAD&nbsp;119</b><span>Join the list</span></a>
+<a class="m-cta" href="#signup" hidden data-track="cta_mobile_signup"><b>100 spots at CAD&nbsp;119</b><span>Join the list</span></a>
 
 <script src="../assets/compat.js?v=20261016" defer></script>
-<script src="../assets/site.js?v=20261016" defer></script>
+<script src="../assets/site.js?v=20261118" defer></script>
 <script src="../assets/board.js?v=20261016" defer></script>
 <script src="../assets/demo.js?v=20261024" defer></script>
 <script src="../assets/campaign.js?v=20261016" defer></script>

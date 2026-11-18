@@ -20,7 +20,8 @@
       recent: "Un courriel vous a été envoyé il y a quelques minutes\u202F: vérifiez votre boîte de réception et les indésirables.",
       queued: "Inscription reçue. Le courriel de confirmation peut prendre quelques heures à arriver.",
       slow: "Trop d'inscriptions depuis cet appareil. Réessayez dans une heure.",
-      family: "Choisissez le système de votre vélo (ou «\u202FAutre marque\u202F»).",
+      details: "Merci\u202F! Vos précisions sont enregistrées. Il reste à confirmer votre courriel.",
+      skipped: "D'accord. Vous pourrez ajouter ces précisions plus tard en vous réinscrivant avec le même courriel.",
       devLink: "Lien de confirmation (test local)",
       preview: "Aperçu\u202F: rien n'a été envoyé. Le formulaire sera actif sur kurant.ca.",
       fail: "L'inscription n'a pas fonctionné. Vérifiez votre connexion et réessayez.",
@@ -38,7 +39,8 @@
       recent: "We sent you an email a few minutes ago: check your inbox and your spam folder.",
       queued: "Sign-up received. The confirmation email may take a few hours to arrive.",
       slow: "Too many sign-ups from this device. Try again in an hour.",
-      family: "Choose your bike's system (or \u201cOther brand\u201d).",
+      details: "Thanks! Your details are saved. All that's left is to confirm your email.",
+      skipped: "No problem. You can add these details later by signing up again with the same email.",
       devLink: "Confirmation link (local test)",
       preview: "Preview: nothing was sent. The form will be live on kurant.ca.",
       fail: "Sign-up didn't go through. Check your connection and try again.",
@@ -46,6 +48,33 @@
       consent: "Tick the consent box to sign up."
     }
   }[lang];
+
+  // Anonymous funnel counters (functions/api/event.js): one count per event and label per page
+  // view, no cookie or identifier. Only on the real site and its previews.
+  var tracked = {};
+  function track(name, label) {
+    var key = name + "|" + (label || "");
+    if (!LIVE || tracked[key]) return;
+    tracked[key] = true;
+    try {
+      var body = new Blob([JSON.stringify({ e: name, l: label || "", p: lang })], { type: "application/json" });
+      if (!(navigator.sendBeacon && navigator.sendBeacon("/api/event", body))) {
+        fetch("/api/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: body, keepalive: true }).catch(function () {});
+      }
+    } catch (err) { /* Counting never gets in the way of the page. */ }
+  }
+  window.KurantTrack = track;
+  document.addEventListener("click", function (e) {
+    var el = e.target.closest ? e.target.closest("[data-track]") : null;
+    if (el) track(el.getAttribute("data-track"));
+  });
+  function firstTouch(el, name) {
+    if (!el) return;
+    var go = function () { track(name); el.removeEventListener("pointerdown", go); el.removeEventListener("keydown", go); el.removeEventListener("input", go); };
+    el.addEventListener("pointerdown", go); el.addEventListener("keydown", go); el.addEventListener("input", go);
+  }
+  firstTouch(document.querySelector("[data-demo]"), "demo_interact");
+  firstTouch(document.querySelector("[data-m3d]"), "module_interact");
 
   var rank = { ok: 0, check: 1, no: 2 };
   var famSel = document.getElementById("chk-family");
@@ -81,6 +110,7 @@
     if (show) voteNote.textContent = (lang === "en" ? "Your confirmed sign-up will count as a vote for: " : "Votre inscription confirmée comptera comme un vote pour\u202F: ") + f[lang].name;
   }
 
+  var touched = false;
   function update() {
     var f = find(data.families, famSel.value);
     var v = find(data.voltages, voltSel.value);
@@ -99,14 +129,20 @@
     if (v[lang].note) notes.push(v[lang].note);
     if (worst === "ok") notes.unshift(T.okText);
     text.textContent = notes.join(" ");
+    if (touched) track("compat_result", worst);
   }
 
   var wlFam = document.getElementById("wl-family");
   if (famSel && voltSel && data) {
     fill(famSel, data.families);
     fill(voltSel, data.voltages);
-    famSel.addEventListener("change", function () { if (wlFam) wlFam.value = famSel.value; update(); });
-    voltSel.addEventListener("change", update);
+    famSel.addEventListener("change", function () {
+      if (wlFam) wlFam.value = famSel.value;
+      touched = true;
+      if (famSel.value) track("compat_pick", famSel.value);
+      update();
+    });
+    voltSel.addEventListener("change", function () { touched = true; update(); });
     update();
   }
   if (wlFam && data) {
@@ -123,10 +159,11 @@
     if (wlFam) wlFam.value = f.id;
     if (famSel && voltSel) update();
     var wlForm = document.getElementById("waitlist");
+    var zone = document.getElementById("inscription") || document.getElementById("signup") || wlForm;
     if (opts && opts.scroll && wlForm) {
       wlForm.classList.add("from-compat");
-      wlForm.scrollIntoView({ block: "start" });
-      if (history.replaceState) history.replaceState(null, "", "#waitlist");
+      zone.scrollIntoView({ block: "start" });
+      if (history.replaceState) history.replaceState(null, "", "#" + zone.id);
       var email = document.getElementById("wl-email");
       if (email) email.focus({ preventScroll: true });
     }
@@ -164,7 +201,7 @@
   // Phones: a slim "join the list" bar once the hero is gone, hidden while the form is on screen.
   var mcta = document.querySelector(".m-cta");
   var hero = document.querySelector(".hero");
-  var formZone = document.getElementById("verifier") || document.getElementById("check");
+  var formZone = document.getElementById("inscription") || document.getElementById("signup") || document.getElementById("verifier") || document.getElementById("check");
   if (mcta && hero && formZone && "IntersectionObserver" in window) {
     var pastHero = false, atForm = false, atModel = false;
     mcta.hidden = false;
@@ -188,33 +225,74 @@
     msg.appendChild(a);
   }
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var email = form.email.value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { say("err", T.email); form.email.focus(); return; }
-    var family = wlFam ? wlFam.value : (famSel ? famSel.value : "");
-    if (wlFam && !family) { say("err", T.family); wlFam.focus(); return; }
-    if (!form.consent.checked) { say("err", T.consent); form.consent.focus(); return; }
+  // Step 1: the email and consent are all that's needed. The system chosen in the checker, if any,
+  // goes with it (it counts as a vote once the email is confirmed).
+  // Step 2 (optional): bike details, sent as a second sign-up with the same email. The API keeps
+  // the earlier answers, fills in the new ones, and sends no second email within a few minutes.
+  var step1 = form.querySelector("[data-su-step1]");
+  var details = form.querySelector("[data-su-details]");
+  var sentEmail = "";
+  var emailIn = document.getElementById("wl-email");
+  if (emailIn) emailIn.addEventListener("focus", function () { track("signup_start"); });
+
+  function payload(email) {
     var phone = form.querySelector('input[name="phone"]:checked');
-    var payload = {
+    return {
       email: email,
-      bike: form.bike.value.trim(),
-      controller_label: form.controller_label.value.trim(),
-      family: family,
+      bike: form.bike ? form.bike.value.trim() : "",
+      controller_label: form.controller_label ? form.controller_label.value.trim() : "",
+      family: (wlFam && wlFam.value) || (famSel && famSel.value) || "",
       voltage: voltSel ? voltSel.value : "",
       phone_os: phone ? phone.value : "",
-      province: form.province.value,
+      province: form.province ? form.province.value : "",
       lang: lang,
       consent: true,
       consent_version: form.getAttribute("data-consent-version"),
       website: form.website.value,
       ref: ref
     };
-    if (!LIVE) { say("ok", T.preview); return; }
+  }
+  function post(body) {
+    return fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); });
+  }
+  function fail(res) {
+    if (res && res.error === "email") say("err", T.email);
+    else if (res && res.error === "slow_down") say("err", T.slow);
+    else say("err", T.fail);
+  }
+  function showDetails() {
+    if (!details) return;
+    if (step1) step1.hidden = true;
+    details.hidden = false;
+    var first = details.querySelector("select, input");
+    if (first) first.focus({ preventScroll: true });
+  }
+  function closeDetails(text) {
+    if (details) details.hidden = true;
+    if (text) {
+      var p = document.createElement("span");
+      p.textContent = " " + text;
+      msg.appendChild(p);
+    }
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (sentEmail) {
+      // Enter in a details field sends the details.
+      var send = form.querySelector("[data-su-send]");
+      if (details && !details.hidden && send) send.click();
+      return;
+    }
+    var email = form.email.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { say("err", T.email); form.email.focus(); return; }
+    if (!form.consent.checked) { say("err", T.consent); form.consent.focus(); return; }
+    var body = payload(email);
+    if (!LIVE) { say("ok", T.preview); sentEmail = email; showDetails(); return; }
     var btn = form.querySelector('button[type="submit"]');
     btn.disabled = true; say("", T.sending);
-    fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
-      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+    post(body)
       .then(function (res) {
         if (res && res.ok) {
           if (res.throttled) say("ok", T.recent);
@@ -222,13 +300,29 @@
           else if (res.status === "confirmed") say("ok", T.again(email));
           else say("ok", T.done(email));
           if (res.dev_links) devLink(res.dev_links.confirmUrl);
-          form.reset();
+          track("signup_submit_ok");
+          sentEmail = email;
+          showDetails();
         }
-        else if (res && res.error === "email") say("err", T.email);
-        else if (res && res.error === "slow_down") say("err", T.slow);
-        else say("err", T.fail);
+        else fail(res);
       })
       .catch(function () { say("err", T.fail); })
       .then(function () { btn.disabled = false; });
+  });
+
+  var sendBtn = form.querySelector("[data-su-send]");
+  var skipBtn = form.querySelector("[data-su-skip]");
+  if (skipBtn) skipBtn.addEventListener("click", function () { track("signup_details_skip"); closeDetails(T.skipped); });
+  if (sendBtn) sendBtn.addEventListener("click", function () {
+    if (!sentEmail) return;
+    if (!LIVE) { closeDetails(T.details); return; }
+    sendBtn.disabled = true;
+    post(payload(sentEmail))
+      .then(function (res) {
+        if (res && res.ok) { track("signup_details_ok"); closeDetails(T.details); }
+        else fail(res);
+      })
+      .catch(function () { say("err", T.fail); })
+      .then(function () { sendBtn.disabled = false; });
   });
 })();

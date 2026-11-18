@@ -7,13 +7,13 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 
 | Path | What |
 | --- | --- |
-| `index.html` | French home page |
-| `en/index.html` | English home page |
+| `index.html` | French home page. Order: hero (demo + R7 module), before/after, how it works, compatibility, data, the module in 3D, safety, journal, Kickstarter, sign-up (`#inscription`), grouped FAQ |
+| `en/index.html` | English home page, same order (`#signup`). Keep both in step: same sections, same facts, same `data-track` names |
 | `confidentialite/`, `en/privacy/` | Privacy policy (Quebec Law 25) |
 | `assets/site.css` | Styles, following the FORGE brand guide (Obsidienne / Blanc Titane / Cyan Glacial, Inter + JetBrains Mono) |
 | `assets/compat.js` | Compatibility list used by "Vérifier mon vélo": the system list and the form. Keep in step with `ebike-profiles` |
 | `assets/board.js` | The checker's system list: every system with its stage (4-step meter) and real confirmed votes from `/api/stats`, systems in progress ranked by votes. Later, not planned and other systems share a collapsed "Other systems" disclosure that opens for a selected system, including shared links. The chosen row opens with the result, its details and "M'inscrire pour voter", and stays in sync with the form |
-| `assets/site.js` | Compatibility tool and waitlist form |
+| `assets/site.js` | Compatibility tool, the two-step waitlist form (email and consent first; bike details optional, sent as a second sign-up with the same email), and the anonymous funnel counters: any element with `data-track="name"` counts a click, once per page view, on kurant.ca and its previews only |
 | `assets/journal.js` | Home page "Journal" section: reads the newest 3 entries (date, title, first paragraph) and the entry count from `journal/index.html` (`en/journal/index.html` in English). The log pages are the only source: add an entry there and the home pages follow |
 | `assets/demo.js`, `assets/demo.css` | Hero demo: the app's ride screen v2 (map, gauge in 4 styles, assist ladder, chips, Ride controls sheet), Settings and Ride display, running its simulator in the browser at the app's 390×844 dp geometry. Mirrors `ebike-app` 0.9 (layout, palette, wording, safety rules); only the Simulator source is offered and the map is an illustration in the Kurant Night palette. `window.__kurantDemo` drives it to fixed states for recordings. Keep in step when the app's UI changes |
 | `assets/campaign.json`, `assets/campaign.js` | Kickstarter state and link; the script shows the matching banner and buttons |
@@ -23,6 +23,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `functions/api/me.js`, `intent.js` | Thank-you page data, and the day-one question |
 | `functions/api/unsubscribe.js` | Unsubscribe page and one-click unsubscribe (CASL, RFC 8058) |
 | `functions/api/stats.js` | Public counts for the brand race (confirmed sign-ups only) |
+| `functions/api/event.js` | Anonymous funnel counters: a daily total per page language, event and label. No IP, cookie or identifier. The allowed event names are listed there; add a name there before using it in a `data-track` |
 | `functions/api/admin/` | `health`, `resend`, `sync`, `report`: protected by `ADMIN_TOKEN` |
 | `functions/api/webhooks/resend.js` | Resend webhook: newsletter unsubscribes and spam complaints mark the sign-up unsubscribed here too. Signed with `RESEND_WEBHOOK_SECRET` |
 | `functions/_lib/` | Shared code: email (Resend), email texts, helpers |
@@ -31,9 +32,10 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `assets/module3d.js` | "Le module, ouvert": the 3D model that opens as you scroll (three.js, loaded only near that section; falls back to the animation video) |
 | `assets/model/crown.bin`, `crown.json` | The model, built from the CAD by `tools/build_crown_model.py` (see below) |
 | `assets/vendor/three.module.min.js` | three.js r160 (MIT, see `three.LICENSE.txt`), self-hosted for the CSP |
-| `assets/media/` | The R7 design-file animation (`crown_r7_story_680.mp4`, 12 s, technical-illustration style) and its poster frame (`crown-r7-poster.jpg`) |
+| `assets/media/` | The R7 design-file animation (`crown_r7_story_680.mp4`, 12 s, technical-illustration style), its poster frame (`crown-r7-poster.jpg`), and `r7-module.jpg`, a crop of that poster used in the hero. Photos still needed: see `docs/asset-spec.md` |
 | `schema.sql` | D1 schema for a new database |
 | `migrations/0002_prelaunch.sql` | Run once on the existing database to add the pre-launch list |
+| `migrations/0003_events.sql` | Run once on the existing database to add the funnel counters (`events` table). Until then `/api/event` answers 503 and the page carries on |
 | `_headers` | Security headers (CSP, HSTS), and no-cache on `/assets/` so browsers always check for a newer CSS, JS or `campaign.json`. The home pages also tag their CSS and JS links with `?v=DATE`: bump it on both home pages when you change those files, and keep the shared `site.css` tags in the journal, privacy, thank-you and 404 pages in step. Also bump shared script tags on any other page loading a changed file |
 | `404.html`, `robots.txt`, `sitemap.xml` | Not-found page, crawler rules, sitemap with FR/EN alternates |
 | `assets/og-fr.png`, `assets/og-en.png` | Share images (1200 × 630) for social posts |
@@ -134,7 +136,7 @@ Replace `TOKEN` with your `ADMIN_TOKEN`. Use `curl.exe`: plain `curl` in PowerSh
 # Is everything wired up? Settings present, database, Resend key, sending domain, segments, sync backlog
 curl.exe -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/health
 
-# The launch gates: confirmed, pending, day-one answers, per system, referral leaders
+# The launch gates: confirmed, pending, day-one answers, per system, referral leaders, and the home-page funnel (last 30 days)
 curl.exe -H "Authorization: Bearer TOKEN" https://kurant.ca/api/admin/report
 
 # Send the confirmation email to sign-ups that never got one (up to 50 per call; repeat until never_emailed_left is 0)
