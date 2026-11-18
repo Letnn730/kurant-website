@@ -10,7 +10,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `index.html` | French home page. Order: hero (demo + R7 module), before/after, how it works, compatibility, data, the module in 3D, safety, journal, Kickstarter, sign-up (`#inscription`), grouped FAQ |
 | `en/index.html` | English home page, same order (`#signup`). Keep both in step: same sections, same facts, same `data-track` names |
 | `confidentialite/`, `en/privacy/` | Privacy policy (Quebec Law 25) |
-| `assets/site.css` | Styles, following the FORGE brand guide (Obsidienne / Blanc Titane / Cyan Glacial, Inter + JetBrains Mono) |
+| `assets/site.css` | Styles, following the FORGE brand guide. The home pages' art direction (end of the file) sets four environments (`env-graphite`, `env-mineral`, `env-slate`, `env-grey`) that redefine the colour tokens per section, so components follow without their own light/dark rules |
 | `assets/compat.js` | Compatibility list used by "Vérifier mon vélo": the system list and the form. Keep in step with `ebike-profiles` |
 | `assets/board.js` | The checker's system list: every system with its stage (4-step meter) and real confirmed votes from `/api/stats`, systems in progress ranked by votes. Later, not planned and other systems share a collapsed "Other systems" disclosure that opens for a selected system, including shared links. The chosen row opens with the result, its details and "M'inscrire pour voter", and stays in sync with the form |
 | `assets/site.js` | Compatibility tool, the two-step waitlist form (email and consent first; bike details optional, sent as a second sign-up with the same email), and the anonymous funnel counters: any element with `data-track="name"` counts a click, once per page view, on kurant.ca and its previews only |
@@ -32,7 +32,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `assets/module3d.js` | "Le module, ouvert": the 3D model that opens as you scroll (three.js, loaded only near that section; falls back to the animation video) |
 | `assets/model/crown.bin`, `crown.json` | The model, built from the CAD by `tools/build_crown_model.py` (see below) |
 | `assets/vendor/three.module.min.js` | three.js r160 (MIT, see `three.LICENSE.txt`), self-hosted for the CSP |
-| `assets/media/` | The R7 design-file animation (`crown_r7_story_680.mp4`, 12 s, technical-illustration style), its poster frame (`crown-r7-poster.jpg`), and `r7-module.jpg`, a crop of that poster used in the hero. Photos still needed: see `docs/asset-spec.md` |
+| `assets/media/` | The R7 design-file animation (`crown_r7_story_680.mp4`) and its poster; `r7-render.webp` and `r7-front.webp`, stills of the R7 design files (see "R7 stills" below); `app-ride-fr.webp` / `app-ride-en.webp`, the hero demo's ride screen captured at 2×. The stock display and the controller in "Avant / Après" and "Fonctionnement" are inline SVG illustrations. Photos still needed: `docs/asset-spec.md` |
 | `schema.sql` | D1 schema for a new database |
 | `migrations/0002_prelaunch.sql` | Run once on the existing database to add the pre-launch list |
 | `migrations/0003_events.sql` | Run once on the existing database to add the funnel counters (`events` table). Until then `/api/event` answers 503 and the page carries on |
@@ -195,3 +195,20 @@ python3 tools/build_crown_model.py path/to/parts.json
 ```
 
 It rewrites `assets/model/crown.bin` and `crown.json`. Small hardware (pads, inserts, screws, LEDs) is left out. The front shell, back plate and clip come re-tessellated from their STEP files at web resolution (about 8,400, 4,900 and 2,300 triangles), which keeps the windows and edges clean; nothing is decimated. Bump the `module3d.js?v=` tag on both home pages after a rebuild. Keep the model a presentation of the design files: no photorealistic rendering (Kickstarter's hardware rules apply to the campaign page, and the site shows the same thing).
+
+## R7 stills
+
+`r7-render.webp` (hero) and `r7-front.webp` (before/after, system diagram) are rendered from the same
+design files as the 3D viewer, in the same drawing language: matte, outlined, never photoreal
+(Kickstarter doesn't allow photorealistic renderings, and the site shows what the campaign shows).
+When the enclosure changes, after rebuilding the model:
+
+```bash
+python3 -m http.server 8766          # from the repository root
+node tools/r7-stills/shoot.js r7_hero.png "w=1400&h=1400&yaw=-0.9&pitch=0.26&edge=0.3&outline=1.3&margin=1.01"
+node tools/r7-stills/shoot.js r7_front.png "w=900&h=900&yaw=-0.55&pitch=0.18&edge=0.3&outline=1.2&hemi=1.7&key=1.0&margin=1.01"
+```
+
+Crop each PNG to its content and export WebP (quality about 88) at 1100 px and 640 px tall, then bump
+`site.css?v=` on both home pages. Replace these stills with photographs once the printed R7 exists.
+

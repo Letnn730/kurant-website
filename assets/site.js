@@ -198,6 +198,29 @@
     Object.keys(byId).forEach(function (id) { var el = document.getElementById(id); if (el) spy.observe(el); });
   }
 
+  // Quiet entrances: content below the first screen fades up once, as it arrives. Nothing on the
+  // first screen is touched (no flash), and nothing moves for people who ask for reduced motion.
+  if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var revealSel = ".env .section-head, .plate, .ba-item figcaption, .how-steps li, .need, .stages, .check-panel, " +
+      ".sheet > div, .rules-list li, .log-preview, .journal-more, .prices > *, .ks-facts, .budget, .signup, .next li, .faq-group";
+    var fold = innerHeight * 0.92;
+    var shown = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add("in");
+        shown.unobserve(en.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    Array.prototype.forEach.call(document.querySelectorAll(revealSel), function (el) {
+      if (el.closest(".m3d") || el.getBoundingClientRect().top < fold) return;
+      var i = 0, sib = el;
+      while ((sib = sib.previousElementSibling) && i < 5) if (sib.matches(revealSel)) i++;
+      el.style.setProperty("--d", (i * 0.06).toFixed(2) + "s");
+      el.classList.add("rv");
+      shown.observe(el);
+    });
+  }
+
   // Phones: a slim "join the list" bar once the hero is gone, hidden while the form is on screen.
   var mcta = document.querySelector(".m-cta");
   var hero = document.querySelector(".hero");

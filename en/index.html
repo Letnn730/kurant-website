@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261118">
+<link rel="stylesheet" href="../assets/site.css?v=20261119">
 <link rel="stylesheet" href="../assets/demo.css?v=20261024">
 <script type="application/ld+json">
 {
@@ -80,8 +80,8 @@
 
 <main id="content" data-lang="en">
 
-  <!-- 1. What it is, in three seconds: the headline, the phone running the app, the module -->
-  <section class="hero">
+  <!-- Hero: the product in three seconds. The live app on a phone, the R7 beside it. -->
+  <section class="hero env env-graphite">
     <div class="wrap">
       <div class="hero-copy">
         <span class="slit" aria-hidden="true"></span>
@@ -89,7 +89,7 @@
         <h1>Unplug the display. Plug in Kurant.</h1>
         <p class="lede">Replace your e-bike's display with your phone. The Kurant module plugs in where the stock display was: speed, battery, power and assist show up large, with settings explained in plain words.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="#signup" data-track="cta_hero_signup">Early access</a>
+          <a class="btn btn-primary" href="#signup" data-track="cta_hero_signup">Early access <span class="arr" aria-hidden="true">→</span></a>
           <a class="btn btn-ghost" href="#check" data-track="cta_hero_compat">Will it work on my bike?</a>
         </div>
         <ul class="status" aria-label="Where Kurant stands">
@@ -99,32 +99,27 @@
         </ul>
       </div>
 
-      <figure class="device">
-        <div class="device-stack">
-          <div class="phone" data-demo>
-            <div class="screen">
-              <div class="screen-top"><span class="live">Simulator</span><span class="screen-brand">STREET · 32</span></div>
-              <div class="speed"><b>24.6</b><span>km/h</span></div>
-              <div class="tiles">
-                <div class="tile"><small>Battery</small><b>78%</b></div>
-                <div class="tile"><small>Assist</small><b>2&nbsp;/&nbsp;5</b></div>
-                <div class="tile"><small>Motor</small><b>312&nbsp;W</b></div>
-              </div>
-              <div class="mode"><span>Street mode</span><span>32&nbsp;km/h max</span></div>
-              <p class="screen-foot">Settings while stopped</p>
+      <figure class="stage">
+        <div class="phone" data-demo>
+          <div class="screen">
+            <div class="screen-top"><span class="live">Simulator</span><span class="screen-brand">STREET · 32</span></div>
+            <div class="speed"><b>24.6</b><span>km/h</span></div>
+            <div class="tiles">
+              <div class="tile"><small>Battery</small><b>78%</b></div>
+              <div class="tile"><small>Assist</small><b>2&nbsp;/&nbsp;5</b></div>
+              <div class="tile"><small>Motor</small><b>312&nbsp;W</b></div>
             </div>
-          </div>
-          <div class="hero-module">
-            <img src="../assets/media/r7-module.jpg" width="450" height="495" alt="The Kurant R7 module on a handlebar, a rendering from the design files" decoding="async">
-            <span>R7 · rendering</span>
+            <div class="mode"><span>Street mode</span><span>32&nbsp;km/h max</span></div>
+            <p class="screen-foot">Settings while stopped</p>
           </div>
         </div>
-        <figcaption class="demo-hint"><span class="try" aria-hidden="true">Try it</span> <b>Simulation demo.</b> The app's ride screen, connected to a virtual bike: the values are simulated. Tap an assist bar to change level, OFF to stop, or the gear for settings. The map is an illustration.</figcaption>
+        <img class="r7-hero" src="../assets/media/r7-render.webp" width="967" height="1100" alt="The Kurant R7 module, a rendering from the design files" decoding="async">
+        <figcaption class="stage-cap"><span><span class="try" aria-hidden="true">Try it</span><b>Simulation demo.</b> Tap an assist bar, OFF or the gear. Simulated values, illustrative map.</span><span class="tagline">R7 module · rendering from the design files</span></figcaption>
       </figure>
     </div>
   </section>
 
-  <section class="facts" aria-label="Key figures">
+  <section class="facts env env-graphite" aria-label="Key figures">
     <div class="wrap">
       <div class="fact"><b>CAD 159</b><span>Planned price, module and app. CAD 119 for the first 100</span></div>
       <div class="fact"><b>iPhone and Android</b><span>Free app, no account, no subscription</span></div>
@@ -133,141 +128,87 @@
     </div>
   </section>
 
-  <!-- 2. Before / after -->
-  <section class="section" id="before-after" aria-labelledby="ba-title">
+  <!-- 01 · Before / after: the stock display (drawn) against the app and the R7 (captured, rendered) -->
+  <section class="section env env-mineral" id="before-after" aria-labelledby="ba-title">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Before · After</p>
+      <div class="section-head head-split">
+        <p class="eyebrow"><span class="ix">01</span>Before · After</p>
         <h2 id="ba-title">Your bike already has the technology. Kurant gives you a better way to use it.</h2>
         <p>The controller, motor and battery stay the same. Only the display changes: the stock one goes in a drawer, your phone takes its place.</p>
       </div>
       <div class="ba">
-        <figure class="ba-card">
-          <div class="ba-art">
-            <svg viewBox="0 0 600 380" role="img" aria-labelledby="ba-before-t">
-              <title id="ba-before-t">Illustration: a stock LCD display on the handlebar, with its three-button remote</title>
-              <path class="bar" d="M-10 262 L610 214 L610 252 L-10 300 Z"/>
-              <path class="bar-top" d="M-10 262 L610 214"/>
-              <path class="cable" d="M112 274 C 140 330, 210 330, 250 300"/>
-              <path class="cable" d="M300 268 C 300 320, 330 350, 330 390"/>
-              <rect class="pod" x="70" y="232" width="78" height="54" rx="10" transform="rotate(-4.4 109 259)"/>
-              <circle class="pod-btn" cx="92" cy="258" r="8"/><circle class="pod-btn" cx="111" cy="257" r="8"/><circle class="pod-btn" cx="130" cy="255" r="8"/>
-              <path class="clamp" d="M282 226 h40 v52 h-40 z"/>
-              <rect class="lcd-body" x="180" y="62" width="244" height="168" rx="16"/>
-              <rect class="lcd-glass" x="198" y="80" width="208" height="122" rx="6"/>
-              <g class="lcd-ink">
-                <rect x="210" y="92" width="7" height="12"/><rect x="219" y="92" width="7" height="12"/><rect x="228" y="92" width="7" height="12"/><rect x="237" y="92" width="7" height="12"/><rect x="246" y="92" width="7" height="12" opacity=".25"/>
-                <text x="276" y="166" class="lcd-big">25</text>
-                <text x="350" y="166" class="lcd-small">km/h</text>
-                <text x="210" y="192" class="lcd-small">PAS 2</text>
-                <text x="306" y="192" class="lcd-small">ODO 01234</text>
-                <text x="360" y="104" class="lcd-small">P1</text>
-              </g>
-              <rect class="lcd-btn" x="228" y="210" width="34" height="9" rx="4"/><rect class="lcd-btn" x="342" y="210" width="34" height="9" rx="4"/>
-            </svg>
+        <figure class="ba-item ba-before">
+          <div class="plate">
+            <span class="plate-tag">Before</span>
+            <svg class="art" viewBox="0 0 640 440" role="img" aria-labelledby="art-before-en"><title id="art-before-en">Illustration: a stock segment display and its three-button remote</title><defs><linearGradient id="lcd-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A4045"/><stop offset="1" stop-color="#202427"/></linearGradient><linearGradient id="lcd-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D9E1D2"/><stop offset="1" stop-color="#C6CFBE"/></linearGradient><radialGradient id="lcd-shadow"><stop offset="0" stop-color="#14181B" stop-opacity=".22"/><stop offset="1" stop-color="#14181B" stop-opacity="0"/></radialGradient></defs><ellipse cx="292" cy="372" rx="190" ry="16" fill="url(#lcd-shadow)"/><ellipse cx="520" cy="372" rx="78" ry="10" fill="url(#lcd-shadow)"/><path d="M292 348 C 292 404, 420 410, 474 366" fill="none" stroke="#22272B" stroke-width="8" stroke-linecap="round"/><path d="M292 348 C 292 404, 420 410, 474 366" fill="none" stroke="#4A5157" stroke-width="5" stroke-linecap="round"/><path d="M266 318 h52 v24 a8 8 0 0 1 -8 8 h-36 a8 8 0 0 1 -8 -8z" fill="#2B3034" stroke="#22272B" stroke-width="2"/><rect x="132" y="82" width="320" height="244" rx="30" fill="url(#lcd-body)" stroke="#22272B" stroke-width="2"/><rect x="140" y="90" width="304" height="228" rx="24" fill="none" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/><rect x="162" y="110" width="260" height="168" rx="8" fill="#15191C"/><rect x="168" y="116" width="248" height="156" rx="5" fill="url(#lcd-glass)"/><rect x="184" y="130" width="56" height="17" rx="2" fill="none" stroke="#26302A" stroke-width="2"/><rect x="240" y="135" width="4" height="7" fill="#26302A"/><rect x="188.0" y="134" width="7.6" height="9" fill="#26302A"/><rect x="198.2" y="134" width="7.6" height="9" fill="#26302A"/><rect x="208.4" y="134" width="7.6" height="9" fill="#26302A"/><rect x="218.6" y="134" width="7.6" height="9" fill="#26302A"/><rect x="228.8" y="134" width="7.6" height="9" fill="#BFC9B9"/><g font-family="JetBrains Mono, ui-monospace, monospace" font-weight="500" fill="#26302A"><text x="400" y="145" font-size="13" text-anchor="end">P1</text><text x="338" y="212" font-size="14">km/h</text><text x="184" y="258" font-size="12">PAS</text><text x="300" y="258" font-size="12">ODO</text></g><path d="M233.2 160.0 L272.0 160.0 L264.1 168.0 L239.7 168.0Z" fill="#26302A"/><path d="M235.5 214.0 L259.9 214.0 L266.4 222.0 L227.6 222.0Z" fill="#26302A"/><path d="M236.3 187.0 L263.9 187.0 L268.0 191.0 L263.2 195.0 L235.6 195.0 L231.6 191.0Z" fill="#26302A"/><path d="M231.4 161.6 L238.8 168.8 L237.2 186.2 L228.9 189.4Z" fill="#BFC9B9"/><path d="M273.4 161.6 L270.9 189.4 L263.2 186.2 L264.8 168.8Z" fill="#26302A"/><path d="M228.6 192.6 L236.4 195.8 L234.8 213.2 L226.1 220.4Z" fill="#26302A"/><path d="M270.6 192.6 L268.1 220.4 L260.8 213.2 L262.4 195.8Z" fill="#BFC9B9"/><path d="M285.2 160.0 L324.0 160.0 L316.1 168.0 L291.7 168.0Z" fill="#26302A"/><path d="M287.5 214.0 L311.9 214.0 L318.4 222.0 L279.6 222.0Z" fill="#26302A"/><path d="M288.3 187.0 L315.9 187.0 L320.0 191.0 L315.2 195.0 L287.6 195.0 L283.6 191.0Z" fill="#26302A"/><path d="M283.4 161.6 L290.8 168.8 L289.2 186.2 L280.9 189.4Z" fill="#26302A"/><path d="M325.4 161.6 L322.9 189.4 L315.2 186.2 L316.8 168.8Z" fill="#BFC9B9"/><path d="M280.6 192.6 L288.4 195.8 L286.8 213.2 L278.1 220.4Z" fill="#BFC9B9"/><path d="M322.6 192.6 L320.1 220.4 L312.8 213.2 L314.4 195.8Z" fill="#26302A"/><path d="M216.1 243.0 L225.0 243.0 L222.2 245.8 L218.4 245.8Z" fill="#26302A"/><path d="M217.3 257.2 L221.2 257.2 L223.4 260.0 L214.6 260.0Z" fill="#26302A"/><path d="M217.4 250.1 L222.4 250.1 L223.8 251.5 L222.1 252.9 L217.2 252.9 L215.7 251.5Z" fill="#26302A"/><path d="M225.5 243.6 L224.8 250.9 L222.1 249.8 L222.5 246.1Z" fill="#26302A"/><path d="M214.7 252.1 L217.4 253.2 L217.1 256.9 L214.1 259.4Z" fill="#26302A"/><path d="M346.5 243.5 L345.8 251.0 L343.3 249.9 L343.7 245.9Z" fill="#26302A"/><path d="M345.7 252.0 L345.0 259.5 L342.7 257.1 L343.0 253.1Z" fill="#26302A"/><path d="M353.0 243.0 L361.0 243.0 L358.4 245.6 L355.2 245.6Z" fill="#26302A"/><path d="M354.1 257.4 L357.4 257.4 L359.5 260.0 L351.5 260.0Z" fill="#26302A"/><path d="M354.2 250.2 L358.5 250.2 L359.9 251.5 L358.3 252.8 L354.0 252.8 L352.7 251.5Z" fill="#26302A"/><path d="M361.5 243.5 L360.8 251.0 L358.3 249.9 L358.7 245.9Z" fill="#26302A"/><path d="M351.7 252.0 L354.2 253.1 L353.9 257.1 L351.0 259.5Z" fill="#26302A"/><path d="M368.0 243.0 L376.0 243.0 L373.4 245.6 L370.2 245.6Z" fill="#26302A"/><path d="M369.1 257.4 L372.4 257.4 L374.5 260.0 L366.5 260.0Z" fill="#26302A"/><path d="M369.2 250.2 L373.5 250.2 L374.9 251.5 L373.3 252.8 L369.0 252.8 L367.7 251.5Z" fill="#26302A"/><path d="M376.5 243.5 L375.8 251.0 L373.3 249.9 L373.7 245.9Z" fill="#26302A"/><path d="M375.7 252.0 L375.0 259.5 L372.7 257.1 L373.0 253.1Z" fill="#26302A"/><path d="M384.2 250.2 L388.5 250.2 L389.9 251.5 L388.3 252.8 L384.0 252.8 L382.7 251.5Z" fill="#26302A"/><path d="M382.5 243.5 L384.9 245.9 L384.5 249.9 L381.8 251.0Z" fill="#26302A"/><path d="M391.5 243.5 L390.8 251.0 L388.3 249.9 L388.7 245.9Z" fill="#26302A"/><path d="M390.7 252.0 L390.0 259.5 L387.7 257.1 L388.0 253.1Z" fill="#26302A"/><rect x="184" y="294" width="44" height="12" rx="6" fill="#2E3438" stroke="#111416" stroke-width="1.5"/><rect x="270" y="294" width="44" height="12" rx="6" fill="#2E3438" stroke="#111416" stroke-width="1.5"/><rect x="356" y="294" width="44" height="12" rx="6" fill="#2E3438" stroke="#111416" stroke-width="1.5"/><rect x="468" y="304" width="112" height="66" rx="20" fill="url(#lcd-body)" stroke="#22272B" stroke-width="2"/><circle cx="497" cy="337" r="11" fill="#2E3438" stroke="#111416" stroke-width="1.5"/><text x="497" y="341.5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#C9CFD3">−</text><circle cx="524" cy="337" r="11" fill="#2E3438" stroke="#111416" stroke-width="1.5"/><text x="524" y="341.5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#C9CFD3">M</text><circle cx="551" cy="337" r="11" fill="#2E3438" stroke="#111416" stroke-width="1.5"/><text x="551" y="341.5" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#C9CFD3">+</text></svg>
+            <span class="callout-label" style="--x:63%;--y:28%">Segment screen</span>
+            <span class="callout-label" style="--x:63%;--y:45%">Codes P1, C5…</span>
+            <span class="callout-label co-l" style="--x:78%;--y:84%">3-button remote</span>
           </div>
           <figcaption>
-            <p class="ba-tag">Before · the stock display</p>
-            <ul>
-              <li>A few numbers on a small segment screen</li>
-              <li>Error codes to look up in a manual</li>
-              <li>Settings hidden behind codes (P1, C5…)</li>
-            </ul>
+            <h3>The stock display</h3>
+            <ul class="ba-points"><li>A few numbers on a small segment screen</li> <li>Error codes to look up in a manual</li> <li>Settings hidden behind codes (P1, C5…)</li></ul>
           </figcaption>
         </figure>
-        <figure class="ba-card ba-after">
-          <div class="ba-art">
-            <svg viewBox="0 0 600 380" role="img" aria-labelledby="ba-after-t">
-              <title id="ba-after-t">Illustration: a phone on its handlebar mount shows the Kurant app, and the Kurant module is mounted on the handlebar</title>
-              <path class="bar" d="M-10 262 L610 214 L610 252 L-10 300 Z"/>
-              <path class="bar-top" d="M-10 262 L610 214"/>
-              <path class="cable" d="M130 318 C 130 350, 150 370, 150 400"/>
-              <!-- module R7 -->
-              <path class="strap" d="M178 250 c 22 -6, 26 34, 4 40"/>
-              <rect class="r7" x="96" y="214" width="84" height="104" rx="16"/>
-              <path class="r7-logo-a" d="M118 236 h40 l-6 10 h-28 z"/>
-              <path class="r7-logo-b" d="M126 250 h24 l-12 17 z"/>
-              <path class="r7-line" d="M106 300 h64"/>
-              <!-- phone mount and phone -->
-              <path class="clamp" d="M352 222 h44 v44 h-44 z"/>
-              <rect class="mount" x="300" y="34" width="148" height="10" rx="5"/>
-              <rect class="mount" x="300" y="210" width="148" height="10" rx="5"/>
-              <rect class="phone-body" x="292" y="22" width="164" height="210" rx="22"/>
-              <rect class="phone-screen" x="302" y="32" width="144" height="190" rx="14"/>
-              <path class="gauge-track" d="M332 132 A 42 42 0 1 1 416 132"/>
-              <path class="gauge-fill" d="M332 132 A 42 42 0 0 1 395 96"/>
-              <text x="374" y="130" class="ui-big" text-anchor="middle">24.6</text>
-              <text x="374" y="146" class="ui-small" text-anchor="middle">km/h</text>
-              <g class="assist">
-                <rect x="316" y="178" width="20" height="26" rx="4" class="on"/><rect x="340" y="178" width="20" height="26" rx="4" class="on"/>
-                <rect x="364" y="178" width="20" height="26" rx="4"/><rect x="388" y="178" width="20" height="26" rx="4"/><rect x="412" y="178" width="20" height="26" rx="4"/>
-              </g>
-              <text x="316" y="56" class="ui-small">78%</text>
-              <text x="432" y="56" class="ui-small" text-anchor="end">312 W</text>
-            </svg>
+        <figure class="ba-item ba-after">
+          <div class="plate">
+            <span class="plate-tag on">After · Kurant</span>
+            <img class="ba-r7" src="../assets/media/r7-front.webp" width="501" height="640" alt="The Kurant R7 module, a rendering from the design files" loading="lazy" decoding="async">
+            <img class="ba-phone" src="../assets/media/app-ride-en.webp" width="666" height="1388" alt="The Kurant app's ride screen in simulation: speed, assist and motor power" loading="lazy" decoding="async">
+            <span class="callout-label cy co-l" style="--x:55%;--y:20%">Ride screen</span>
+            <span class="callout-label" style="--x:13%;--y:31%">R7 module</span>
           </div>
           <figcaption>
-            <p class="ba-tag">After · your phone and the module</p>
-            <ul>
-              <li>Speed, battery, power and assist, large</li>
-              <li>Error codes explained in plain words</li>
-              <li>Every setting described in plain words, while stopped</li>
-            </ul>
+            <h3>Your phone and the module</h3>
+            <ul class="ba-points"><li>Speed, battery, power and assist, large</li> <li>Error codes explained in plain words</li> <li>Every setting described in plain words, while stopped</li></ul>
           </figcaption>
         </figure>
       </div>
-      <p class="hint ba-note">Illustrations. Photos of the prototype installed on a bike will be posted with the first enclosures.</p>
+      <p class="ba-note">Before: illustration. After: the app in simulation and a rendering of the R7 design files. Photos of the prototype on a bike will follow the first enclosures.</p>
     </div>
   </section>
 
-  <!-- 3. How it works -->
-  <section class="section" id="how-it-works" aria-labelledby="how-title">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">How it works</p>
-        <h2 id="how-title">Three steps, no soldering</h2>
-        <p>The module is the same for every bike: only the cable changes from one brand to the next. KT first; other brands next, in order of votes, each once it's verified on a real controller.</p>
-      </div>
-
-      <ol class="steps">
+  <!-- 02 · How it works: three steps, and the system they build -->
+  <section class="section joined env env-mineral" id="how-it-works" aria-labelledby="how-title">
+    <div class="wrap how">
+      <div class="how-main">
+        <div class="section-head">
+          <p class="eyebrow"><span class="ix">02</span>How it works</p>
+          <h2 id="how-title">Three steps, no soldering</h2>
+          <p>The module is the same for every bike: only the cable changes from one brand to the next. KT first; other brands next, in order of votes, each once it's verified on a real controller.</p>
+        </div>
+        <ol class="how-steps">
         <li><h3>Unplug the stock display</h3><p>Keep it: it plugs back in any time, no tools.</p></li>
         <li><h3>Plug in the module</h3><p>In its place, on the same connector, with the cable for your brand (KT at launch). The module mounts on the handlebar.</p></li>
         <li><h3>Open the app and ride</h3><p>On iPhone or Android, it finds the module and recognizes the controller. Turn the bike on from the app: data shows live.</p></li>
       </ol>
-
-      <div class="flow">
-        <div class="node">
-          <small>On your bike</small>
-          <b>Controller</b>
-          <p>Stays in charge: motor, battery and sensors, as before.</p>
-        </div>
-        <div class="link" aria-hidden="true"><span>One cable per brand</span></div>
-        <div class="node">
-          <small>Kurant R7 module</small>
-          <b>Reads and relays the data</b>
-          <p>Keeps the bike running, even if the phone disconnects.</p>
-          <span class="slit" aria-hidden="true"></span>
-        </div>
-        <div class="link wireless" aria-hidden="true"><span>Wireless link</span></div>
-        <div class="node">
-          <small>Your phone</small>
-          <b>Kurant app</b>
-          <p>Shows the data and prepares settings.</p>
+        <div class="need">
+          <p><b>What you need:</b> a controller whose compatibility is verified, and the cable for its brand. A brand that looks similar or an identical connector isn't enough: every controller is verified on the bench before it's announced.</p>
+          <a class="btn btn-ghost btn-sm" href="#check" data-track="cta_how_compat">Check compatibility <span class="arr" aria-hidden="true">→</span></a>
         </div>
       </div>
-
-      <div class="callout">
-        <p><b>What you need:</b> a controller whose compatibility is verified, and the cable for its brand. A brand that looks similar or an identical connector isn't enough: every controller is verified on the bench before it's announced.</p>
-        <a class="btn btn-ghost btn-sm" href="#check" data-track="cta_how_compat">Check compatibility</a>
+      <div class="how-side">
+        <div class="plate sysdiag">
+          <span class="plate-tag">The system</span>
+          <div class="sysdiag-row">
+            <figure><div class="obj"><svg class="art" viewBox="0 0 300 220" role="img" aria-labelledby="art-ctl-en"><title id="art-ctl-en">Illustration: an e-bike controller</title><defs><linearGradient id="ctl-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A4045"/><stop offset="1" stop-color="#202427"/></linearGradient><radialGradient id="ctl-shadow"><stop offset="0" stop-color="#14181B" stop-opacity=".2"/><stop offset="1" stop-color="#14181B" stop-opacity="0"/></radialGradient></defs><ellipse cx="140" cy="176" rx="118" ry="12" fill="url(#ctl-shadow)"/><path d="M226 104 C 256 104, 262 128, 296 132" fill="none" stroke="#22272B" stroke-width="6" stroke-linecap="round"/><path d="M226 120 C 250 122, 258 150, 296 156" fill="none" stroke="#22272B" stroke-width="6" stroke-linecap="round"/><path d="M226 136 C 246 140, 252 170, 280 184" fill="none" stroke="#22272B" stroke-width="6" stroke-linecap="round"/><rect x="212" y="78" width="20" height="92" rx="5" fill="#2B3034" stroke="#22272B" stroke-width="2"/><rect x="40" y="72" width="178" height="104" rx="14" fill="url(#ctl-body)" stroke="#22272B" stroke-width="2"/><path d="M56 88 H202" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/><path d="M56 101 H202" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/><path d="M56 114 H202" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/><path d="M56 127 H202" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/><path d="M56 140 H202" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/><path d="M56 153 H202" stroke="#FFFFFF" stroke-opacity=".10" stroke-width="1.5"/><rect x="78" y="112" width="96" height="30" rx="4" fill="#D9DEE2" stroke="#22272B" stroke-width="1.5"/><path d="M88 122 h52 M88 131 h36" stroke="#22272B" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/></svg></div><figcaption><small>On your bike</small><b>Controller</b></figcaption></figure>
+            <div class="wire" aria-hidden="true"><span>one cable per brand</span></div>
+            <figure><div class="obj obj-r7"><img src="../assets/media/r7-front.webp" width="501" height="640" alt="" loading="lazy" decoding="async"></div><figcaption><small>R7 module</small><b>Reads and relays</b></figcaption></figure>
+            <div class="wire air" aria-hidden="true"><span>wireless</span></div>
+            <figure><div class="obj obj-phone"><img src="../assets/media/app-ride-en.webp" width="666" height="1388" alt="" loading="lazy" decoding="async"></div><figcaption><small>Phone</small><b>Shows and sets</b></figcaption></figure>
+          </div>
+          <p class="sysdiag-legend"><span><i aria-hidden="true"></i>one cable per brand</span><span><i class="air" aria-hidden="true"></i>wireless</span></p>
+          <p class="sysdiag-note">The controller stays in charge of the motor, battery and sensors. The module keeps the bike running, even if the phone disconnects.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- 4. Compatibility -->
-  <section class="section" id="check" aria-labelledby="check-title">
+  <section class="section env env-grey" id="check" aria-labelledby="check-title">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Compatibility</p>
+      <div class="section-head head-split">
+        <p class="eyebrow"><span class="ix">03</span>Compatibility</p>
         <h2 id="check-title">Will it work on my bike?</h2>
         <p>Choose your system to see where it stands. After KT, the system with the most confirmed sign-ups goes on the bench first: every sign-up counts as a vote.</p>
       </div>
@@ -318,49 +259,12 @@
     </div>
   </section>
 
-  <!-- 5. What you see -->
-  <section class="section" id="data" aria-labelledby="data-title">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">What you see</p>
-        <h2 id="data-title">Your whole ride, at a glance</h2>
-        <p>Speed, battery, power and assist, in an interface designed for the road. The <a href="#content" class="dev-link">demo at the top of the page</a> runs in your browser with simulated values.</p>
-      </div>
-      <div class="split">
-        <div class="panel">
-          <h3>While riding</h3>
-          <dl class="spec">
-            <div><dt>Speed</dt><dd>km/h</dd></div>
-            <div><dt>Motor power</dt><dd>W</dd></div>
-            <div><dt>Battery</dt><dd>V · %</dd></div>
-            <div><dt>Assist level</dt><dd>0 to 5</dd></div>
-            <div><dt>Brake</dt><dd>on / off</dd></div>
-            <div><dt>Error codes</dt><dd>explained in plain words</dd></div>
-          </dl>
-          <p class="panel-note">Depending on the controller, some data may not be available. The app says so instead of showing a made-up value.</p>
-        </div>
-        <div class="panel">
-          <h3>When stopped</h3>
-          <dl class="spec">
-            <div><dt>Wheel size</dt><dd>in</dd></div>
-            <div><dt>Speed limit</dt><dd>km/h</dd></div>
-            <div><dt>Modes</dt><dd>Street · Offroad</dd></div>
-            <div><dt>Lights</dt><dd>on / off</dd></div>
-            <div><dt>Ride history</dt><dd>on your phone</dd></div>
-            <div><dt>Module updates</dt><dd>through the app</dd></div>
-          </dl>
-          <p class="panel-note">Each setting is described in plain words, with its current value, before you change anything.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- 6. The R7 module -->
-  <section class="section m3d" id="module" data-m3d aria-labelledby="module-title">
+  <section class="section m3d env env-graphite" id="module" data-m3d aria-labelledby="module-title">
     <div class="m3d-sticky">
       <div class="wrap m3d-grid">
         <div class="m3d-copy">
-          <p class="eyebrow">The R7 module, opened</p>
+          <p class="eyebrow"><span class="ix">04</span>The R7 module, opened</p>
           <h2 id="module-title">Straight from the design files</h2>
           <ol class="m3d-steps">
             <li data-step class="on"><b>On the front handlebar</b><span>Near where the display cable comes out, facing you, on the same connector as the stock display.</span></li>
@@ -394,15 +298,52 @@
     </dialog>
   </section>
 
-  <!-- 7. Safety -->
-  <section class="section" id="safety" aria-labelledby="safety-title">
+  <!-- 05 · What you see: a spec sheet, not a feature grid -->
+  <section class="section env env-slate" id="data" aria-labelledby="data-title">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Safety</p>
+      <div class="section-head head-split">
+        <p class="eyebrow"><span class="ix">05</span>What you see</p>
+        <h2 id="data-title">Your whole ride, at a glance</h2>
+        <p>Speed, battery, power and assist, in an interface designed for the road. The <a href="#content" class="dev-link">demo at the top of the page</a> runs in your browser with simulated values.</p>
+      </div>
+      <div class="sheet">
+        <div>
+          <h3>While riding</h3>
+          <dl class="spec">
+            <div><dt>Speed</dt><dd>km/h</dd></div>
+            <div><dt>Motor power</dt><dd>W</dd></div>
+            <div><dt>Battery</dt><dd>V · %</dd></div>
+            <div><dt>Assist level</dt><dd>0 to 5</dd></div>
+            <div><dt>Brake</dt><dd>on / off</dd></div>
+            <div><dt>Error codes</dt><dd>explained in plain words</dd></div>
+          </dl>
+          <p class="panel-note">Depending on the controller, some data may not be available. The app says so instead of showing a made-up value.</p>
+        </div>
+        <div>
+          <h3>When stopped</h3>
+          <dl class="spec">
+            <div><dt>Wheel size</dt><dd>in</dd></div>
+            <div><dt>Speed limit</dt><dd>km/h</dd></div>
+            <div><dt>Modes</dt><dd>Street · Offroad</dd></div>
+            <div><dt>Lights</dt><dd>on / off</dd></div>
+            <div><dt>Ride history</dt><dd>on your phone</dd></div>
+            <div><dt>Module updates</dt><dd>through the app</dd></div>
+          </dl>
+          <p class="panel-note">Each setting is described in plain words, with its current value, before you change anything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Safety -->
+  <section class="section joined env env-slate" id="safety" aria-labelledby="safety-title">
+    <div class="wrap">
+      <div class="section-head head-split">
+        <p class="eyebrow"><span class="ix">06</span>Safety</p>
         <h2 id="safety-title">Once on, the bike never depends on the phone</h2>
         <p>These rules are part of the module's and the app's design. The <a class="dev-link" href="journal/index.html">log</a> posts the bench tests, including the one with the phone cut off.</p>
       </div>
-      <ul class="rules-grid">
+      <ul class="rules-list">
         <li><span class="rule-key">No phone</span><h3>The bike keeps running</h3><p>The module keeps the link with the controller on its own. A dead phone, a closed app or an update in progress does not cut the assist.</p></li>
         <li><span class="rule-key">&gt; 0.5 km/h</span><h3>No settings while riding</h3><p>Above 0.5 km/h, or when the speed is unknown, sensitive settings are locked.</p></li>
         <li><span class="rule-key">1.5 s</span><h3>No frozen values</h3><p>With no new data for 1.5 seconds, the screen shows “--” instead of an old number.</p></li>
@@ -414,10 +355,10 @@
   </section>
 
   <!-- 8. Development log -->
-  <section class="section" id="journal" aria-labelledby="journal-title">
+  <section class="section env env-grey" id="journal" aria-labelledby="journal-title">
     <div class="wrap journal-home">
       <div class="section-head">
-        <p class="eyebrow">Development log</p>
+        <p class="eyebrow"><span class="ix">07</span>Development log</p>
         <h2 id="journal-title">Built in the open, measured on a real controller</h2>
         <p>Every step is posted once it's measured on the bench, and so are the problems found. Here are the latest entries.</p>
       </div>
@@ -427,10 +368,10 @@
   </section>
 
   <!-- 9. Kickstarter -->
-  <section class="section" id="kickstarter" aria-labelledby="ks-title">
+  <section class="section ks env env-graphite" id="kickstarter" aria-labelledby="ks-title">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Kickstarter campaign</p>
+      <div class="section-head head-split">
+        <p class="eyebrow"><span class="ix">08</span>Kickstarter campaign</p>
         <h2 id="ks-title">Be among the first to ride with Kurant</h2>
         <p>Kurant will be funded by an all-or-nothing Kickstarter campaign. Pre-launch list members get the link before anyone else: it's the shortest way to the 100 modules at CAD&nbsp;119.</p>
       </div>
@@ -464,17 +405,17 @@
         </ol>
       </div>
       <div class="ks-cta">
-        <a class="btn btn-primary" href="#signup" data-track="cta_ks_signup">Join the pre-launch list</a>
+        <a class="btn btn-primary" href="#signup" data-track="cta_ks_signup">Join the pre-launch list <span class="arr" aria-hidden="true">→</span></a>
         <p class="hint" data-ks-count hidden></p>
       </div>
     </div>
   </section>
 
   <!-- 10. Sign-up: email first, details optional -->
-  <section class="section" id="signup" aria-labelledby="signup-title">
+  <section class="section joined env env-graphite" id="signup" aria-labelledby="signup-title">
     <div class="wrap signup-grid">
       <div class="section-head">
-        <p class="eyebrow">Pre-launch list</p>
+        <p class="eyebrow"><span class="ix">09</span>Pre-launch list</p>
         <h2 id="signup-title">Early access</h2>
         <p>Your email is all it takes. Details about your bike are optional and can come after.</p>
         <ol class="next" aria-label="What happens next">
@@ -555,10 +496,10 @@
   </section>
 
   <!-- 11. FAQ, grouped -->
-  <section class="section" id="faq" aria-labelledby="faq-title">
+  <section class="section env env-grey" id="faq" aria-labelledby="faq-title">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">Questions</p>
+        <p class="eyebrow"><span class="ix">10</span>Questions</p>
         <h2 id="faq-title">Frequently asked questions</h2>
       </div>
       <div class="faq-groups">
@@ -619,7 +560,7 @@
 <a class="m-cta" href="#signup" hidden data-track="cta_mobile_signup"><b>100 spots at CAD&nbsp;119</b><span>Join the list</span></a>
 
 <script src="../assets/compat.js?v=20261016" defer></script>
-<script src="../assets/site.js?v=20261118" defer></script>
+<script src="../assets/site.js?v=20261119" defer></script>
 <script src="../assets/board.js?v=20261016" defer></script>
 <script src="../assets/demo.js?v=20261024" defer></script>
 <script src="../assets/campaign.js?v=20261016" defer></script>
