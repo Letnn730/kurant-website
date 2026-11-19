@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="assets/theme.js?v=20261120"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="assets/site.css?v=20261121">
+<link rel="stylesheet" href="assets/site.css?v=20261122">
 <link rel="stylesheet" href="assets/demo.css?v=20261121">
 <script type="application/ld+json">
 {
@@ -184,6 +184,7 @@
             <ul class="ba-points"><li>Quelques chiffres sur un petit écran à segments</li> <li>Codes d'erreur à chercher dans un manuel</li> <li>Réglages cachés derrière des codes (P1, C5…)</li></ul>
           </figcaption>
         </figure>
+        <div class="ba-arrow" aria-hidden="true"><i>→</i><span>Mise à niveau</span></div>
         <figure class="ba-item ba-after">
           <div class="plate">
             <span class="plate-tag on">Après · Kurant</span>
@@ -451,7 +452,7 @@
       <div class="section-head">
         <p class="eyebrow"><span class="ix">10</span>Liste de prélancement</p>
         <h2 id="in-titre">Accès anticipé</h2>
-        <p>Votre courriel suffit. Les détails sur votre vélo sont facultatifs et peuvent venir ensuite.</p>
+        <p>Votre courriel suffit. Choisissez aussi votre système&#8239;: <b>après KT, les marques sont développées dans l'ordre des votes</b>. Celle qui en reçoit le plus passe au banc en premier.</p>
         <ol class="next" aria-label="Et ensuite">
           <li><b>Confirmez votre courriel</b><span>un lien vous est envoyé tout de suite</span></li>
           <li><b>Recevez votre numéro de fondateur</b><span>et votre lien personnel à partager</span></li>
@@ -467,6 +468,11 @@
             <label for="wl-email">Courriel</label>
             <input id="wl-email" name="email" type="email" autocomplete="email" required>
           </div>
+          <div class="field vote-field" data-vote-field>
+            <label for="wl-family">Votre vote&#8239;: quel système voulez-vous voir prêt en premier&#8239;?</label>
+            <select id="wl-family" name="wl_family"></select>
+            <p class="hint">Facultatif. Après KT, déjà vérifié, l'ordre de développement des marques suit les votes&#8239;: chaque inscription confirmée compte pour le système choisi. <a href="#verifier">Voir le classement</a>.</p>
+          </div>
           <label class="consent" for="wl-consent">
             <input id="wl-consent" name="consent" type="checkbox">
             <span>J'accepte de recevoir des courriels de FORGE au sujet de Kurant&#8239;: disponibilité, compatibilité de mon vélo, lancement et campagne Kickstarter. Je peux me désabonner en tout temps. Voir la <a href="confidentialite/index.html">politique de confidentialité</a>.</span>
@@ -479,11 +485,7 @@
 
         <fieldset class="su-details" data-su-details hidden>
           <legend>Facultatif&#8239;: votre vélo</legend>
-          <p class="hint">Ces réponses nous aident à choisir les prochains profils de contrôleur. Votre système choisi compte comme un vote une fois votre courriel confirmé.</p>
-          <div class="field">
-            <label for="wl-family">Système de votre vélo</label>
-            <select id="wl-family" name="wl_family"></select>
-          </div>
+          <p class="hint">Ces réponses nous aident à préparer les profils de contrôleur.</p>
           <div class="field">
             <label for="wl-bike">Vélo&#8239;: marque et modèle</label>
             <input id="wl-bike" name="bike" type="text" placeholder="p. ex. Lectric XP 3.0" maxlength="120">
@@ -594,7 +596,7 @@
 <a class="m-cta" href="#inscription" hidden data-track="cta_mobile_signup"><b>100 places à 119&nbsp;$</b><span>Rejoindre la liste</span></a>
 
 <script src="assets/compat.js?v=20261016" defer></script>
-<script src="assets/site.js?v=20261121" defer></script>
+<script src="assets/site.js?v=20261122" defer></script>
 <script src="assets/board.js?v=20261016" defer></script>
 <script src="assets/demo.js?v=20261121" defer></script>
 <script src="assets/campaign.js?v=20261016" defer></script>

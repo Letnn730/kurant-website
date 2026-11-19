@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="../assets/theme.js?v=20261120"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261121">
+<link rel="stylesheet" href="../assets/site.css?v=20261122">
 <link rel="stylesheet" href="../assets/demo.css?v=20261121">
 <script type="application/ld+json">
 {
@@ -184,6 +184,7 @@
             <ul class="ba-points"><li>A few numbers on a small segment screen</li> <li>Error codes to look up in a manual</li> <li>Settings hidden behind codes (P1, C5…)</li></ul>
           </figcaption>
         </figure>
+        <div class="ba-arrow" aria-hidden="true"><i>→</i><span>Upgrade</span></div>
         <figure class="ba-item ba-after">
           <div class="plate">
             <span class="plate-tag on">After · Kurant</span>
@@ -451,7 +452,7 @@
       <div class="section-head">
         <p class="eyebrow"><span class="ix">10</span>Pre-launch list</p>
         <h2 id="signup-title">Early access</h2>
-        <p>Your email is all it takes. Details about your bike are optional and can come after.</p>
+        <p>Your email is all it takes. Pick your system too: <b>after KT, brands are developed in order of votes</b>. The one with the most goes on the bench first.</p>
         <ol class="next" aria-label="What happens next">
           <li><b>Confirm your email</b><span>a link is sent right away</span></li>
           <li><b>Get your founder number</b><span>and your personal link to share</span></li>
@@ -467,6 +468,11 @@
             <label for="wl-email">Email</label>
             <input id="wl-email" name="email" type="email" autocomplete="email" required>
           </div>
+          <div class="field vote-field" data-vote-field>
+            <label for="wl-family">Your vote: which system do you want ready first?</label>
+            <select id="wl-family" name="wl_family"></select>
+            <p class="hint">Optional. After KT, already verified, brands are developed in order of votes: each confirmed sign-up counts for the system you pick. <a href="#check">See the ranking</a>.</p>
+          </div>
           <label class="consent" for="wl-consent">
             <input id="wl-consent" name="consent" type="checkbox">
             <span>I agree to receive emails from FORGE about Kurant: availability, compatibility with my bike, launch and the Kickstarter campaign. I can unsubscribe at any time. See the <a href="privacy/index.html">privacy policy</a>.</span>
@@ -479,11 +485,7 @@
 
         <fieldset class="su-details" data-su-details hidden>
           <legend>Optional: your bike</legend>
-          <p class="hint">These answers help us choose the next controller profiles. Your chosen system counts as a vote once your email is confirmed.</p>
-          <div class="field">
-            <label for="wl-family">Your bike's system</label>
-            <select id="wl-family" name="wl_family"></select>
-          </div>
+          <p class="hint">These answers help us prepare the controller profiles.</p>
           <div class="field">
             <label for="wl-bike">Bike: brand and model</label>
             <input id="wl-bike" name="bike" type="text" placeholder="e.g. Lectric XP 3.0" maxlength="120">
@@ -594,7 +596,7 @@
 <a class="m-cta" href="#signup" hidden data-track="cta_mobile_signup"><b>100 spots at CAD&nbsp;119</b><span>Join the list</span></a>
 
 <script src="../assets/compat.js?v=20261016" defer></script>
-<script src="../assets/site.js?v=20261121" defer></script>
+<script src="../assets/site.js?v=20261122" defer></script>
 <script src="../assets/board.js?v=20261016" defer></script>
 <script src="../assets/demo.js?v=20261121" defer></script>
 <script src="../assets/campaign.js?v=20261016" defer></script>

@@ -974,3 +974,65 @@ select:hover, input[type="email"]:hover, input[type="text"]:hover { border-color
   .btn:hover, .btn-primary:hover { transform: none; }
   .hero-product:hover .hp-r7 { transform: none; }
 }
+
+/* ============================ Before / after: obsolete vs the upgrade ============================
+   The stock display is shown small, flat and faded, under dull light; Kurant larger, lit, with a
+   cyan aura and a live-volt accent, so the difference reads before a word is read. */
+.ba { grid-template-columns: minmax(0, .74fr) auto minmax(0, 1.26fr); align-items: center; gap: clamp(14px, 2vw, 28px); }
+.ba-arrow { display: grid; justify-items: center; gap: 8px; align-self: center; margin-top: -60px; }
+.ba-arrow i {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; font-style: normal; font-size: 20px;
+  color: #04141A; background: var(--cyan-fill); box-shadow: 0 0 0 6px color-mix(in srgb, var(--cyan-fill) 15%, transparent), 0 10px 30px -8px rgba(0, 210, 255, .7);
+}
+.ba-arrow span { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--cyan); writing-mode: vertical-rl; transform: rotate(180deg); }
+
+/* Before: flat, dim, desaturated */
+.ba-before .plate {
+  background: color-mix(in srgb, var(--fg) 6%, var(--bg)); background-image: none;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.ba-before .plate .art { filter: grayscale(1) contrast(.85) brightness(.82); opacity: .78; }
+:root:not([data-theme="light"]) .ba-before .plate .art { filter: grayscale(1) contrast(.85) brightness(.9) drop-shadow(0 0 .6px rgba(220, 235, 245, .25)); }
+.ba-before .callout-label { display: none; }   /* the obsolete side stays quiet; the list below says it */
+.ba-before figcaption h3 { font-size: 17px; color: var(--mute); }
+.ba-before .ba-points li { font-size: 14.5px; padding: 9px 0; }
+
+/* After: the upgrade, lit */
+.ba-after .plate {
+  background:
+    radial-gradient(55% 65% at 66% 42%, rgba(0, 210, 255, .24), transparent 70%),
+    radial-gradient(35% 35% at 26% 78%, rgba(200, 240, 49, .10), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(160deg, #14181D, #0A0C0F);
+  box-shadow: 0 0 0 1px rgba(0, 210, 255, .28), 0 0 0 6px rgba(0, 210, 255, .05), 0 60px 110px -50px rgba(0, 210, 255, .45), 0 40px 80px -40px rgba(0, 0, 0, .8);
+}
+[data-theme="light"] .ba-after .plate {
+  background:
+    radial-gradient(55% 65% at 66% 42%, rgba(0, 190, 235, .22), transparent 70%),
+    radial-gradient(35% 35% at 26% 78%, rgba(160, 200, 20, .12), transparent 70%),
+    linear-gradient(rgba(21, 24, 27, .04) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(21, 24, 27, .04) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(160deg, #FFFFFF, #EDF5F8);
+  box-shadow: 0 0 0 1px rgba(0, 128, 158, .28), 0 0 0 6px rgba(0, 163, 199, .06), 0 60px 110px -50px rgba(0, 128, 158, .5);
+}
+.ba-after .plate::after {   /* a slow sheen when the card is shown or hovered */
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .10) 50%, transparent 65%);
+  transform: translateX(-120%); transition: transform 1.4s var(--ease);
+}
+.ba-after.in .plate::after, .ba-after:hover .plate::after { transform: translateX(120%); }
+.ba-after .ba-phone { right: 9%; top: 5%; height: 92%; filter: drop-shadow(0 0 30px rgba(0, 210, 255, .25)) drop-shadow(0 30px 34px rgba(0, 0, 0, .55)); }
+.ba-after .ba-r7 { left: 9%; bottom: 9%; width: 34%; }
+.ba-after .plate-tag.on { color: #04141A; background: var(--cyan-fill); border-color: transparent; box-shadow: 0 6px 18px -6px rgba(0, 210, 255, .7); }
+.ba-after figcaption h3 { font-size: 24px; letter-spacing: -0.02em; }
+.ba-after .ba-points li { font-size: 16.5px; }
+.ba-after .ba-points li::before { content: "✓"; color: var(--cyan); font-family: var(--sans); font-weight: 700; }
+@media (max-width: 860px) {
+  .ba { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .ba-before { width: 82%; justify-self: start; }
+  .ba-arrow { margin: 0; grid-auto-flow: column; align-items: center; justify-self: center; }
+  .ba-arrow i { transform: rotate(90deg); }
+  .ba-arrow span { writing-mode: horizontal-tb; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .ba-after .plate::after { display: none; } }

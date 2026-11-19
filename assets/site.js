@@ -98,7 +98,8 @@
   var voteNote = null;
   function noteVote(f) {
     var wlForm = document.getElementById("waitlist");
-    var perk = wlForm ? wlForm.querySelector(".perk") : null;
+    // The confirmation line sits under the vote field (or the perk, on pages without one).
+    var perk = wlForm ? (wlForm.querySelector("[data-vote-field]") || wlForm.querySelector(".perk")) : null;
     if (!perk) return;
     var show = f && f.stage !== "no" && f.stage !== "other";
     if (!voteNote) {
@@ -201,7 +202,7 @@
   // Quiet entrances: content below the first screen fades up once, as it arrives. Nothing on the
   // first screen is touched (no flash), and nothing moves for people who ask for reduced motion.
   if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    var revealSel = ".env .section-head, .plate, .ba-item figcaption, .how-steps li, .need, .stages, .check-panel, " +
+    var revealSel = ".env .section-head, .plate, .ba-after, .ba-item figcaption, .how-steps li, .need, .stages, .check-panel, " +
       ".sheet > div, .rules-list li, .log-preview, .journal-more, .prices > *, .ks-facts, .budget, .signup, .next li, .faq-group";
     var fold = innerHeight * 0.92;
     var shown = new IntersectionObserver(function (entries) {
