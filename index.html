@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="assets/theme.js?v=20261120"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="assets/site.css?v=20261123">
+<link rel="stylesheet" href="assets/site.css?v=20261124">
 <link rel="stylesheet" href="assets/demo.css?v=20261121">
 <script type="application/ld+json">
 {
@@ -110,7 +110,14 @@
           <img class="hp-r7" src="assets/media/r7-render.webp" width="967" height="1100" alt="Le module Kurant R7, noir, avec son attache de guidon : rendu tiré des fichiers de conception" fetchpriority="high" decoding="async">
           <span class="hp-note flip-sm" style="--x:66%;--y:6%">Coque d'une pièce, joint continu</span>
           <span class="hp-note" style="--x:9%;--y:76%">Attache sans outil, guidons de 22,2 à 35 mm</span>
-          <span class="hp-note flip-sm" style="--x:72%;--y:86%">Trois lumières d'état</span>
+          <span class="hp-note left" style="--x:60.5%;--y:90%">Trois lumières d'état</span>
+        </div>
+        <div class="lights" data-lights hidden>
+          <div class="lights-head"><p class="lights-title">Lumières d'état · démo</p><button class="lights-pause" type="button" data-lights-pause aria-pressed="false">Pause</button></div>
+          <div class="lights-chips" data-lights-chips role="group" aria-label="Situations"></div>
+          <p class="lights-say" data-lights-say></p>
+          <div class="lights-back"><svg viewBox="0 0 100 84" aria-hidden="true" data-lights-back><path class="lb-bar" d="M0 0H100L82 30H18Z"/><path class="lb-tip" d="M22.8 38H77.2L50 83.3Z"/></svg><span>À l'arrière, l'emblème montre si le module tient le vélo allumé.</span></div>
+          <p class="lights-note">Mêmes règles et mêmes couleurs que le micrologiciel&nbsp;0.6, testées sur ordinateur&#8239;; l'essai sur le circuit rév.&nbsp;0.2 est la prochaine étape.</p>
         </div>
         <figcaption>Module Kurant R7 · rendu des fichiers de conception, prototype imprimé à venir</figcaption>
       </figure>
@@ -407,11 +414,11 @@
         <div class="road-cols">
           <div class="road-col road-done">
             <h3><span class="dot ok" aria-hidden="true"></span>Fait</h3>
-            <ul><li><time>10 oct.</time><span>Allumage, assistance et téléphone coupé : testés au banc</span></li><li><time>14 oct.</time><span>Premiers circuits imprimés reçus</span></li><li><time>31 oct.</time><span>Premier essai sur le vélo : un problème trouvé et corrigé</span></li></ul>
+            <ul><li><time>14 oct.</time><span>Premiers circuits imprimés reçus</span></li><li><time>31 oct.</time><span>Premier essai sur le vélo : un problème trouvé et corrigé</span></li><li><time>4 nov.</time><span>Tous les réglages de l'écran KT relevés au banc</span></li></ul>
           </div>
           <div class="road-col road-now">
             <h3><span class="dot now" aria-hidden="true"></span>En cours</h3>
-            <ul><li><time>Nov.</time><span>Circuit rév. 0.2 commandé</span></li><li><time>Nov.</time><span>Boîtiers R7 des unités bêta</span></li></ul>
+            <ul><li><time>Nov.</time><span>Circuit rév. 0.2 commandé</span></li><li><time>Nov.</time><span>Coques R7.1 des unités bêta, imprimées en ASA</span></li></ul>
           </div>
           <div class="road-col road-next">
             <h3><span class="dot next" aria-hidden="true"></span>Ensuite</h3>
@@ -667,6 +674,7 @@
 <script src="assets/demo.js?v=20261121" defer></script>
 <script src="assets/campaign.js?v=20261016" defer></script>
 <script src="assets/journal.js?v=20261031" defer></script>
+<script src="assets/lights.js?v=20261124" defer></script>
 <script src="assets/module3d.js?v=20261024" type="module"></script>
 </body>
 </html>

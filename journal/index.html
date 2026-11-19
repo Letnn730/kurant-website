@@ -11,7 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
 <script src="../assets/theme.js?v=20261120"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261123">
+<link rel="stylesheet" href="../assets/site.css?v=20261124">
 </head>
 <body>
 <header class="top">
@@ -37,6 +37,24 @@
     </header>
     <ol class="log-list">
     <li class="log-item">
+      <time datetime="2026-11-16">16 novembre 2026</time>
+      <h2>Boîtier R7.1&#8239;: deux défauts trouvés avant l'impression <span class="tag tag-mine">Conception</span></h2>
+      <p>En préparant l'impression des premières coques, deux défauts sont apparus dans les fichiers de conception. Les supports des lumières couvraient les quatre pattes à souder de chaque DEL&#8239;: une fois en place, elles n'auraient pas pu être câblées. Chaque support a maintenant deux fenêtres, une sous chaque rangée de pattes. Derrière l'emblème arrière, il restait 0,9&nbsp;mm pour les fils, moins que l'épaisseur d'un fil&#8239;: une encoche leur laisse maintenant 2,1&nbsp;mm.</p>
+      <p>Le circuit rév.&nbsp;0.2 est vérifié dans le boîtier, pièce par pièce&#8239;: aucune interférence, 0,35&nbsp;mm de jeu au plus serré. Les coques des unités bêta s'impriment ici, en ASA, un plastique fait pour l'extérieur qui résiste au soleil et à la chaleur mieux que le PETG. Les essais d'étanchéité, de fixation et de froid seront publiés ici, réussis ou non.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-11-06">6 novembre 2026</time>
+      <h2>Micrologiciel 0.6.2&#8239;: vos réglages survivent au redémarrage</h2>
+      <p>Le contrôleur KT n'a aucune mémoire qu'on puisse relire&#8239;: c'est donc le module qui retient les réglages choisis dans l'application, comme la taille de roue, et les restaure quand le vélo est rallumé. Par sécurité, le niveau d'assistance, le phare et la limite de vitesse repartent toujours des valeurs de base&#8239;: le vélo ne se réveille jamais à une ancienne limite.</p>
+      <p>Publier une mise à jour sans fil se fait maintenant en une commande, qui refuse toute publication risquée&#8239;: mauvaise clé de signature, numéro de version incohérent, fichier périmé, ou version pas plus récente que la dernière. Testé sur ordinateur&#8239;; l'essai sur le module rév.&nbsp;0.2 est la prochaine étape.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-11-04">4 novembre 2026</time>
+      <h2>Tous les réglages de l'écran KT, relevés au banc</h2>
+      <p>Une série de captures, moteur coupé, a relevé chaque réglage de l'écran KT, un à la fois&#8239;: les modes de l'accélérateur, la limite de l'accélérateur, les aimants de roue, la récupération au freinage, les réglages P3 et P4, et les roues de 16 à 28&nbsp;po et 700C. Le profil KT passe à la version 0.8.1, et l'application les affiche tous, chacun expliqué en mots simples.</p>
+      <p>Les captures ont aussi confirmé que le contrôleur KT ne renvoie aucune confirmation des réglages reçus. L'application le dit maintenant clairement, au lieu de laisser croire qu'il l'a accepté.</p>
+    </li>
+    <li class="log-item">
       <time datetime="2026-10-31">31 octobre 2026</time>
       <h2>Premier essai sur le vélo&#8239;: une pièce à la mauvaise valeur, trouvée et corrigée</h2>
       <p>Sur le vélo, les premiers circuits imprimés perdaient la connexion dès qu'on allumait le vélo, et deux modules ont été endommagés. Alimentés au banc sans la batterie du vélo, ils fonctionnaient.</p>
@@ -49,10 +67,21 @@
       <p>Le circuit et le plan de montage concordent pièce par pièce, et chaque pièce est en stock chez le fabricant. Prochaine étape&#8239;: commander les prototypes et les essayer sur le vélo. Les résultats seront publiés ici.</p>
     </li>
     <li class="log-item">
+      <time datetime="2026-10-29">29 octobre 2026</time>
+      <h2>Les lumières d'état, dans le micrologiciel <span class="tag tag-mine">Conception</span></h2>
+      <p>Le micrologiciel 0.6 pilote les huit lumières du boîtier R7. La ligne du bas montre l'état du module et du vélo, le logo montre le lien avec le téléphone, et l'emblème arrière s'allume quand le module tient le vélo allumé. Stationné depuis 2&nbsp;minutes sans téléphone, tout s'éteint et le module coupe l'alimentation des lumières&#8239;: chaque DEL consomme environ 1&nbsp;mA même éteinte, ce qui viderait la batterie. L'intensité est limitée au quart du maximum.</p>
+      <p>Les règles sont testées sur ordinateur, et la démo de la page d'accueil utilise exactement les mêmes. L'essai sur le circuit rév.&nbsp;0.2 vient ensuite.</p>
+    </li>
+    <li class="log-item">
       <time datetime="2026-10-24">24 octobre 2026</time>
       <h2>Boîtier R7&#8239;: plus mince, plus solide <span class="tag tag-mine">Conception</span></h2>
       <p>Le boîtier est redessiné et vérifié dans les fichiers de conception&#8239;: jeu autour du circuit sur chaque côté, profondeur des vis, écrasement du joint, filetage du presse-étoupe et compression des coussinets. Il mesure 62&nbsp;×&nbsp;85&nbsp;×&nbsp;29&nbsp;mm, soit 41&nbsp;% plus mince que le premier prototype imprimé (49&nbsp;mm), avec 60&nbsp;% de matière en moins.</p>
       <p>Coque d'une pièce et joint continu, circuit tenu sans vis, deux vis au lieu de huit, attache de guidon sans outil pour les guidons de 22,2 à 35&nbsp;mm, et trois lumières d'état&#8239;: module alimenté, téléphone connecté, état du verrou. Prochaine étape&#8239;: imprimer les prototypes et tester l'étanchéité, la fixation et le froid. Les résultats seront publiés ici.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-10-23">23 octobre 2026</time>
+      <h2>Application&#8239;: le nouvel écran de conduite</h2>
+      <p>L'écran de conduite est refait autour d'une carte plein écran, avec la jauge posée dessus&#8239;: quatre styles de jauge au choix, une échelle d'assistance, le mode paysage, la portée estimée tracée sur la carte et la navigation à vélo, virage par virage. Il fonctionne dans l'application avec le vélo virtuel, et la démo de kurant.ca le reproduit. L'essai sur la route vient avec les unités bêta.</p>
     </li>
     <li class="log-item">
       <time datetime="2026-10-14">14 octobre 2026</time>
