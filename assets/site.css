@@ -1100,3 +1100,45 @@ select:hover, input[type="email"]:hover, input[type="text"]:hover { border-color
 
 /* Sign-up: live vote ranking */
 .vote-rank { font-size: 13px; color: var(--cyan); margin-top: 2px; }
+
+
+/* ============================ Status lights on the hero module ============================
+   assets/lights.js drives the R7's eight LEDs with the firmware's own rules. Each lens is a mask
+   cut from the render (assets/media/lights/), so the light stays inside the real lens shape:
+   smoked plastic when dark, the LED colour plus a soft bloom when lit. */
+.hp-unit { position: relative; transition: transform .8s var(--ease); }
+.hero-product:hover .hp-unit { transform: translateY(-4px); }
+.hp-unit .hp-r7, .hero-product:hover .hp-unit .hp-r7 { transform: none; }
+.lt { position: absolute; inset: 0; pointer-events: none; }
+.lt i { position: absolute; display: block; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+.lt-smoke { background: #14181B; opacity: .82; }
+.lt-led { opacity: 0; }
+.lt-bloom { position: absolute; inset: 0; filter: blur(10px); mix-blend-mode: screen; }
+.lt-bloom .lt-led { transform: scale(1.12); }
+.lights { width: min(100%, 470px); display: grid; gap: 10px; margin-top: 4px; }
+.lights-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.lights-title { margin: 0; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
+.lights-pause { font: 500 12.5px/1 var(--sans); color: var(--mute); background: none; border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; cursor: pointer; min-height: 32px; }
+.lights-pause:hover { color: var(--fg); }
+.lights-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.lc { font: 500 13px/1 var(--sans); color: var(--mute); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 9px 12px; min-height: 36px; cursor: pointer; transition: color .2s, border-color .2s, background-color .2s; }
+.lc:hover { color: var(--fg); }
+.lc[aria-pressed="true"] { color: var(--fg); border-color: var(--cyan); background: rgba(0, 210, 255, .10); }
+.lights-say { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--fg); min-height: 4.5em; }
+.lights-back { display: flex; align-items: center; gap: 12px; font-size: 13.5px; color: var(--mute); }
+.lights-back svg { width: 30px; height: auto; flex: none; overflow: visible; }
+.lights-back path { fill: #2A2F34; stroke: #3A4046; stroke-width: 2; transition: none; }
+.lights-back path.on { stroke: none; filter: drop-shadow(0 0 5px currentColor); }
+.lights-back .lb-bar.on { color: rgba(255, 255, 255, .8); }
+.lights-back .lb-tip.on { color: rgba(0, 60, 255, .9); }
+.lights-note { margin: 0; font-size: 12.5px; color: var(--mute); }
+[data-theme="light"] .lights-back path { fill: #C9CED2; stroke: #B5BBC0; }
+[data-theme="light"] .lt-bloom { mix-blend-mode: normal; opacity: .7; }
+@media (max-width: 860px) {
+  .lights { width: min(100%, 520px); justify-self: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-product:hover .hp-unit { transform: none; }
+  .lc { transition: none; }
+}
+[data-theme="light"] .lights-back .lb-bar.on { stroke: #9AA3A9; stroke-width: 2; }
