@@ -1,6 +1,7 @@
 // R7 stills for the home pages: the design files drawn the same way as the 3D viewer (matte, outlined,
 // never photoreal). Parameters come from the URL: w, h, yaw, pitch, open, hide, outline, edge, margin,
-// style (clay | toon), hemi, key, rim.
+// style (clay | toon), hemi, key, rim, palette (real), board (illus).
+// With anim=1&open=1 it exposes window.frame(yaw, pitch, open[, zoom]) for tools/r7-stills/animate.js.
 // Offline still renders of the R7 design files (no photoreal materials: matte, outlined, like the site's 3D viewer).
 import * as THREE from "../../assets/vendor/three.module.min.js";
 const q = new URLSearchParams(location.search);
@@ -34,7 +35,7 @@ const inkFor = (p) => p.group === "board" ? CYAN : INK;
 // black TPU band, KURANT name filled with white enamel, clear PETG lenses. The front logo lenses are
 // shown as the brand mark they light up as (white bar, cyan tip); the status line as clear PETG, unlit.
 const REAL = q.get("palette") === "real";
-const realFill = (p) => p.group === "board" ? 0x1d6b4f
+const realFill = (p) => p.group === "board" ? (q.get("board") === "illus" ? 0xc9ecf4 : 0x1d6b4f)
   : p.kind === "paint" ? 0xf1f3f4
   : p.kind === "rubber" ? 0x141618
   : p.kind === "optic" ? (p.name.includes("Tip") ? 0x2fd0f2 : p.name.includes("Bar") ? 0xeef2f4 : 0x8d979e)
@@ -73,6 +74,32 @@ for (const p of meta.parts) {
   holder.position.copy(shift).multiplyScalar(open);
   parts.push(holder); group.add(holder);
 }
+if (q.get("anim")) {
+  // Animation mode (tools/r7-stills/animate.js): one fixed frame, sized on the fully open module so
+  // the zoom never jumps; window.frame(yaw, pitch, open[, zoom]) draws one frame and returns it as PNG.
+  const shifts = parts.map((h) => h.position.clone().divideScalar(open || 1));
+  const setOpen = (o) => parts.forEach((h, i) => h.position.copy(shifts[i]).multiplyScalar(o));
+  setOpen(1);
+  const openBox = new THREE.Box3().setFromObject(group);
+  const centre = openBox.getCenter(new THREE.Vector3());
+  setOpen(0);
+  const closedCentre = new THREE.Box3().setFromObject(group).getCenter(new THREE.Vector3());
+  const R = openBox.getSize(new THREE.Vector3()).length() / 2;
+  const zoom = +(q.get("zoom") || 1);
+  window.frame = (yawF, pitchF, o, z = zoom) => {
+    setOpen(o);
+    group.position.copy(closedCentre.clone().lerp(centre, o)).negate();
+    const d = R * 4;
+    camera.position.set(Math.sin(yawF) * Math.cos(pitchF) * d, -Math.cos(yawF) * Math.cos(pitchF) * d, Math.sin(pitchF) * d);
+    camera.lookAt(0, 0, 0);
+    const hh = R * 1.02 / z, hw = hh * (W / H);
+    camera.left = -hw; camera.right = hw; camera.top = hh; camera.bottom = -hh; camera.updateProjectionMatrix();
+    ow.value = outline * (2 * hh) / H;
+    renderer.render(scene, camera);
+    return renderer.domElement.toDataURL("image/png");
+  };
+  window.done = true;
+} else {
 const box = new THREE.Box3().setFromObject(group); group.position.sub(box.getCenter(new THREE.Vector3()));
 const radius = box.getSize(new THREE.Vector3()).length() / 2, d = radius * 4;
 camera.position.set(Math.sin(yaw) * Math.cos(pitch) * d, -Math.cos(yaw) * Math.cos(pitch) * d, Math.sin(pitch) * d);
@@ -88,3 +115,4 @@ camera.left = cx - hw; camera.right = cx + hw; camera.top = cy + hh; camera.bott
 ow.value = outline * (2 * hh) / H;
 renderer.render(scene, camera);
 window.done = true;
+}

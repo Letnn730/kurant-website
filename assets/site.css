@@ -852,7 +852,7 @@ select:hover, input[type="email"]:hover, input[type="text"]:hover { border-color
   background-size: 24px 24px, 24px 24px, auto;
   box-shadow: inset 0 0 0 1px var(--plate-edge), 0 60px 120px -50px rgba(0, 0, 0, .7);
 }
-.m3d-video, .m3d-dialog video { background: #EEF1F3; }
+.m3d-video, .m3d-dialog video { background: #111316; }   /* the animation's own studio background */
 .m3d-badge {
   position: absolute; right: 14px; top: 14px; z-index: 2; pointer-events: none; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
   color: var(--plate-mute); background: var(--chip-bg); border: 1px solid var(--chip-edge); border-radius: 999px; padding: 4px 10px;
@@ -1036,3 +1036,67 @@ select:hover, input[type="email"]:hover, input[type="text"]:hover { border-color
   .ba-arrow span { writing-mode: horizontal-tb; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .ba-after .plate::after { display: none; } }
+
+/* ============================ Journal: roadmap and who is behind ============================ */
+.journal-extra { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; margin-top: clamp(40px, 5vw, 64px); }
+.roadmap, .forge-block { border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--card-shadow); padding: clamp(20px, 3vw, 30px); }
+.road-title { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 18px; }
+.road-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.road-col h3 { display: flex; align-items: center; gap: 9px; font-size: 15px; margin-bottom: 10px; }
+.road-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.road-col li { display: grid; gap: 1px; font-size: 14px; color: var(--mute); padding-left: 16px; border-left: 1px solid var(--line); }
+.road-done li { border-left-color: color-mix(in srgb, var(--cyan) 55%, transparent); }
+.road-col time { font-family: var(--mono); font-size: 11.5px; color: var(--cyan); }
+.road-now time { color: var(--amber); }
+.road-done span { color: var(--fg); }
+.dot.next { background: transparent; box-shadow: inset 0 0 0 1.5px var(--mute); }
+.forge-block { display: grid; gap: 10px; align-content: start; }
+.forge-block .forge-mark.big { width: 34px; height: auto; }
+.forge-block .forge-mark .a { fill: var(--fg); } .forge-block .forge-mark .b { fill: var(--cyan-fill); }
+.forge-block h3 { font-size: 19px; }
+.forge-block p { font-size: 14.5px; color: var(--mute); }
+.forge-who { font-size: 13.5px !important; }
+.forge-who .contact { color: var(--fg); }
+@media (max-width: 860px) {
+  .journal-extra { grid-template-columns: minmax(0, 1fr); }
+  .road-cols { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+}
+
+/* ============================ Why Kurant: in the box + comparison ============================ */
+.cmp-grid { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr); gap: clamp(24px, 4vw, 48px); align-items: start; }
+.inbox h3 { font-size: 18px; margin-bottom: 14px; }
+.box-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.box-list li { display: grid; gap: 4px; align-content: start; border-radius: var(--radius); background: var(--surface); box-shadow: var(--card-shadow); padding: 16px; }
+.box-list b { font-size: 14.5px; font-weight: 600; }
+.box-list li > span:last-child { font-size: 13px; color: var(--mute); }
+.box-ico { display: grid; place-items: center; height: 64px; margin-bottom: 6px; }
+.box-ico img { height: 62px; width: auto; filter: var(--product-edge) drop-shadow(0 8px 10px rgba(0, 0, 0, .3)); }
+.box-ico svg { width: 46px; height: 46px; fill: none; stroke: var(--fg); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+.box-no { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; font-size: 13.5px; color: var(--mute); }
+.box-ico.sm { height: auto; margin: 0; }
+.box-ico.sm svg { width: 22px; height: 22px; stroke: var(--mute); }
+.cmp { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+.cmp th, .cmp td { text-align: left; vertical-align: top; padding: 11px 12px; border-bottom: 1px solid var(--line); }
+.cmp thead th { font-size: 12px; font-family: var(--mono); font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+.cmp tbody th { font-weight: 600; color: var(--fg); width: 22%; }
+.cmp td { color: var(--mute); }
+.cmp .us { color: var(--fg); background: color-mix(in srgb, var(--cyan-fill) 7%, transparent); }
+.cmp thead .us { color: var(--cyan); border-radius: 12px 12px 0 0; box-shadow: inset 0 2px 0 var(--cyan-fill); }
+.cmp tbody tr:last-child .us { border-radius: 0 0 12px 12px; }
+.cmp-note { margin-top: 14px; font-size: 12.5px; color: var(--mute); }
+.cmp-note a { color: inherit; }
+@media (max-width: 960px) { .cmp-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) {
+  /* Phones: each row becomes a small card with the three answers labelled */
+  .cmp thead { display: none; }
+  .cmp, .cmp tbody, .cmp tr, .cmp th, .cmp td { display: block; width: auto; }
+  .cmp tr { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .cmp th, .cmp td { border: 0; padding: 3px 0; }
+  .cmp tbody th { font-size: 15px; margin-bottom: 4px; width: auto; }
+  .cmp td::before { content: attr(data-col) " · "; font-family: var(--mono); font-size: 11px; color: var(--mute); }
+  .cmp td.us { padding: 6px 10px; border-radius: 8px; margin-top: 4px; }
+  .cmp td.us::before { color: var(--cyan); }
+}
+
+/* Sign-up: live vote ranking */
+.vote-rank { font-size: 13px; color: var(--cyan); margin-top: 2px; }

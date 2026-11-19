@@ -237,6 +237,8 @@
       total.hidden = !stats;
       if (stats) total.textContent = T.total(stats.total || 0);
     }
+    // The sign-up form shows the same ranking under its vote field (assets/site.js).
+    if (stats) document.dispatchEvent(new CustomEvent("kurant:stats", { detail: stats }));
     if (stats && stats.total >= SHOW_TOTAL_MIN) {
       Array.prototype.forEach.call(document.querySelectorAll("[data-ks-count]"), function (n) {
         n.textContent = T.ks(stats.total);

@@ -214,3 +214,13 @@ node tools/r7-stills/shoot.js r7_front.png "palette=real&w=900&h=900&yaw=-0.55&p
 Crop each PNG to its content and export WebP (quality about 88) at 1100 px and 640 px tall, then bump
 `site.css?v=` on both home pages. Replace these stills with photographs once the printed R7 exists.
 
+The 12 s story animation (`crown_r7_story_680.mp4` and its poster) comes from the same files:
+
+```bash
+node tools/r7-stills/animate.js /tmp/r7-frames            # 360 transparent frames + captions list
+python3 tools/r7-stills/compose.py /tmp/r7-frames Inter-Regular.ttf Inter-SemiBold.ttf
+```
+
+`compose.py` lays the frames on the studio background with the bilingual captions and writes the
+MP4 and the poster into `assets/media/` (needs Pillow and ffmpeg). Bump the `?v=` on both home pages.
+

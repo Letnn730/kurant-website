@@ -151,6 +151,21 @@
     wlFam.addEventListener("change", function () { if (famSel) { famSel.value = wlFam.value; update(); } });
   }
 
+  // Live ranking under the vote field: the systems still in development, most confirmed votes first.
+  // Shown only once at least one vote exists (assets/board.js shares the counts it loads).
+  var rankLine = document.querySelector("[data-vote-rank]");
+  document.addEventListener("kurant:stats", function (e) {
+    var fam = (e.detail && e.detail.families) || {};
+    if (!rankLine || !data) return;
+    var open = data.families.filter(function (f) { return (f.stage === "dev" || f.stage === "bench") && fam[f.id] > 0; });
+    open.sort(function (a, b) { return fam[b.id] - fam[a.id]; });
+    if (!open.length) { rankLine.hidden = true; return; }
+    var votes = function (n) { return n.toLocaleString(lang === "en" ? "en-CA" : "fr-CA") + (lang === "en" ? (n === 1 ? " vote" : " votes") : (n === 1 ? " vote" : " votes")); };
+    rankLine.textContent = (lang === "en" ? "Current ranking: " : "Classement actuel\u202F: ") +
+      open.slice(0, 3).map(function (f, i) { return (i + 1) + ". " + f[lang].name + " (" + votes(fam[f.id]) + ")"; }).join(" · ");
+    rankLine.hidden = false;
+  });
+
   // Choose a system from the list's "Sign up to vote" button (assets/board.js), or from a shared
   // link ?systeme=ID / ?system=ID. With opts.scroll, the form comes into view, ready for the email.
   function pickSystem(id, opts) {
