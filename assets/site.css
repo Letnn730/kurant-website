@@ -932,3 +932,103 @@ select:hover, input[type="email"]:hover, input[type="text"]:hover { border-color
   .stage .phone, .stage .phone.kd-live { margin-left: 0; width: 300px; }
   .r7-hero { left: calc(50% - 290px); top: 18%; width: 200px; }
 }
+
+/* =============================================================================================
+   LIGHT THEME · [data-theme="light"] on <html>, set by assets/theme.js (saved choice, else the
+   system setting). The four environments keep their rhythm: graphite becomes porcelain, slate a
+   pale blueprint; mineral and grey are already light. The app's phone screen stays dark, as it is.
+   ============================================================================================= */
+:root[data-theme="light"] {
+  --bg: #F6F5F2; --surface: #FFFFFF; --surface-2: #E9E7E2; --line: rgba(21, 24, 27, .13);
+  --fg: #15181B; --mute: #5A6269;
+  --cyan: #00809E; --cyan-hover: #006A84; --glow: rgba(0, 128, 158, .25);
+  --amber: #A86200; --coral: #C0392B; --veil: rgba(246, 245, 242, .86);
+  color-scheme: light;
+}
+[data-theme="light"] .env::after { mix-blend-mode: multiply; --grain-o: .04; }
+[data-theme="light"] .env-graphite, [data-theme="light"] .env-slate {
+  --fg: #15181B; --mute: #5A6269; --line: rgba(21, 24, 27, .13); --surface: #FFFFFF; --surface-2: #E9E7E2;
+  --cyan: #00809E; --cyan-hover: #006A84; --glow: rgba(0, 128, 158, .25); --amber: #A86200; --coral: #C0392B;
+  color-scheme: light;
+}
+[data-theme="light"] .env-graphite {
+  --bg: #F6F5F2;
+  background: radial-gradient(70% 55% at 72% 0%, #FFFFFF, transparent 70%), linear-gradient(#F7F6F3, #F4F3EF);
+}
+[data-theme="light"] .facts.env-graphite { background: #F4F3EF; }
+[data-theme="light"] .env-slate {
+  --bg: #EAEEF0;
+  background-color: #EAEEF0;
+  background-image:
+    radial-gradient(60% 60% at 50% 0%, rgba(255, 255, 255, .7), transparent 70%),
+    linear-gradient(rgba(21, 40, 56, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 40, 56, .055) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+[data-theme="light"] .m3d.env-graphite { background: radial-gradient(60% 50% at 66% 50%, #FFFFFF, transparent 70%), #F2F1ED; }
+[data-theme="light"] .ks.env-graphite { background: radial-gradient(55% 45% at 22% 18%, rgba(0, 163, 199, .07), transparent 70%), radial-gradient(70% 50% at 80% 0%, #FFFFFF, transparent 70%), #F4F3EF; }
+
+/* Header and footer */
+[data-theme="light"] .top { background: rgba(246, 245, 242, .84); border-bottom-color: rgba(21, 24, 27, .08); }
+[data-theme="light"] .foot { background: #EEEDE9; border-top-color: rgba(21, 24, 27, .08); }
+
+/* Hero stage: daylight instead of a spotlight */
+[data-theme="light"] .stage::before { background: radial-gradient(closest-side, rgba(255, 255, 255, .95), rgba(255, 255, 255, .4) 55%, transparent 75%); }
+[data-theme="light"] .stage::after { background: radial-gradient(closest-side, rgba(21, 24, 27, .28), transparent); }
+[data-theme="light"] .stage .phone, [data-theme="light"] .stage .phone.kd-live { box-shadow: 0 50px 80px -36px rgba(21, 24, 27, .55), 0 0 0 1px rgba(21, 24, 27, .08); }
+[data-theme="light"] .r7-hero { filter: drop-shadow(0 26px 26px rgba(21, 24, 27, .28)) drop-shadow(0 2px 2px rgba(21, 24, 27, .2)); }
+[data-theme="light"] .dot.now { background: #E59A1F; }
+
+/* Cards that were lit for the dark */
+[data-theme="light"] .price { background: #FFFFFF; box-shadow: 0 0 0 1px rgba(21, 24, 27, .04), 0 24px 50px -40px rgba(21, 24, 27, .4); }
+[data-theme="light"] .price.lead {
+  border-color: rgba(0, 128, 158, .4);
+  background: radial-gradient(90% 80% at 0% 100%, rgba(0, 210, 255, .16), transparent 70%), linear-gradient(160deg, #FFFFFF, #F1F6F8);
+  box-shadow: 0 0 0 1px rgba(0, 128, 158, .1) inset, 0 40px 80px -50px rgba(0, 128, 158, .45);
+}
+[data-theme="light"] .price.lead b { color: #15181B; }
+[data-theme="light"] .price.lead small { color: #00809E; }
+[data-theme="light"] .signup {
+  background: #FFFFFF; border-color: rgba(21, 24, 27, .08);
+  box-shadow: 0 0 0 1px rgba(21, 24, 27, .04), 0 50px 90px -60px rgba(21, 24, 27, .5);
+}
+[data-theme="light"] .m3d-stage { box-shadow: 0 0 0 1px rgba(21, 24, 27, .08), 0 50px 90px -50px rgba(21, 24, 27, .45); }
+[data-theme="light"] .founder-card { box-shadow: 0 30px 70px -40px rgba(21, 24, 27, .45); }
+[data-theme="light"] .founder-card b { text-shadow: none; }
+[data-theme="light"] .log-item:first-child::before { box-shadow: 0 0 0 4px rgba(0, 128, 158, .15); }
+[data-theme="light"] .budget-bar { background: rgba(21, 24, 27, .14); }
+[data-theme="light"] .budget-list li.lead .budget-bar { background: #00A3C7; }
+[data-theme="light"] .slit { box-shadow: none; background: #00A3C7; }
+
+/* Dark theme: a faint edge light so the black R7 separates from graphite */
+:root:not([data-theme="light"]) .r7-hero {
+  filter: drop-shadow(0 0 1px rgba(210, 235, 245, .35)) drop-shadow(0 30px 30px rgba(0, 0, 0, .55)) drop-shadow(0 2px 2px rgba(0, 0, 0, .35));
+}
+
+/* The switch */
+.theme-toggle {
+  display: inline-grid; place-items: center; width: 34px; height: 34px; padding: 0; cursor: pointer;
+  color: var(--mute); background: transparent; border: 1px solid var(--line); border-radius: 999px;
+  transition: color .2s, border-color .2s, background-color .2s;
+}
+.theme-toggle:hover { color: var(--fg); border-color: var(--mute); }
+.theme-toggle:focus-visible { outline: 2px solid var(--cyan-fill); outline-offset: 3px; }
+.theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.theme-toggle .i-sun circle { fill: none; }
+.theme-toggle .i-moon { fill: currentColor; stroke: none; }
+.theme-toggle .i-moon, [data-theme="light"] .theme-toggle .i-sun { display: none; }
+[data-theme="light"] .theme-toggle .i-moon { display: block; }
+.top-actions { gap: 10px; }
+/* A short cross-fade when switching, never on load */
+.theme-switching body, .theme-switching .env, .theme-switching .top, .theme-switching .foot { transition: background-color .35s ease, color .35s ease; }
+/* A soft light behind the R7 on graphite, so the black module reads at a glance */
+:root:not([data-theme="light"]) .stage { background: radial-gradient(28% 24% at 16% 36%, rgba(190, 225, 240, .11), transparent 72%); }
+/* Narrow phones: brand, switch, language and the call to action on one line */
+@media (max-width: 400px) {
+  .top .wrap { gap: 12px; }
+  .top-actions { gap: 6px; }
+  .brand-word { letter-spacing: .18em; font-size: 14px; }
+  .theme-toggle { width: 32px; height: 32px; }
+  .lang { padding: 6px 7px; }
+  .top-actions .btn-sm { padding: 0 12px; font-size: 13.5px; white-space: nowrap; }
+}

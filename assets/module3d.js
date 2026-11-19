@@ -75,12 +75,20 @@ function start(root) {
     ramp.minFilter = ramp.magFilter = THREE.NearestFilter;
     ramp.needsUpdate = true;
 
-    const TONE = { housing: 0xffffff, cover: 0xffffff, lights: 0xf2f5f7, board: 0xc9ecf4, mount: 0xe4e9ed, other: 0xffffff };
-    const INK = new THREE.Color(0x2c3237), CYAN = new THREE.Color(0x0091b3), HW = new THREE.Color(0x6f7880);
-    // Lenses read as the status lights (pale cyan), the KURANT paint fill as ink.
-    const fillFor = (p) => p.kind === "optic" ? 0xbdeffa : p.kind === "paint" ? 0x2c3237 : p.kind === "hardware" ? 0xd3d9de
-      : p.kind === "rubber" ? 0xb9c2ca : TONE[p.group] || 0xffffff;
+    // The beta unit's real colours (Crown R7 release notes): black ASA shell, back, carriers and clip,
+    // black TPU band, the KURANT name filled with white enamel, clear PETG lenses. The front logo lenses
+    // show the brand mark they light up as (white bar, cyan tip). The board keeps the illustration's
+    // pale cyan, so it reads as "the circuit" once the module opens.
+    const BLACK = 0x2a2e33;
+    const fillFor = (p) => p.group === "board" ? 0xc9ecf4
+      : p.kind === "paint" ? 0xf1f3f4
+      : p.kind === "rubber" ? 0x1b1d20
+      : p.kind === "optic" ? (p.name.includes("Tip") ? 0x2fd0f2 : p.name.includes("Bar") ? 0xeef2f4 : 0x9aa4ab)
+      : p.kind === "hardware" ? 0xd3d9de : BLACK;
+    const INK = new THREE.Color(0x0b0c0e), CYAN = new THREE.Color(0x0091b3), HW = new THREE.Color(0x6f7880);
+    const EDGE = new THREE.Color(0x7d868e);   // fold lines on black parts, light enough to read
     const inkFor = (p) => p.group === "board" ? CYAN : p.kind === "hardware" ? HW : INK;
+    const edgeFor = (p) => p.group === "board" ? CYAN : p.kind === "hardware" ? HW : EDGE;
 
     const outlineUniforms = { width: { value: 0.4 } };
     const hullMaterial = (color) => new THREE.ShaderMaterial({
@@ -115,7 +123,7 @@ function start(root) {
       if (p.edgeCount && !flat) {
         const eg = new THREE.BufferGeometry();
         eg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(bin, p.edges, p.edgeCount * 6), 3));
-        holder.add(new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: inkFor(p), transparent: true, opacity: 0.55 })));
+        holder.add(new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: edgeFor(p), transparent: true, opacity: 0.6 })));
       }
       // Wider spread for the clip and the back plate so nothing hides the board when open.
       const k = p.group === "mount" ? 1.35 : p.group === "cover" ? 1.25 : 1.1;

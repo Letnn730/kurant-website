@@ -30,6 +30,17 @@ const TONE = { housing: 0xffffff, cover: 0xffffff, lights: 0xf2f5f7, board: 0xc9
 const INK = new THREE.Color(q.get("ink") || "#2c3237"), CYAN = new THREE.Color(0x0091b3);
 const fillFor = (p) => p.kind === "optic" ? 0xbdeffa : p.kind === "paint" ? 0x2c3237 : p.kind === "rubber" ? (style === "toon" ? 0xb9c2ca : 0x3b4148) : TONE[p.group] || 0xffffff;
 const inkFor = (p) => p.group === "board" ? CYAN : INK;
+// palette=real: the beta unit as specified (Crown R7 release notes): black ASA shell, back and clip,
+// black TPU band, KURANT name filled with white enamel, clear PETG lenses. The front logo lenses are
+// shown as the brand mark they light up as (white bar, cyan tip); the status line as clear PETG, unlit.
+const REAL = q.get("palette") === "real";
+const realFill = (p) => p.group === "board" ? 0x1d6b4f
+  : p.kind === "paint" ? 0xf1f3f4
+  : p.kind === "rubber" ? 0x141618
+  : p.kind === "optic" ? (p.name.includes("Tip") ? 0x2fd0f2 : p.name.includes("Bar") ? 0xeef2f4 : 0x8d979e)
+  : 0x24272b;
+const EDGE = new THREE.Color(q.get("edgeink") || "#6b747c");
+const realInk = (p) => p.group === "board" ? CYAN : new THREE.Color(0x07080a);
 const ow = { value: 0.4 };
 const hullMat = (c) => new THREE.ShaderMaterial({ uniforms: { width: ow, color: { value: c } },
   vertexShader: `attribute vec3 hullNormal; uniform float width; void main(){ gl_Position = projectionMatrix*modelViewMatrix*vec4(position+normalize(hullNormal)*width,1.0); }`,
@@ -47,15 +58,15 @@ for (const p of meta.parts) {
   geo.setAttribute("normal", new THREE.BufferAttribute(n, 3));
   const mat = style === "toon"
     ? new THREE.MeshToonMaterial({ color: fillFor(p), gradientMap: ramp, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 })
-    : new THREE.MeshLambertMaterial({ color: fillFor(p), polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+    : new THREE.MeshLambertMaterial({ color: REAL ? realFill(p) : fillFor(p), polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
   const holder = new THREE.Group();
   const fill = new THREE.Mesh(geo, mat);
   const flat = p.kind === "paint" || p.kind === "optic";
-  if (flat || outline === 0) holder.add(fill); else holder.add(new THREE.Mesh(geo, hullMat(inkFor(p))), fill);
+  if (flat || outline === 0) holder.add(fill); else holder.add(new THREE.Mesh(geo, hullMat(REAL ? realInk(p) : inkFor(p))), fill);
   if (p.edgeCount && !flat && outline > 0) {
     const eg = new THREE.BufferGeometry();
     eg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(bin, p.edges, p.edgeCount * 6), 3));
-    holder.add(new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: inkFor(p), transparent: true, opacity: +(q.get("edge") ?? 0.55) })));
+    holder.add(new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: REAL ? EDGE : inkFor(p), transparent: true, opacity: +(q.get("edge") ?? 0.55) })));
   }
   const k = p.group === "mount" ? 1.35 : p.group === "cover" ? 1.25 : 1.1;
   const shift = new THREE.Vector3(...p.shift).multiplyScalar(k); if (p.group === "board") shift.z += 46;

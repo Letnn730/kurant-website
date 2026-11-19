@@ -13,6 +13,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `assets/site.css` | Styles, following the FORGE brand guide. The home pages' art direction (end of the file) sets four environments (`env-graphite`, `env-mineral`, `env-slate`, `env-grey`) that redefine the colour tokens per section, so components follow without their own light/dark rules |
 | `assets/compat.js` | Compatibility list used by "Vérifier mon vélo": the system list and the form. Keep in step with `ebike-profiles` |
 | `assets/board.js` | The checker's system list: every system with its stage (4-step meter) and real confirmed votes from `/api/stats`, systems in progress ranked by votes. Later, not planned and other systems share a collapsed "Other systems" disclosure that opens for a selected system, including shared links. The chosen row opens with the result, its details and "M'inscrire pour voter", and stays in sync with the form |
+| `assets/theme.js` | Light or dark theme: loaded in `<head>` without `defer` so there is no flash. The saved choice wins (`localStorage` key `kurant-theme`), otherwise the system setting. The header switch (`[data-theme-toggle]`) is on every page with a header; the light theme is the `[data-theme="light"]` block at the end of `site.css` |
 | `assets/site.js` | Compatibility tool, the two-step waitlist form (email and consent first; bike details optional, sent as a second sign-up with the same email), and the anonymous funnel counters: any element with `data-track="name"` counts a click, once per page view, on kurant.ca and its previews only |
 | `assets/journal.js` | Home page "Journal" section: reads the newest 3 entries (date, title, first paragraph) and the entry count from `journal/index.html` (`en/journal/index.html` in English). The log pages are the only source: add an entry there and the home pages follow |
 | `assets/demo.js`, `assets/demo.css` | Hero demo: the app's ride screen v2 (map, gauge in 4 styles, assist ladder, chips, Ride controls sheet), Settings and Ride display, running its simulator in the browser at the app's 390×844 dp geometry. Mirrors `ebike-app` 0.9 (layout, palette, wording, safety rules); only the Simulator source is offered and the map is an illustration in the Kurant Night palette. `window.__kurantDemo` drives it to fixed states for recordings. Keep in step when the app's UI changes |
@@ -199,14 +200,15 @@ It rewrites `assets/model/crown.bin` and `crown.json`. Small hardware (pads, ins
 ## R7 stills
 
 `r7-render.webp` (hero) and `r7-front.webp` (before/after, system diagram) are rendered from the same
-design files as the 3D viewer, in the same drawing language: matte, outlined, never photoreal
+design files as the 3D viewer, in the beta unit's real colours (black ASA, white-filled name, clear
+lenses; `palette=real`) and the same drawing language: matte, outlined, never photoreal
 (Kickstarter doesn't allow photorealistic renderings, and the site shows what the campaign shows).
 When the enclosure changes, after rebuilding the model:
 
 ```bash
 python3 -m http.server 8766          # from the repository root
-node tools/r7-stills/shoot.js r7_hero.png "w=1400&h=1400&yaw=-0.9&pitch=0.26&edge=0.3&outline=1.3&margin=1.01"
-node tools/r7-stills/shoot.js r7_front.png "w=900&h=900&yaw=-0.55&pitch=0.18&edge=0.3&outline=1.2&hemi=1.7&key=1.0&margin=1.01"
+node tools/r7-stills/shoot.js r7_hero.png "palette=real&w=1400&h=1400&yaw=-0.9&pitch=0.26&edge=0.55&outline=1.3&hemi=1.35&key=1.55&rim=2.2&margin=1.01"
+node tools/r7-stills/shoot.js r7_front.png "palette=real&w=900&h=900&yaw=-0.55&pitch=0.18&edge=0.55&outline=1.2&hemi=1.45&key=1.45&rim=2.0&margin=1.01"
 ```
 
 Crop each PNG to its content and export WebP (quality about 88) at 1100 px and 640 px tall, then bump
