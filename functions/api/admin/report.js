@@ -1,6 +1,6 @@
 // GET /api/admin/report: the launch gates in one call.
 // Confirmed and pending counts, day-one answers, sign-ups per system, and the referral leaders
-// (with their email, so you can check them by hand before giving a prize).
+// (with their email, so you can check them by hand before giving a prize), and the home-page funnel.
 
 import { json } from "../../_lib/util.js";
 import { denied } from "../../_lib/admin.js";
@@ -38,5 +38,18 @@ export async function onRequestGet({ request, env }) {
       GROUP BY r.id ORDER BY referrals DESC LIMIT 20`
   ).all()).results;
 
-  return json({ ok: true, totals, families, leaders });
+  // Funnel counters from the home pages, last 30 days (anonymous, indicative: see api/event.js).
+  // Missing until migrations/0003_events.sql has run; the rest of the report still works.
+  let funnel = null;
+  try {
+    funnel = (await DB.prepare(
+      `SELECT name, label, page, SUM(n) AS n FROM events
+        WHERE day >= date('now', '-30 days')
+        GROUP BY name, label, page ORDER BY name, n DESC`
+    ).all()).results;
+  } catch (err) {
+    funnel = { error: "run migrations/0003_events.sql" };
+  }
+
+  return json({ ok: true, totals, families, leaders, funnel });
 }

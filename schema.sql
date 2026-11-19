@@ -40,3 +40,14 @@ CREATE TABLE IF NOT EXISTS signup_events (
   at      TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS signup_events_ip ON signup_events (ip_hash, at);
+
+-- Anonymous funnel counters (POST /api/event): one row per day, page language, event and label.
+-- No IP, cookie or identifier. An existing database adds it with migrations/0003_events.sql.
+CREATE TABLE IF NOT EXISTS events (
+  day   TEXT NOT NULL,
+  page  TEXT NOT NULL,
+  name  TEXT NOT NULL,
+  label TEXT NOT NULL DEFAULT '',
+  n     INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (day, page, name, label)
+);
