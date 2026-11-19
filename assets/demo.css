@@ -281,3 +281,23 @@ figure.device { margin: 0; }
   .kd *, .kd *::before, .kd *::after { animation: none !important; transition: none !important; }
 }
 .kd .kd-scroll:focus, .kd .kd-scroll:focus-visible { outline: none; }
+
+/* ---------- landscape (RideSurface, Landscape.dc.html) ---------- */
+.kd-frame.land { aspect-ratio: 844 / 390; border-radius: 26px; }
+.kd.land { width: 844px; height: 390px; }
+.kd.land .kd-map { width: 844px; height: 390px; }
+.kd.land .kd-sysbar { display: none; }                    /* system bars hidden while riding in landscape */
+.kd.land .kd-scrim-bottom { left: 0; top: 0; bottom: 0; right: auto; width: 62%; height: auto;
+  background: linear-gradient(90deg, rgba(10,13,16,.80), rgba(10,13,16,.60) 40%, rgba(10,13,16,0)); }
+.kd.land .kd-scrim-top { top: auto; bottom: 0; height: 130px;
+  background: linear-gradient(rgba(10,13,16,0), rgba(10,13,16,.7)); }
+.kd.land .kd-status-row { top: 6px; width: 470px; }
+.kd.land .kd-chips { left: auto; right: 16px; top: 18px; width: 300px; justify-items: end; }
+.kd.land .kd-ladder { left: 16px; width: 330px; }
+.kd.land .kd-bottom-row { left: auto; right: 16px; width: 228px; }
+.kd.land .kd-where { padding: 0 16px; font-size: 15px; }
+.kd.land .kd-snack { left: auto; right: 16px; width: 380px; bottom: 96px; }
+.kd.land .kd-cover { padding-top: 0; }
+.kd.land .kd-sheet { left: 152px; right: 152px; max-height: 92%; }
+.kd.land .kd-dialog { left: 200px; right: 200px; max-height: 92%; }
+.phone.kd-live.is-land { padding: 9px; border-radius: 34px; }

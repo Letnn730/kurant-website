@@ -11,7 +11,7 @@ import { json, oneOf, readJson } from "../_lib/util.js";
 const EVENTS = [
   "cta_nav_signup", "cta_hero_signup", "cta_hero_compat", "cta_how_compat", "cta_ks_signup",
   "cta_mobile_signup", "compat_pick", "compat_result", "demo_interact", "module_interact",
-  "journal_open", "signup_start", "signup_submit_ok", "signup_details_ok", "signup_details_skip",
+  "demo_turn", "journal_open", "signup_start", "signup_submit_ok", "signup_details_ok", "signup_details_skip",
 ];
 // Labels allowed per event; any other event takes no label.
 const FAMILIES = ["kt", "bafang-uart", "bafang-can", "lishui", "rad-lishui", "rad-asi", "lectric",

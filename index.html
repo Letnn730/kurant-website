@@ -11,10 +11,10 @@
 <meta property="og:title" content="Kurant · Votre téléphone devient l'écran de votre vélo électrique">
 <meta property="og:description" content="Kurant remplace l'afficheur de votre vélo électrique&#8239;: votre téléphone affiche la vitesse, la puissance et la batterie. Vérifiez la compatibilité de votre vélo.">
 <meta property="og:url" content="https://kurant.ca/">
-<meta property="og:image" content="https://kurant.ca/assets/og-fr.png">
+<meta property="og:image" content="https://kurant.ca/assets/og-fr.png?v=20261122">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Kurant : le téléphone affiche la vitesse, la batterie et l'assistance du vélo électrique">
+<meta property="og:image:alt" content="Le module Kurant R7 noir, et le titre « Débranchez l'écran. Branchez Kurant. »">
 <meta property="og:locale" content="fr_CA">
 <meta property="og:locale:alternate" content="en_CA">
 <meta name="twitter:card" content="summary_large_image">
@@ -27,8 +27,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="assets/theme.js?v=20261120"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="assets/site.css?v=20261120">
-<link rel="stylesheet" href="assets/demo.css?v=20261024">
+<link rel="stylesheet" href="assets/site.css?v=20261123">
+<link rel="stylesheet" href="assets/demo.css?v=20261121">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -65,6 +65,7 @@
         FORGE</span>
     </a>
     <nav class="nav" aria-label="Sections">
+      <a href="#demo">Démo</a>
       <a href="#fonctionnement">Fonctionnement</a>
       <a href="#verifier">Compatibilité</a>
       <a href="#module">Le module</a>
@@ -85,7 +86,7 @@
 
 <main id="contenu" data-lang="fr">
 
-  <!-- Hero: the product in three seconds. The live app on a phone, the R7 beside it. -->
+  <!-- Hero: the product in three seconds. The R7 on its own, lit like the product it is. -->
   <section class="hero env env-graphite">
     <div class="wrap">
       <div class="hero-copy">
@@ -104,22 +105,14 @@
         </ul>
       </div>
 
-      <figure class="stage">
-        <div class="phone" data-demo>
-          <div class="screen">
-            <div class="screen-top"><span class="live">Simulateur</span><span class="screen-brand">ROUTE · 32</span></div>
-            <div class="speed"><b>24,6</b><span>km/h</span></div>
-            <div class="tiles">
-              <div class="tile"><small>Batterie</small><b>78&nbsp;%</b></div>
-              <div class="tile"><small>Assist.</small><b>2&nbsp;/&nbsp;5</b></div>
-              <div class="tile"><small>Moteur</small><b>312&nbsp;W</b></div>
-            </div>
-            <div class="mode"><span>Mode Route</span><span>32&nbsp;km/h max</span></div>
-            <p class="screen-foot">Réglages à l'arrêt</p>
-          </div>
+      <figure class="hero-product">
+        <div class="hp-stage">
+          <img class="hp-r7" src="assets/media/r7-render.webp" width="967" height="1100" alt="Le module Kurant R7, noir, avec son attache de guidon : rendu tiré des fichiers de conception" fetchpriority="high" decoding="async">
+          <span class="hp-note flip-sm" style="--x:66%;--y:6%">Coque d'une pièce, joint continu</span>
+          <span class="hp-note" style="--x:9%;--y:76%">Attache sans outil, guidons de 22,2 à 35 mm</span>
+          <span class="hp-note flip-sm" style="--x:72%;--y:86%">Trois lumières d'état</span>
         </div>
-        <img class="r7-hero" src="assets/media/r7-render.webp" width="967" height="1100" alt="Le module Kurant R7, rendu tiré des fichiers de conception" decoding="async">
-        <figcaption class="stage-cap"><span><span class="try" aria-hidden="true">Essayez</span><b>Démo en simulation.</b> Touchez une barre d'assistance, ARRÊT ou l'engrenage. Valeurs simulées, carte illustrative.</span><span class="tagline">Module R7 · rendu des fichiers de conception</span></figcaption>
+        <figcaption>Module Kurant R7 · rendu des fichiers de conception, prototype imprimé à venir</figcaption>
       </figure>
     </div>
   </section>
@@ -133,11 +126,47 @@
     </div>
   </section>
 
+  <!-- 01 · The app, live: the simulator on a phone that turns between portrait and landscape -->
+  <section class="section env env-graphite demo-sec" id="demo" aria-labelledby="demo-title">
+    <div class="wrap demo-grid">
+      <div class="demo-copy">
+        <div class="section-head">
+          <p class="eyebrow"><span class="ix">01</span>L'application, en direct</p>
+          <h2 id="demo-title">Votre écran de conduite, dans votre navigateur</h2>
+          <p>Le simulateur de l'application tourne ici, sur un vélo virtuel. Rien n'est envoyé : essayez-le.</p>
+        </div>
+        <ol class="try-list">
+          <li><b>Assistance</b><span>Touchez une barre pour changer de niveau, ou ARRÊT.</span></li>
+          <li><b>Mode de vitesse</b><span>Touchez ROUTE · 32 pour voir le mode et sa limite.</span></li>
+          <li><b>Réglages</b><span>L'engrenage ouvre les réglages, décrits en mots simples.</span></li>
+        </ol>
+        <p class="demo-note">Valeurs simulées, carte illustrative. L'application réelle lit le module par liaison sans fil.</p>
+      </div>
+      <div class="demo-stage">
+        <div class="phone" data-demo>
+          <div class="screen">
+            <div class="screen-top"><span class="live">Simulateur</span><span class="screen-brand">ROUTE · 32</span></div>
+            <div class="speed"><b>24,6</b><span>km/h</span></div>
+            <div class="tiles">
+              <div class="tile"><small>Batterie</small><b>78&nbsp;%</b></div>
+              <div class="tile"><small>Assist.</small><b>2&nbsp;/&nbsp;5</b></div>
+              <div class="tile"><small>Moteur</small><b>312&nbsp;W</b></div>
+            </div>
+            <div class="mode"><span>Mode Route</span><span>32&nbsp;km/h max</span></div>
+            <p class="screen-foot">Réglages à l'arrêt</p>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm turn-btn" type="button" data-demo-turn data-track="demo_turn" hidden aria-pressed="false" data-label-landscape="Passer en paysage" data-label-portrait="Revenir en portrait"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="17" rx="2.2"/><path d="M20.5 13.5a8.5 8.5 0 0 1-6.6 8.3M3.5 10.5a8.5 8.5 0 0 1 6.6-8.3"/><path d="M14.2 19.6l-.3 2.2 2.2.4M9.8 4.4l.3-2.2-2.2-.4"/></svg><span data-turn-label>Passer en paysage</span></button>
+      </div>
+    </div>
+  </section>
+
+
   <!-- 01 · Before / after: the stock display (drawn) against the app and the R7 (captured, rendered) -->
   <section class="section env env-mineral" id="avant-apres" aria-labelledby="ba-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">01</span>Avant · Après</p>
+        <p class="eyebrow"><span class="ix">02</span>Avant · Après</p>
         <h2 id="ba-titre">Votre vélo a déjà la technologie. Kurant vous donne une meilleure façon de l'utiliser.</h2>
         <p>Le contrôleur, le moteur et la batterie restent les mêmes. Seul l'écran change&#8239;: celui d'origine est rangé, votre téléphone prend sa place.</p>
       </div>
@@ -155,6 +184,7 @@
             <ul class="ba-points"><li>Quelques chiffres sur un petit écran à segments</li> <li>Codes d'erreur à chercher dans un manuel</li> <li>Réglages cachés derrière des codes (P1, C5…)</li></ul>
           </figcaption>
         </figure>
+        <div class="ba-arrow" aria-hidden="true"><i>→</i><span>Mise à niveau</span></div>
         <figure class="ba-item ba-after">
           <div class="plate">
             <span class="plate-tag on">Après · Kurant</span>
@@ -178,7 +208,7 @@
     <div class="wrap how">
       <div class="how-main">
         <div class="section-head">
-          <p class="eyebrow"><span class="ix">02</span>Fonctionnement</p>
+          <p class="eyebrow"><span class="ix">03</span>Fonctionnement</p>
           <h2 id="fn-titre">Trois étapes, sans soudure</h2>
           <p>Le module est le même pour tous les vélos&#8239;: seul le câble change d'une marque à l'autre. KT d'abord&#8239;; les autres marques ensuite, dans l'ordre des votes, chacune dès qu'elle est vérifiée sur un vrai contrôleur.</p>
         </div>
@@ -213,7 +243,7 @@
   <section class="section env env-grey" id="verifier" aria-labelledby="ck-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">03</span>Compatibilité</p>
+        <p class="eyebrow"><span class="ix">04</span>Compatibilité</p>
         <h2 id="ck-titre">Mon vélo est&#8209;il compatible&#8239;?</h2>
         <p>Choisissez votre système pour voir où il en est. Après KT, le système qui a le plus d'inscriptions confirmées passe au banc en premier&#8239;: chaque inscription compte comme un vote.</p>
       </div>
@@ -269,7 +299,7 @@
     <div class="m3d-sticky">
       <div class="wrap m3d-grid">
         <div class="m3d-copy">
-          <p class="eyebrow"><span class="ix">04</span>Le module R7, ouvert</p>
+          <p class="eyebrow"><span class="ix">05</span>Le module R7, ouvert</p>
           <h2 id="module-titre">Tiré directement des fichiers de conception</h2>
           <ol class="m3d-steps">
             <li data-step class="on"><b>Sur le guidon avant</b><span>Près de la sortie du câble de l'écran, face à vous, sur le même connecteur que l'écran d'origine.</span></li>
@@ -293,12 +323,12 @@
           <span class="m3d-label" data-anchor="Back">Plaque arrière et joint</span>
           <span class="m3d-label" data-anchor="Clip">Attache sans outil</span>
           <p class="m3d-loading">Chargement du modèle 3D…</p>
-          <video class="m3d-video" hidden muted loop playsinline controls preload="none" poster="assets/media/crown-r7-poster.jpg" src="assets/media/crown_r7_story_680.mp4"></video>
+          <video class="m3d-video" hidden muted loop playsinline controls preload="none" poster="assets/media/crown-r7-poster.jpg?v=20261122" src="assets/media/crown_r7_story_680.mp4?v=20261122"></video>
         </div>
       </div>
     </div>
     <dialog class="m3d-dialog" aria-label="Animation du module Kurant">
-      <video muted loop playsinline controls preload="none" poster="assets/media/crown-r7-poster.jpg" src="assets/media/crown_r7_story_680.mp4"></video>
+      <video muted loop playsinline controls preload="none" poster="assets/media/crown-r7-poster.jpg?v=20261122" src="assets/media/crown_r7_story_680.mp4?v=20261122"></video>
       <button class="btn btn-primary btn-sm" type="button" data-video-close>Fermer</button>
     </dialog>
   </section>
@@ -307,7 +337,7 @@
   <section class="section env env-slate" id="donnees" aria-labelledby="dn-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">05</span>Ce que vous voyez</p>
+        <p class="eyebrow"><span class="ix">06</span>Ce que vous voyez</p>
         <h2 id="dn-titre">Tout votre trajet, d'un coup d'œil</h2>
         <p>Vitesse, batterie, puissance et assistance, dans une interface pensée pour la route. La <a href="#contenu" class="dev-link">démo en haut de page</a> tourne dans votre navigateur avec des valeurs simulées.</p>
       </div>
@@ -344,7 +374,7 @@
   <section class="section joined env env-slate" id="securite" aria-labelledby="sc-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">06</span>Sécurité</p>
+        <p class="eyebrow"><span class="ix">07</span>Sécurité</p>
         <h2 id="sc-titre">Une fois allumé, le vélo ne dépend plus du téléphone</h2>
         <p>Ces règles font partie de la conception du module et de l'application. Le <a class="dev-link" href="journal/index.html">journal</a> publie les essais au banc, dont celui du téléphone coupé.</p>
       </div>
@@ -363,12 +393,76 @@
   <section class="section env env-grey" id="journal" aria-labelledby="journal-titre">
     <div class="wrap journal-home">
       <div class="section-head">
-        <p class="eyebrow"><span class="ix">07</span>Journal de développement</p>
+        <p class="eyebrow"><span class="ix">08</span>Journal de développement</p>
         <h2 id="journal-titre">Conçu au grand jour, mesuré sur un vrai contrôleur</h2>
         <p>Chaque étape est publiée une fois mesurée au banc, et les problèmes trouvés aussi. Voici les dernières entrées.</p>
       </div>
       <ol class="log-list log-preview" data-journal-preview aria-label="Dernières entrées du journal" hidden></ol>
       <a class="btn btn-ghost journal-more" href="journal/index.html" data-journal-src data-journal-label="Lire les {n}&nbsp;entrées du journal" data-track="journal_open">Lire tout le journal</a>
+    </div>
+
+    <div class="wrap journal-extra">
+      <div class="roadmap" aria-labelledby="road-title-fr">
+        <h3 class="road-title" id="road-title-fr">Où en est Kurant</h3>
+        <div class="road-cols">
+          <div class="road-col road-done">
+            <h3><span class="dot ok" aria-hidden="true"></span>Fait</h3>
+            <ul><li><time>10 oct.</time><span>Allumage, assistance et téléphone coupé : testés au banc</span></li><li><time>14 oct.</time><span>Premiers circuits imprimés reçus</span></li><li><time>31 oct.</time><span>Premier essai sur le vélo : un problème trouvé et corrigé</span></li></ul>
+          </div>
+          <div class="road-col road-now">
+            <h3><span class="dot now" aria-hidden="true"></span>En cours</h3>
+            <ul><li><time>Nov.</time><span>Circuit rév. 0.2 commandé</span></li><li><time>Nov.</time><span>Boîtiers R7 des unités bêta</span></li></ul>
+          </div>
+          <div class="road-col road-next">
+            <h3><span class="dot next" aria-hidden="true"></span>Ensuite</h3>
+            <ul><li><span>Essais bêta sur de vrais vélos</span></li><li><span>Campagne Kickstarter, date annoncée à la liste</span></li><li><span>Livraison au Canada, environ 6 mois après la campagne</span></li></ul>
+          </div>
+        </div>
+      </div>
+      <aside class="forge-block">
+        <svg class="forge-mark big" viewBox="0 0 100 84" aria-hidden="true"><path class="a" d="M0 0H100L82 30H18Z"/><path class="b" d="M22.8 38H77.2L50 83.3Z"/></svg>
+        <h3>Conçu par FORGE, à Montréal</h3>
+        <p>FORGE est un atelier indépendant. Le circuit, le micrologiciel, l'application et le boîtier de Kurant sont conçus au même endroit, et chaque fonction est mesurée au banc avant d'être annoncée.</p>
+        <p class="forge-who">Alex N., fondateur · Écrivez-nous&#8239;: <span class="contact">bonjour@kurant.ca</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Why Kurant: what is in the box, and an honest comparison -->
+  <section class="section env env-mineral" id="comparer" aria-labelledby="cmp-title">
+    <div class="wrap">
+      <div class="section-head head-split">
+        <p class="eyebrow"><span class="ix">09</span>Pourquoi Kurant</p>
+        <h2 id="cmp-title">Ce que vous obtenez, comparé honnêtement</h2>
+        <p>Ce qu'il y a dans la boîte, et ce que Kurant fait de plus (ou de moins) que les autres façons de remplacer l'écran de votre vélo.</p>
+      </div>
+      <div class="cmp-grid">
+        <div class="inbox">
+          <h3>Dans la boîte</h3>
+          <ul class="box-list">
+          <li><span class="box-ico"><img src="assets/media/r7-front.webp" width="501" height="640" alt="" loading="lazy" decoding="async"></span><b>Le module Kurant R7</b><span>Se branche à la place de l'écran</span></li>
+          <li><span class="box-ico"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 34c8 0 10-8 18-8s10 8 18 8"/><rect x="2" y="30" width="8" height="8" rx="2"/><rect x="38" y="30" width="8" height="8" rx="2"/><path d="M4 30v-4M8 30v-4M40 30v-4M44 30v-4"/></svg></span><b>Le câble de votre marque</b><span>KT au lancement</span></li>
+          <li><span class="box-ico"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="22" r="11"/><path d="M13 22h-6M41 22h-6M18 33l-3 9h18l-3-9"/></svg></span><b>L'attache sans outil</b><span>Guidons de 22,2 à 35&nbsp;mm</span></li>
+          <li><span class="box-ico"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="14" y="4" width="20" height="40" rx="4"/><path d="M19 30a6 6 0 1 1 10 0"/><path d="M22 10h4"/></svg></span><b>L'application</b><span>Gratuite, iPhone et Android, sans compte</span></li>
+          </ul>
+          <p class="box-no"><span class="box-ico sm"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="14" y="8" width="20" height="32" rx="4"/><path d="M8 8l32 32"/></svg></span>Pas inclus&#8239;: le support de téléphone. Utilisez le vôtre&#8239;; un modèle avec recharge est recommandé pour les longues sorties.</p>
+        </div>
+        <div class="cmp-wrap">
+          <table class="cmp">
+            <thead><tr><td></td><th scope="col">Écran d'origine ou de remplacement</th><th scope="col">EggRider V2</th><th scope="col" class="us">Kurant</th></tr></thead>
+            <tbody>
+            <tr><th scope="row">Prix</th><td data-col="Écran d'origine ou de remplacement">Souvent moins de 100&nbsp;$</td><td data-col="EggRider V2">De 106 à 145&nbsp;$ US</td><td data-col="Kurant" class="us">159&nbsp;$, 119&nbsp;$ pour les 100 premiers</td></tr>
+            <tr><th scope="row">Ce que vous regardez</th><td data-col="Écran d'origine ou de remplacement">Petit écran à segments</td><td data-col="EggRider V2">Écran et boutons au guidon</td><td data-col="Kurant" class="us">Votre téléphone, en grand</td></tr>
+            <tr><th scope="row">Réglages</th><td data-col="Écran d'origine ou de remplacement">Par codes (P1, C5…)</td><td data-col="EggRider V2">Dans l'application</td><td data-col="Kurant" class="us">En mots simples, à l'arrêt</td></tr>
+            <tr><th scope="row">Application</th><td data-col="Écran d'origine ou de remplacement">Aucune</td><td data-col="EggRider V2">iPhone et Android</td><td data-col="Kurant" class="us">iPhone et Android, gratuite</td></tr>
+            <tr><th scope="row">Contrôleurs KT</th><td data-col="Écran d'origine ou de remplacement">Oui, même marque</td><td data-col="EggRider V2">Non listés par le fabricant</td><td data-col="Kurant" class="us">Oui, vérifiés au banc</td></tr>
+            <tr><th scope="row">Boutons au guidon</th><td data-col="Écran d'origine ou de remplacement">Oui</td><td data-col="EggRider V2">Oui</td><td data-col="Kurant" class="us">Non&#8239;: l'assistance se change à l'écran</td></tr>
+            <tr><th scope="row">Étanchéité</th><td data-col="Écran d'origine ou de remplacement">Selon le modèle</td><td data-col="EggRider V2">IP65</td><td data-col="Kurant" class="us">Conçu étanche, test à venir</td></tr>
+            </tbody>
+          </table>
+          <p class="cmp-note">Prix et compatibilité de l'EggRider V2 relevés le 18&nbsp;novembre&nbsp;2026 sur <a href="https://goldenmotor.bike/products/eggrider-v2-bafang-bluetooth-display" rel="noopener">la page du fabricant</a>. Kurant n'est affilié à aucune de ces marques.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -376,7 +470,7 @@
   <section class="section ks env env-graphite" id="kickstarter" aria-labelledby="ks-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">08</span>Campagne Kickstarter</p>
+        <p class="eyebrow"><span class="ix">10</span>Campagne Kickstarter</p>
         <h2 id="ks-titre">Soyez parmi les premiers à rouler avec Kurant</h2>
         <p>Kurant sera financé par une campagne Kickstarter en tout ou rien. Les membres de la liste de prélancement reçoivent le lien avant tout le monde&#8239;: c'est le chemin le plus court vers les 100 modules à 119&nbsp;$.</p>
       </div>
@@ -388,7 +482,7 @@
       <dl class="ks-facts">
         <div><dt>Objectif</dt><dd>24&nbsp;000&nbsp;$, en tout ou rien&#8239;: personne n'est débité s'il n'est pas atteint</dd></div>
         <div><dt>Application</dt><dd>Gratuite, sans abonnement ni compte</dd></div>
-        <div><dt>Autre marque que KT</dt><dd>Réservez votre système à 1&nbsp;$ pendant la campagne</dd></div>
+        <div><dt>Autre marque que KT</dt><dd>Votez en vous inscrivant&#8239;: les plus votées sont développées en premier</dd></div>
         <div><dt>Livraison</dt><dd>Canada, environ 6&nbsp;mois après la campagne</dd></div>
       </dl>
       <p class="not-pledge"><b>S'inscrire n'est pas une contribution.</b> Aucun paiement n'est demandé ici, et l'inscription ne réserve aucun module&#8239;: elle vous avertit en premier. Les récompenses et leurs prix sont prévus, et seront offerts sur Kickstarter, au lancement.</p>
@@ -420,9 +514,9 @@
   <section class="section joined env env-graphite" id="inscription" aria-labelledby="in-titre">
     <div class="wrap signup-grid">
       <div class="section-head">
-        <p class="eyebrow"><span class="ix">09</span>Liste de prélancement</p>
+        <p class="eyebrow"><span class="ix">11</span>Liste de prélancement</p>
         <h2 id="in-titre">Accès anticipé</h2>
-        <p>Votre courriel suffit. Les détails sur votre vélo sont facultatifs et peuvent venir ensuite.</p>
+        <p>Votre courriel suffit. Choisissez aussi votre système&#8239;: <b>après KT, les marques sont développées dans l'ordre des votes</b>. Celle qui en reçoit le plus passe au banc en premier.</p>
         <ol class="next" aria-label="Et ensuite">
           <li><b>Confirmez votre courriel</b><span>un lien vous est envoyé tout de suite</span></li>
           <li><b>Recevez votre numéro de fondateur</b><span>et votre lien personnel à partager</span></li>
@@ -438,6 +532,12 @@
             <label for="wl-email">Courriel</label>
             <input id="wl-email" name="email" type="email" autocomplete="email" required>
           </div>
+          <div class="field vote-field" data-vote-field>
+            <label for="wl-family">Votre vote&#8239;: quel système voulez-vous voir prêt en premier&#8239;?</label>
+            <select id="wl-family" name="wl_family"></select>
+            <p class="hint">Facultatif. Après KT, déjà vérifié, l'ordre de développement des marques suit les votes&#8239;: chaque inscription confirmée compte pour le système choisi. <a href="#verifier">Voir le classement</a>.</p>
+            <p class="vote-rank" data-vote-rank hidden></p>
+          </div>
           <label class="consent" for="wl-consent">
             <input id="wl-consent" name="consent" type="checkbox">
             <span>J'accepte de recevoir des courriels de FORGE au sujet de Kurant&#8239;: disponibilité, compatibilité de mon vélo, lancement et campagne Kickstarter. Je peux me désabonner en tout temps. Voir la <a href="confidentialite/index.html">politique de confidentialité</a>.</span>
@@ -450,11 +550,7 @@
 
         <fieldset class="su-details" data-su-details hidden>
           <legend>Facultatif&#8239;: votre vélo</legend>
-          <p class="hint">Ces réponses nous aident à choisir les prochains profils de contrôleur. Votre système choisi compte comme un vote une fois votre courriel confirmé.</p>
-          <div class="field">
-            <label for="wl-family">Système de votre vélo</label>
-            <select id="wl-family" name="wl_family"></select>
-          </div>
+          <p class="hint">Ces réponses nous aident à préparer les profils de contrôleur.</p>
           <div class="field">
             <label for="wl-bike">Vélo&#8239;: marque et modèle</label>
             <input id="wl-bike" name="bike" type="text" placeholder="p. ex. Lectric XP 3.0" maxlength="120">
@@ -504,14 +600,14 @@
   <section class="section env env-grey" id="faq" aria-labelledby="faq-titre">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow"><span class="ix">10</span>Questions</p>
+        <p class="eyebrow"><span class="ix">12</span>Questions</p>
         <h2 id="faq-titre">Questions fréquentes</h2>
       </div>
       <div class="faq-groups">
         <div class="faq-group">
           <h3>Compatibilité</h3>
           <div class="faq">
-            <details><summary>Quels vélos seront pris en charge&#8239;?</summary><p>Au lancement, les contrôleurs KT (écrans LCD3, LCD5, LCD8) sur batterie de 48 ou 52&nbsp;V&#8239;: ils sont vérifiés au banc. Bafang UART, Lishui, Rad Power Bikes, Lectric et Aventon (48&nbsp;V) sont en développement&#8239;; les systèmes 36&nbsp;V comme Shimano STEPS viendront plus tard. Réservez votre système à 1&nbsp;$ sur Kickstarter&#8239;: les plus réservés passent au banc en premier. Bosch n'est pas prévu&#8239;: son système est fermé. Utilisez l'outil de vérification plus haut pour votre vélo, ou voyez <a href="#verifier">où en est chaque marque</a>.</p></details>
+            <details><summary>Quels vélos seront pris en charge&#8239;?</summary><p>Au lancement, les contrôleurs KT (écrans LCD3, LCD5, LCD8) sur batterie de 48 ou 52&nbsp;V&#8239;: ils sont vérifiés au banc. Bafang UART, Lishui, Rad Power Bikes, Lectric et Aventon (48&nbsp;V) sont en développement&#8239;; les systèmes 36&nbsp;V comme Shimano STEPS viendront plus tard. Votez pour votre système en vous inscrivant&#8239;: les plus votés passent au banc en premier. Bosch n'est pas prévu&#8239;: son système est fermé. Utilisez l'outil de vérification plus haut pour votre vélo, ou voyez <a href="#verifier">où en est chaque marque</a>.</p></details>
             <details><summary>Est-ce compatible avec l'iPhone&#8239;?</summary><p>Oui. L'application sera offerte gratuitement sur iPhone et sur Android, sans compte.</p></details>
           </div>
         </div>
@@ -521,6 +617,7 @@
             <details><summary>L'installation demande-t-elle de souder&#8239;?</summary><p>Non. Kurant se branche sur le connecteur de l'écran d'origine, avec un câble adapté à votre contrôleur. Gardez l'écran d'origine&#8239;: vous pouvez le rebrancher en tout temps.</p></details>
             <details><summary>Où s'installe le module&#8239;?</summary><p>Sur le guidon avant, à la place de l'écran d'origine, sur le même connecteur.</p></details>
             <details><summary>Le support de téléphone est-il inclus&#8239;?</summary><p>Non&#8239;: utilisez votre support de guidon. Un modèle avec recharge est recommandé pour les longues sorties.</p></details>
+            <details><summary>Et sous la pluie ou dans le froid&#8239;?</summary><p>Le boîtier R7 est conçu pour l'extérieur&#8239;: coque d'une pièce, joint continu autour de la plaque arrière, presse-étoupe sur le câble et circuit protégé par un vernis. Son étanchéité n'est pas encore mesurée&#8239;: le test d'aspersion se fera sur les premiers boîtiers, et le résultat sera publié dans le journal. Kurant n'annoncera pas d'indice IP avant de l'avoir testé.</p></details>
           </div>
         </div>
         <div class="faq-group">
@@ -564,10 +661,10 @@
 
 <a class="m-cta" href="#inscription" hidden data-track="cta_mobile_signup"><b>100 places à 119&nbsp;$</b><span>Rejoindre la liste</span></a>
 
-<script src="assets/compat.js?v=20261016" defer></script>
-<script src="assets/site.js?v=20261119" defer></script>
-<script src="assets/board.js?v=20261016" defer></script>
-<script src="assets/demo.js?v=20261024" defer></script>
+<script src="assets/compat.js?v=20261122" defer></script>
+<script src="assets/site.js?v=20261123" defer></script>
+<script src="assets/board.js?v=20261123" defer></script>
+<script src="assets/demo.js?v=20261121" defer></script>
 <script src="assets/campaign.js?v=20261016" defer></script>
 <script src="assets/journal.js?v=20261031" defer></script>
 <script src="assets/module3d.js?v=20261024" type="module"></script>

@@ -2,7 +2,7 @@
  *
  * A browser mirror of the Android app (ebike-app 0.9, ride screen v2) connected to its built-in
  * simulator. Screens, geometry, colours, wording and safety rules follow ebike-app:
- *   - RideSurface / RideLayout (portrait 390x844 geometry), RideScrims, RideControls (link pill,
+ *   - RideSurface / RideLayout (portrait 390x844 and landscape 844x390 geometry), RideScrims, RideControls (link pill,
  *     mode chip, headlight, Ride controls sheet), AssistLadder, RangeChips, Gauges (Arc, Needle,
  *     Tape, Minimal, drawn from the design's 300x300 geometry), SpeedSignal (the gauge spring)
  *   - SettingsScreen, RideDisplayScreen, SpeedModeUi, ConnectionSheet, ConfirmWriteDialog
@@ -22,7 +22,8 @@
 
   /* ---------------------------------------------------------------- constants */
 
-  const W = 390, H = 844;           // RideLayout portrait reference, dp
+  // RideLayout reference window, dp: portrait 390x844; landscape 844x390 (rideLayoutFor: width > height × 1.2).
+  let W = 390, H = 844;
   const TOP_INSET = 28;             // status bar
   const TICK_MS = 100;              // KT frame interval (profile transport.txIntervalMs)
   const STOPPED_KMH = 0.5;          // STOPPED_SPEED_KMH
@@ -389,7 +390,7 @@
     snackTimer = setTimeout(() => snack.classList.remove("show"), 2600);
   }
 
-  /* Scale the 390x844 dp screen to the phone frame. */
+  /* Scale the dp screen (portrait or landscape) to the phone frame. */
   let scale = 1;
   function fit() {
     const w = frame.clientWidth || 276;
@@ -742,7 +743,8 @@
     dirty = true;
   }
 
-  const PUCK = { x: W * 0.5, y: H * 0.43 };            // Integration contract: 2D follow at x 50 %, y 43 %
+  // Integration contract, 2D follow: portrait (50 %, 43 %), landscape (66 %, 55 %).
+  const PUCK = { x: W * 0.5, y: H * 0.43 };
   const zoomForSpeed = (kmh) => 17 + (15 - 17) * Math.min(1, Math.max(0, (kmh - 10) / 25));
   const mPerPxAtZoom = (z) => 109725 / Math.pow(2, z);   // 156543 · cos(45.5°) / 2^z
 
@@ -963,6 +965,78 @@
   const bottomRow = el("div", { class: "kd-bottom-row", style: { top: `${gaugeBox.rowTop}px` } }, [whereTo, headlight]);
 
   hud.append(statusRow, chips, gaugeCanvas, ladder, bottomRow);
+
+  /* ---------------------------------------------------------------- orientation (RideSurface, both layouts) */
+
+  // Landscape (design Landscape.dc.html): the map still fills the window; a left fade instead of a panel;
+  // the status row top-left; the gauge on the left at about (20 %, 47 %), the assist ladder under it;
+  // chips top-right; "Where to" and the headlight bottom-right. System bars hidden.
+  const PORTRAIT_BOX = { ...gaugeBox };
+  const LANDSCAPE_BOX = { x: 71, y: 74, w: 220, ladderTop: 298, rowTop: 310 };
+  let landscape = false;
+  function layoutRide() {
+    W = landscape ? 844 : 390;
+    H = landscape ? 390 : 844;
+    PUCK.x = W * (landscape ? 0.66 : 0.5);
+    PUCK.y = H * (landscape ? 0.55 : 0.43);
+    Object.assign(gaugeBox, landscape ? LANDSCAPE_BOX : PORTRAIT_BOX);
+    app.classList.toggle("land", landscape);
+    frame.classList.toggle("land", landscape);
+    host.classList.toggle("is-land", landscape);
+    Object.assign(gaugeCanvas.style, { left: `${gaugeBox.x}px`, top: `${gaugeBox.y}px`, width: `${gaugeBox.w}px`, height: `${gaugeBox.w}px` });
+    ladder.style.top = `${gaugeBox.ladderTop}px`;
+    bottomRow.style.top = `${gaugeBox.rowTop}px`;
+  }
+
+  // The page's "turn" button ([data-demo-turn]) tilts the phone a quarter turn, then the screen
+  // re-lays out for the new orientation, as a phone does. The stage around it follows smoothly.
+  const turnButton = document.querySelector("[data-demo-turn]");
+  let turning = false;
+  function syncTurnButton() {
+    if (!turnButton) return;
+    turnButton.setAttribute("aria-pressed", String(landscape));
+    const label = turnButton.querySelector("[data-turn-label]");
+    const text = turnButton.getAttribute(landscape ? "data-label-portrait" : "data-label-landscape");
+    if (label && text) label.textContent = text;
+  }
+  function turn() {
+    if (turning) return;
+    const toLand = !landscape;
+    const stage = host.parentElement;
+    if (REDUCE || !host.animate) {
+      landscape = toLand; layoutRide(); fit(); syncTurnButton();
+      return;
+    }
+    turning = true;
+    // Where the phone is now, and where it will be once turned (measured, then put back before paint).
+    const first = host.getBoundingClientRect(), stageFrom = stage.getBoundingClientRect().height;
+    host.classList.toggle("is-land", toLand);
+    const last = host.getBoundingClientRect(), stageTo = stage.getBoundingClientRect().height;
+    host.classList.toggle("is-land", !toLand);
+    const s = toLand ? last.width / first.height : last.height / first.width;
+    const dx = last.left + last.width / 2 - (first.left + first.width / 2);
+    const dy = last.top + last.height / 2 - (first.top + first.height / 2);
+    const easing = "cubic-bezier(.65, 0, .35, 1)", duration = 620;
+    stage.style.height = `${stageFrom}px`;
+    const grow = stage.animate([{ height: `${stageFrom}px` }, { height: `${stageTo}px` }], { duration, easing, fill: "forwards" });
+    const tilt = host.animate([
+      { transform: "none" },
+      { transform: `translate(${dx * 0.5}px, ${dy * 0.5}px) rotate(${toLand ? -48 : 48}deg) scale(${(1 + s) / 2 * 0.97})`, offset: 0.5 },
+      { transform: `translate(${dx}px, ${dy}px) rotate(${toLand ? -90 : 90}deg) scale(${s})` },
+    ], { duration, easing, fill: "forwards" });
+    tilt.onfinish = () => {
+      landscape = toLand;
+      layoutRide();
+      fit();
+      tilt.cancel(); grow.cancel();
+      stage.style.height = "";
+      // The screen re-lays out for its new orientation, with a short fade, as the system does.
+      frame.animate([{ opacity: 0.25, filter: "blur(2px)" }, { opacity: 1, filter: "none" }], { duration: 260, easing: "ease-out" });
+      turning = false;
+      syncTurnButton();
+    };
+  }
+  if (turnButton) { turnButton.hidden = false; turnButton.addEventListener("click", turn); syncTurnButton(); }
 
   function setAssist(level) {
     if (S.assist === level) { syncLadder(); return; }
@@ -1744,7 +1818,7 @@
 
   // Hooks for screen recordings (story GIFs): drive the demo to fixed states.
   window.__kurantDemo = {
-    state: S, setAssist, showScreen, openRideControls, closeOverlay,
+    state: S, setAssist, showScreen, openRideControls, closeOverlay, turn,
     setStyle(style) { S.style = style; syncRideDisplay(); dirty = true; },
   };
 

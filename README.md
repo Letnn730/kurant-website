@@ -7,7 +7,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 
 | Path | What |
 | --- | --- |
-| `index.html` | French home page. Order: hero (demo + R7 module), before/after, how it works, compatibility, data, the module in 3D, safety, journal, Kickstarter, sign-up (`#inscription`), grouped FAQ |
+| `index.html` | French home page. Order: hero (the R7), the app live (`#demo`: the simulator, which turns between portrait and landscape), before/after, how it works, compatibility, data, the module in 3D, safety, journal, Kickstarter, sign-up (`#inscription`), grouped FAQ |
 | `en/index.html` | English home page, same order (`#signup`). Keep both in step: same sections, same facts, same `data-track` names |
 | `confidentialite/`, `en/privacy/` | Privacy policy (Quebec Law 25) |
 | `assets/site.css` | Styles, following the FORGE brand guide. The home pages' art direction (end of the file) sets four environments (`env-graphite`, `env-mineral`, `env-slate`, `env-grey`) that redefine the colour tokens per section, so components follow without their own light/dark rules |
@@ -213,4 +213,14 @@ node tools/r7-stills/shoot.js r7_front.png "palette=real&w=900&h=900&yaw=-0.55&p
 
 Crop each PNG to its content and export WebP (quality about 88) at 1100 px and 640 px tall, then bump
 `site.css?v=` on both home pages. Replace these stills with photographs once the printed R7 exists.
+
+The 12 s story animation (`crown_r7_story_680.mp4` and its poster) comes from the same files:
+
+```bash
+node tools/r7-stills/animate.js /tmp/r7-frames            # 360 transparent frames + captions list
+python3 tools/r7-stills/compose.py /tmp/r7-frames Inter-Regular.ttf Inter-SemiBold.ttf
+```
+
+`compose.py` lays the frames on the studio background with the bilingual captions and writes the
+MP4 and the poster into `assets/media/` (needs Pillow and ffmpeg). Bump the `?v=` on both home pages.
 
