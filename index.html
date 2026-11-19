@@ -27,8 +27,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="assets/theme.js?v=20261120"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="assets/site.css?v=20261120">
-<link rel="stylesheet" href="assets/demo.css?v=20261024">
+<link rel="stylesheet" href="assets/site.css?v=20261121">
+<link rel="stylesheet" href="assets/demo.css?v=20261121">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -65,6 +65,7 @@
         FORGE</span>
     </a>
     <nav class="nav" aria-label="Sections">
+      <a href="#demo">Démo</a>
       <a href="#fonctionnement">Fonctionnement</a>
       <a href="#verifier">Compatibilité</a>
       <a href="#module">Le module</a>
@@ -85,7 +86,7 @@
 
 <main id="contenu" data-lang="fr">
 
-  <!-- Hero: the product in three seconds. The live app on a phone, the R7 beside it. -->
+  <!-- Hero: the product in three seconds. The R7 on its own, lit like the product it is. -->
   <section class="hero env env-graphite">
     <div class="wrap">
       <div class="hero-copy">
@@ -104,22 +105,14 @@
         </ul>
       </div>
 
-      <figure class="stage">
-        <div class="phone" data-demo>
-          <div class="screen">
-            <div class="screen-top"><span class="live">Simulateur</span><span class="screen-brand">ROUTE · 32</span></div>
-            <div class="speed"><b>24,6</b><span>km/h</span></div>
-            <div class="tiles">
-              <div class="tile"><small>Batterie</small><b>78&nbsp;%</b></div>
-              <div class="tile"><small>Assist.</small><b>2&nbsp;/&nbsp;5</b></div>
-              <div class="tile"><small>Moteur</small><b>312&nbsp;W</b></div>
-            </div>
-            <div class="mode"><span>Mode Route</span><span>32&nbsp;km/h max</span></div>
-            <p class="screen-foot">Réglages à l'arrêt</p>
-          </div>
+      <figure class="hero-product">
+        <div class="hp-stage">
+          <img class="hp-r7" src="assets/media/r7-render.webp" width="967" height="1100" alt="Le module Kurant R7, noir, avec son attache de guidon : rendu tiré des fichiers de conception" fetchpriority="high" decoding="async">
+          <span class="hp-note flip-sm" style="--x:66%;--y:6%">Coque d'une pièce, joint continu</span>
+          <span class="hp-note" style="--x:9%;--y:76%">Attache sans outil, guidons de 22,2 à 35 mm</span>
+          <span class="hp-note flip-sm" style="--x:72%;--y:86%">Trois lumières d'état</span>
         </div>
-        <img class="r7-hero" src="assets/media/r7-render.webp" width="967" height="1100" alt="Le module Kurant R7, rendu tiré des fichiers de conception" decoding="async">
-        <figcaption class="stage-cap"><span><span class="try" aria-hidden="true">Essayez</span><b>Démo en simulation.</b> Touchez une barre d'assistance, ARRÊT ou l'engrenage. Valeurs simulées, carte illustrative.</span><span class="tagline">Module R7 · rendu des fichiers de conception</span></figcaption>
+        <figcaption>Module Kurant R7 · rendu des fichiers de conception, prototype imprimé à venir</figcaption>
       </figure>
     </div>
   </section>
@@ -133,11 +126,47 @@
     </div>
   </section>
 
+  <!-- 01 · The app, live: the simulator on a phone that turns between portrait and landscape -->
+  <section class="section env env-graphite demo-sec" id="demo" aria-labelledby="demo-title">
+    <div class="wrap demo-grid">
+      <div class="demo-copy">
+        <div class="section-head">
+          <p class="eyebrow"><span class="ix">01</span>L'application, en direct</p>
+          <h2 id="demo-title">Votre écran de conduite, dans votre navigateur</h2>
+          <p>Le simulateur de l'application tourne ici, sur un vélo virtuel. Rien n'est envoyé : essayez-le.</p>
+        </div>
+        <ol class="try-list">
+          <li><b>Assistance</b><span>Touchez une barre pour changer de niveau, ou ARRÊT.</span></li>
+          <li><b>Mode de vitesse</b><span>Touchez ROUTE · 32 pour voir le mode et sa limite.</span></li>
+          <li><b>Réglages</b><span>L'engrenage ouvre les réglages, décrits en mots simples.</span></li>
+        </ol>
+        <p class="demo-note">Valeurs simulées, carte illustrative. L'application réelle lit le module par liaison sans fil.</p>
+      </div>
+      <div class="demo-stage">
+        <div class="phone" data-demo>
+          <div class="screen">
+            <div class="screen-top"><span class="live">Simulateur</span><span class="screen-brand">ROUTE · 32</span></div>
+            <div class="speed"><b>24,6</b><span>km/h</span></div>
+            <div class="tiles">
+              <div class="tile"><small>Batterie</small><b>78&nbsp;%</b></div>
+              <div class="tile"><small>Assist.</small><b>2&nbsp;/&nbsp;5</b></div>
+              <div class="tile"><small>Moteur</small><b>312&nbsp;W</b></div>
+            </div>
+            <div class="mode"><span>Mode Route</span><span>32&nbsp;km/h max</span></div>
+            <p class="screen-foot">Réglages à l'arrêt</p>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm turn-btn" type="button" data-demo-turn data-track="demo_turn" hidden aria-pressed="false" data-label-landscape="Passer en paysage" data-label-portrait="Revenir en portrait"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="17" rx="2.2"/><path d="M20.5 13.5a8.5 8.5 0 0 1-6.6 8.3M3.5 10.5a8.5 8.5 0 0 1 6.6-8.3"/><path d="M14.2 19.6l-.3 2.2 2.2.4M9.8 4.4l.3-2.2-2.2-.4"/></svg><span data-turn-label>Passer en paysage</span></button>
+      </div>
+    </div>
+  </section>
+
+
   <!-- 01 · Before / after: the stock display (drawn) against the app and the R7 (captured, rendered) -->
   <section class="section env env-mineral" id="avant-apres" aria-labelledby="ba-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">01</span>Avant · Après</p>
+        <p class="eyebrow"><span class="ix">02</span>Avant · Après</p>
         <h2 id="ba-titre">Votre vélo a déjà la technologie. Kurant vous donne une meilleure façon de l'utiliser.</h2>
         <p>Le contrôleur, le moteur et la batterie restent les mêmes. Seul l'écran change&#8239;: celui d'origine est rangé, votre téléphone prend sa place.</p>
       </div>
@@ -178,7 +207,7 @@
     <div class="wrap how">
       <div class="how-main">
         <div class="section-head">
-          <p class="eyebrow"><span class="ix">02</span>Fonctionnement</p>
+          <p class="eyebrow"><span class="ix">03</span>Fonctionnement</p>
           <h2 id="fn-titre">Trois étapes, sans soudure</h2>
           <p>Le module est le même pour tous les vélos&#8239;: seul le câble change d'une marque à l'autre. KT d'abord&#8239;; les autres marques ensuite, dans l'ordre des votes, chacune dès qu'elle est vérifiée sur un vrai contrôleur.</p>
         </div>
@@ -213,7 +242,7 @@
   <section class="section env env-grey" id="verifier" aria-labelledby="ck-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">03</span>Compatibilité</p>
+        <p class="eyebrow"><span class="ix">04</span>Compatibilité</p>
         <h2 id="ck-titre">Mon vélo est&#8209;il compatible&#8239;?</h2>
         <p>Choisissez votre système pour voir où il en est. Après KT, le système qui a le plus d'inscriptions confirmées passe au banc en premier&#8239;: chaque inscription compte comme un vote.</p>
       </div>
@@ -269,7 +298,7 @@
     <div class="m3d-sticky">
       <div class="wrap m3d-grid">
         <div class="m3d-copy">
-          <p class="eyebrow"><span class="ix">04</span>Le module R7, ouvert</p>
+          <p class="eyebrow"><span class="ix">05</span>Le module R7, ouvert</p>
           <h2 id="module-titre">Tiré directement des fichiers de conception</h2>
           <ol class="m3d-steps">
             <li data-step class="on"><b>Sur le guidon avant</b><span>Près de la sortie du câble de l'écran, face à vous, sur le même connecteur que l'écran d'origine.</span></li>
@@ -307,7 +336,7 @@
   <section class="section env env-slate" id="donnees" aria-labelledby="dn-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">05</span>Ce que vous voyez</p>
+        <p class="eyebrow"><span class="ix">06</span>Ce que vous voyez</p>
         <h2 id="dn-titre">Tout votre trajet, d'un coup d'œil</h2>
         <p>Vitesse, batterie, puissance et assistance, dans une interface pensée pour la route. La <a href="#contenu" class="dev-link">démo en haut de page</a> tourne dans votre navigateur avec des valeurs simulées.</p>
       </div>
@@ -344,7 +373,7 @@
   <section class="section joined env env-slate" id="securite" aria-labelledby="sc-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">06</span>Sécurité</p>
+        <p class="eyebrow"><span class="ix">07</span>Sécurité</p>
         <h2 id="sc-titre">Une fois allumé, le vélo ne dépend plus du téléphone</h2>
         <p>Ces règles font partie de la conception du module et de l'application. Le <a class="dev-link" href="journal/index.html">journal</a> publie les essais au banc, dont celui du téléphone coupé.</p>
       </div>
@@ -363,7 +392,7 @@
   <section class="section env env-grey" id="journal" aria-labelledby="journal-titre">
     <div class="wrap journal-home">
       <div class="section-head">
-        <p class="eyebrow"><span class="ix">07</span>Journal de développement</p>
+        <p class="eyebrow"><span class="ix">08</span>Journal de développement</p>
         <h2 id="journal-titre">Conçu au grand jour, mesuré sur un vrai contrôleur</h2>
         <p>Chaque étape est publiée une fois mesurée au banc, et les problèmes trouvés aussi. Voici les dernières entrées.</p>
       </div>
@@ -376,7 +405,7 @@
   <section class="section ks env env-graphite" id="kickstarter" aria-labelledby="ks-titre">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">08</span>Campagne Kickstarter</p>
+        <p class="eyebrow"><span class="ix">09</span>Campagne Kickstarter</p>
         <h2 id="ks-titre">Soyez parmi les premiers à rouler avec Kurant</h2>
         <p>Kurant sera financé par une campagne Kickstarter en tout ou rien. Les membres de la liste de prélancement reçoivent le lien avant tout le monde&#8239;: c'est le chemin le plus court vers les 100 modules à 119&nbsp;$.</p>
       </div>
@@ -420,7 +449,7 @@
   <section class="section joined env env-graphite" id="inscription" aria-labelledby="in-titre">
     <div class="wrap signup-grid">
       <div class="section-head">
-        <p class="eyebrow"><span class="ix">09</span>Liste de prélancement</p>
+        <p class="eyebrow"><span class="ix">10</span>Liste de prélancement</p>
         <h2 id="in-titre">Accès anticipé</h2>
         <p>Votre courriel suffit. Les détails sur votre vélo sont facultatifs et peuvent venir ensuite.</p>
         <ol class="next" aria-label="Et ensuite">
@@ -504,7 +533,7 @@
   <section class="section env env-grey" id="faq" aria-labelledby="faq-titre">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow"><span class="ix">10</span>Questions</p>
+        <p class="eyebrow"><span class="ix">11</span>Questions</p>
         <h2 id="faq-titre">Questions fréquentes</h2>
       </div>
       <div class="faq-groups">
@@ -565,9 +594,9 @@
 <a class="m-cta" href="#inscription" hidden data-track="cta_mobile_signup"><b>100 places à 119&nbsp;$</b><span>Rejoindre la liste</span></a>
 
 <script src="assets/compat.js?v=20261016" defer></script>
-<script src="assets/site.js?v=20261119" defer></script>
+<script src="assets/site.js?v=20261121" defer></script>
 <script src="assets/board.js?v=20261016" defer></script>
-<script src="assets/demo.js?v=20261024" defer></script>
+<script src="assets/demo.js?v=20261121" defer></script>
 <script src="assets/campaign.js?v=20261016" defer></script>
 <script src="assets/journal.js?v=20261031" defer></script>
 <script src="assets/module3d.js?v=20261024" type="module"></script>

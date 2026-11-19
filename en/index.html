@@ -27,8 +27,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="../assets/theme.js?v=20261120"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Roboto:wght@400;500;700&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261120">
-<link rel="stylesheet" href="../assets/demo.css?v=20261024">
+<link rel="stylesheet" href="../assets/site.css?v=20261121">
+<link rel="stylesheet" href="../assets/demo.css?v=20261121">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -65,6 +65,7 @@
         FORGE</span>
     </a>
     <nav class="nav" aria-label="Sections">
+      <a href="#demo">Demo</a>
       <a href="#how-it-works">How it works</a>
       <a href="#check">Compatibility</a>
       <a href="#module">The module</a>
@@ -85,7 +86,7 @@
 
 <main id="content" data-lang="en">
 
-  <!-- Hero: the product in three seconds. The live app on a phone, the R7 beside it. -->
+  <!-- Hero: the product in three seconds. The R7 on its own, lit like the product it is. -->
   <section class="hero env env-graphite">
     <div class="wrap">
       <div class="hero-copy">
@@ -104,22 +105,14 @@
         </ul>
       </div>
 
-      <figure class="stage">
-        <div class="phone" data-demo>
-          <div class="screen">
-            <div class="screen-top"><span class="live">Simulator</span><span class="screen-brand">STREET · 32</span></div>
-            <div class="speed"><b>24.6</b><span>km/h</span></div>
-            <div class="tiles">
-              <div class="tile"><small>Battery</small><b>78%</b></div>
-              <div class="tile"><small>Assist</small><b>2&nbsp;/&nbsp;5</b></div>
-              <div class="tile"><small>Motor</small><b>312&nbsp;W</b></div>
-            </div>
-            <div class="mode"><span>Street mode</span><span>32&nbsp;km/h max</span></div>
-            <p class="screen-foot">Settings while stopped</p>
-          </div>
+      <figure class="hero-product">
+        <div class="hp-stage">
+          <img class="hp-r7" src="../assets/media/r7-render.webp" width="967" height="1100" alt="The black Kurant R7 module with its handlebar clip: a rendering from the design files" fetchpriority="high" decoding="async">
+          <span class="hp-note flip-sm" style="--x:66%;--y:6%">One-piece shell, one continuous seal</span>
+          <span class="hp-note" style="--x:9%;--y:76%">Tool-free clip, 22.2 to 35 mm bars</span>
+          <span class="hp-note flip-sm" style="--x:72%;--y:86%">Three status lights</span>
         </div>
-        <img class="r7-hero" src="../assets/media/r7-render.webp" width="967" height="1100" alt="The Kurant R7 module, a rendering from the design files" decoding="async">
-        <figcaption class="stage-cap"><span><span class="try" aria-hidden="true">Try it</span><b>Simulation demo.</b> Tap an assist bar, OFF or the gear. Simulated values, illustrative map.</span><span class="tagline">R7 module · rendering from the design files</span></figcaption>
+        <figcaption>Kurant R7 module · rendering from the design files, printed prototype next</figcaption>
       </figure>
     </div>
   </section>
@@ -133,11 +126,47 @@
     </div>
   </section>
 
+  <!-- 01 · The app, live: the simulator on a phone that turns between portrait and landscape -->
+  <section class="section env env-graphite demo-sec" id="demo" aria-labelledby="demo-title">
+    <div class="wrap demo-grid">
+      <div class="demo-copy">
+        <div class="section-head">
+          <p class="eyebrow"><span class="ix">01</span>The app, live</p>
+          <h2 id="demo-title">Your ride screen, in your browser</h2>
+          <p>The app's simulator runs right here, on a virtual bike. Nothing is sent: try it.</p>
+        </div>
+        <ol class="try-list">
+          <li><b>Assist</b><span>Tap a bar to change level, or OFF.</span></li>
+          <li><b>Speed mode</b><span>Tap STREET · 32 to see the mode and its limit.</span></li>
+          <li><b>Settings</b><span>The gear opens the settings, described in plain words.</span></li>
+        </ol>
+        <p class="demo-note">Simulated values, illustrative map. The real app reads the module over a wireless link.</p>
+      </div>
+      <div class="demo-stage">
+        <div class="phone" data-demo>
+          <div class="screen">
+            <div class="screen-top"><span class="live">Simulator</span><span class="screen-brand">STREET · 32</span></div>
+            <div class="speed"><b>24.6</b><span>km/h</span></div>
+            <div class="tiles">
+              <div class="tile"><small>Battery</small><b>78%</b></div>
+              <div class="tile"><small>Assist</small><b>2&nbsp;/&nbsp;5</b></div>
+              <div class="tile"><small>Motor</small><b>312&nbsp;W</b></div>
+            </div>
+            <div class="mode"><span>Street mode</span><span>32&nbsp;km/h max</span></div>
+            <p class="screen-foot">Settings while stopped</p>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm turn-btn" type="button" data-demo-turn data-track="demo_turn" hidden aria-pressed="false" data-label-landscape="Turn to landscape" data-label-portrait="Back to portrait"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="17" rx="2.2"/><path d="M20.5 13.5a8.5 8.5 0 0 1-6.6 8.3M3.5 10.5a8.5 8.5 0 0 1 6.6-8.3"/><path d="M14.2 19.6l-.3 2.2 2.2.4M9.8 4.4l.3-2.2-2.2-.4"/></svg><span data-turn-label>Turn to landscape</span></button>
+      </div>
+    </div>
+  </section>
+
+
   <!-- 01 · Before / after: the stock display (drawn) against the app and the R7 (captured, rendered) -->
   <section class="section env env-mineral" id="before-after" aria-labelledby="ba-title">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">01</span>Before · After</p>
+        <p class="eyebrow"><span class="ix">02</span>Before · After</p>
         <h2 id="ba-title">Your bike already has the technology. Kurant gives you a better way to use it.</h2>
         <p>The controller, motor and battery stay the same. Only the display changes: the stock one goes in a drawer, your phone takes its place.</p>
       </div>
@@ -178,7 +207,7 @@
     <div class="wrap how">
       <div class="how-main">
         <div class="section-head">
-          <p class="eyebrow"><span class="ix">02</span>How it works</p>
+          <p class="eyebrow"><span class="ix">03</span>How it works</p>
           <h2 id="how-title">Three steps, no soldering</h2>
           <p>The module is the same for every bike: only the cable changes from one brand to the next. KT first; other brands next, in order of votes, each once it's verified on a real controller.</p>
         </div>
@@ -213,7 +242,7 @@
   <section class="section env env-grey" id="check" aria-labelledby="check-title">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">03</span>Compatibility</p>
+        <p class="eyebrow"><span class="ix">04</span>Compatibility</p>
         <h2 id="check-title">Will it work on my bike?</h2>
         <p>Choose your system to see where it stands. After KT, the system with the most confirmed sign-ups goes on the bench first: every sign-up counts as a vote.</p>
       </div>
@@ -269,7 +298,7 @@
     <div class="m3d-sticky">
       <div class="wrap m3d-grid">
         <div class="m3d-copy">
-          <p class="eyebrow"><span class="ix">04</span>The R7 module, opened</p>
+          <p class="eyebrow"><span class="ix">05</span>The R7 module, opened</p>
           <h2 id="module-title">Straight from the design files</h2>
           <ol class="m3d-steps">
             <li data-step class="on"><b>On the front handlebar</b><span>Near where the display cable comes out, facing you, on the same connector as the stock display.</span></li>
@@ -307,7 +336,7 @@
   <section class="section env env-slate" id="data" aria-labelledby="data-title">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">05</span>What you see</p>
+        <p class="eyebrow"><span class="ix">06</span>What you see</p>
         <h2 id="data-title">Your whole ride, at a glance</h2>
         <p>Speed, battery, power and assist, in an interface designed for the road. The <a href="#content" class="dev-link">demo at the top of the page</a> runs in your browser with simulated values.</p>
       </div>
@@ -344,7 +373,7 @@
   <section class="section joined env env-slate" id="safety" aria-labelledby="safety-title">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">06</span>Safety</p>
+        <p class="eyebrow"><span class="ix">07</span>Safety</p>
         <h2 id="safety-title">Once on, the bike never depends on the phone</h2>
         <p>These rules are part of the module's and the app's design. The <a class="dev-link" href="journal/index.html">log</a> posts the bench tests, including the one with the phone cut off.</p>
       </div>
@@ -363,7 +392,7 @@
   <section class="section env env-grey" id="journal" aria-labelledby="journal-title">
     <div class="wrap journal-home">
       <div class="section-head">
-        <p class="eyebrow"><span class="ix">07</span>Development log</p>
+        <p class="eyebrow"><span class="ix">08</span>Development log</p>
         <h2 id="journal-title">Built in the open, measured on a real controller</h2>
         <p>Every step is posted once it's measured on the bench, and so are the problems found. Here are the latest entries.</p>
       </div>
@@ -376,7 +405,7 @@
   <section class="section ks env env-graphite" id="kickstarter" aria-labelledby="ks-title">
     <div class="wrap">
       <div class="section-head head-split">
-        <p class="eyebrow"><span class="ix">08</span>Kickstarter campaign</p>
+        <p class="eyebrow"><span class="ix">09</span>Kickstarter campaign</p>
         <h2 id="ks-title">Be among the first to ride with Kurant</h2>
         <p>Kurant will be funded by an all-or-nothing Kickstarter campaign. Pre-launch list members get the link before anyone else: it's the shortest way to the 100 modules at CAD&nbsp;119.</p>
       </div>
@@ -420,7 +449,7 @@
   <section class="section joined env env-graphite" id="signup" aria-labelledby="signup-title">
     <div class="wrap signup-grid">
       <div class="section-head">
-        <p class="eyebrow"><span class="ix">09</span>Pre-launch list</p>
+        <p class="eyebrow"><span class="ix">10</span>Pre-launch list</p>
         <h2 id="signup-title">Early access</h2>
         <p>Your email is all it takes. Details about your bike are optional and can come after.</p>
         <ol class="next" aria-label="What happens next">
@@ -504,7 +533,7 @@
   <section class="section env env-grey" id="faq" aria-labelledby="faq-title">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow"><span class="ix">10</span>Questions</p>
+        <p class="eyebrow"><span class="ix">11</span>Questions</p>
         <h2 id="faq-title">Frequently asked questions</h2>
       </div>
       <div class="faq-groups">
@@ -565,9 +594,9 @@
 <a class="m-cta" href="#signup" hidden data-track="cta_mobile_signup"><b>100 spots at CAD&nbsp;119</b><span>Join the list</span></a>
 
 <script src="../assets/compat.js?v=20261016" defer></script>
-<script src="../assets/site.js?v=20261119" defer></script>
+<script src="../assets/site.js?v=20261121" defer></script>
 <script src="../assets/board.js?v=20261016" defer></script>
-<script src="../assets/demo.js?v=20261024" defer></script>
+<script src="../assets/demo.js?v=20261121" defer></script>
 <script src="../assets/campaign.js?v=20261016" defer></script>
 <script src="../assets/journal.js?v=20261031" defer></script>
 <script src="../assets/module3d.js?v=20261024" type="module"></script>

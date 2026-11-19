@@ -7,7 +7,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 
 | Path | What |
 | --- | --- |
-| `index.html` | French home page. Order: hero (demo + R7 module), before/after, how it works, compatibility, data, the module in 3D, safety, journal, Kickstarter, sign-up (`#inscription`), grouped FAQ |
+| `index.html` | French home page. Order: hero (the R7), the app live (`#demo`: the simulator, which turns between portrait and landscape), before/after, how it works, compatibility, data, the module in 3D, safety, journal, Kickstarter, sign-up (`#inscription`), grouped FAQ |
 | `en/index.html` | English home page, same order (`#signup`). Keep both in step: same sections, same facts, same `data-track` names |
 | `confidentialite/`, `en/privacy/` | Privacy policy (Quebec Law 25) |
 | `assets/site.css` | Styles, following the FORGE brand guide. The home pages' art direction (end of the file) sets four environments (`env-graphite`, `env-mineral`, `env-slate`, `env-grey`) that redefine the colour tokens per section, so components follow without their own light/dark rules |
