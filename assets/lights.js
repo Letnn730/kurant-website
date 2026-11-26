@@ -1,10 +1,11 @@
-/* Status lights on the hero module: the R7's eight WS2812B LEDs, driven by the same rules as the
-   firmware. The Controller below is a line-for-line port of ebike-firmware
-   include/status_lights.h (firmware 0.6.x): same colours, timings, levels and brightness cap.
-   Keep it in step when the firmware changes.
+/* Status lights on the hero module, driven by the same rules as the firmware. The Controller below
+   is a line-for-line port of ebike-firmware include/status_lights.h (firmware 0.6.x): same colours,
+   timings, levels and brightness cap. Keep it in step when the firmware changes.
 
-   Chain order: 0-2 the line (bottom light), 3-5 the front logo, 6 the back emblem's white bar,
-   7 its blue tip. The page shows the line and the logo on the render, and the emblem on the
+   The firmware drives eight pixels: 0-2 the line (bottom light), 3-5 the front logo, 6 the back
+   emblem's white bar, 7 its blue tip. The R8 enclosure wires sixteen LEDs onto them: pixel 0 is
+   line LEDs 1-2 and the left side slit, pixel 1 line LED 3, pixel 2 line LEDs 4-5 and the right
+   side slit. The page shows the line, the slits and the logo on the render, and the emblem on the
    small back view under it. Without JavaScript the render stays as it is. */
 (function () {
   "use strict";
@@ -78,8 +79,8 @@
   }
   var SCENARIOS = [
     { id: "boot", ms: 4200, reboot: true, inp: inputs({ window: true }),
-      fr: ["Mise sous tension", "La ligne s'allume une lumière à la fois, puis veille doucement. Le logo respire : pendant 2 minutes, un nouveau téléphone peut s'appairer."],
-      en: ["Power-up", "The line lights one LED at a time, then glows softly. The logo breathes: for 2 minutes, a new phone may pair."] },
+      fr: ["Mise sous tension", "La ligne et les fentes latérales s'allument en trois temps, puis veillent doucement. Le logo respire : pendant 2 minutes, un nouveau téléphone peut s'appairer."],
+      en: ["Power-up", "The line and the side slits light in three steps, then glow softly. The logo breathes: for 2 minutes, a new phone may pair."] },
     { id: "pairing", ms: 3000, inp: inputs({ phone: true, window: true }),
       fr: ["Appairage", "Un téléphone se connecte : le logo clignote jusqu'à ce que le lien soit sécurisé par le code à 6 chiffres."],
       en: ["Pairing", "A phone is connecting: the logo blinks until the link is secured with the 6-digit code."] },
@@ -93,21 +94,22 @@
       fr: ["Contrôleur muet", "Vélo allumé, mais aucune donnée du contrôleur : la ligne respire en ambre. Vérifiez le câble."],
       en: ["No controller data", "The bike is on but the controller isn't answering: the line breathes amber. Check the cable."] },
     { id: "ota", ms: 3200, inp: inputs({ secure: true, ota: true }),
-      fr: ["Mise à jour", "Une mise à jour signée arrive du téléphone : une lumière cyan parcourt la ligne."],
-      en: ["Update", "A signed update is coming in from the phone: one cyan LED runs along the line."] },
+      fr: ["Mise à jour", "Une mise à jour signée arrive du téléphone : un segment cyan parcourt la ligne."],
+      en: ["Update", "A signed update is coming in from the phone: a cyan segment runs along the line."] },
     { id: "parked", ms: 3200, parked: true, inp: inputs({}),
       fr: ["Stationné", "Vélo éteint, aucun téléphone, rien de changé depuis 2 minutes : tout s'éteint, et le module coupe l'alimentation des lumières pour ne pas vider la batterie."],
       en: ["Parked", "Bike off, no phone, nothing changed for 2 minutes: everything goes dark, and the module cuts the lights' power so they can't drain the battery."] },
   ];
 
   // ---- Build the light layers over the render --------------------------------------------
-  // Mask boxes, in % of the 967 x 1100 render, from tools/lights-masks.py.
+  // Mask boxes, in % of the 992 x 1100 render, from tools/stills/stills.py. "line" is every lens
+  // pixels 0-2 light (the line and the side slits); line0 and line2 include their side slit.
   var BOX = {
-    logo:  [70.321, 14.273, 17.787, 21.364],
-    line:  [60.393, 79.091, 32.058, 11.364],
-    line0: [60.393, 85.364, 14.891, 5.091],
-    line1: [67.632, 82.273, 18.097, 6.636],
-    line2: [78.490, 79.091, 13.961, 7.727],
+    logo:  [67.036, 13.909, 20.262, 19.727],
+    line:  [52.419, 41.727, 40.222, 45.636],
+    line0: [52.419, 41.727, 21.371, 45.636],
+    line1: [68.851, 80.818, 10.786, 4.182],
+    line2: [74.798, 78.545, 17.843, 5.455],
   };
   var base = (document.querySelector('script[src*="assets/lights.js"]').getAttribute("src") || "").replace(/lights\.js.*$/, "media/lights/");
   var img = stage.querySelector(".hp-r7");
@@ -122,7 +124,7 @@
 
   function piece(cls, name) {
     var b = BOX[name], el = document.createElement("i");
-    var url = "url(\"" + new URL(base + name + ".png?v=20261119", document.baseURI).href + "\")";
+    var url = "url(\"" + new URL(base + name + ".png?v=20261126", document.baseURI).href + "\")";
     el.className = cls;
     el.style.cssText = "left:" + b[0] + "%;top:" + b[1] + "%;width:" + b[2] + "%;height:" + b[3] + "%";
     el.style.webkitMaskImage = url;

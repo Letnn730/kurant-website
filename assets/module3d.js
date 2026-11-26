@@ -1,11 +1,11 @@
-/* "Le module, ouvert": the Kurant module from its design files (Crown R7), in 3D.
+/* "Le module, ouvert": the Kurant module from its design files (Crown R8), in 3D.
    Scrolling through the section opens it part by part; dragging turns it.
    Loaded only when the section comes near the screen. Falls back to the animation video when WebGL
    isn't available, and stays still (slider only) for people who ask for reduced motion. */
 const root = document.querySelector("[data-m3d]");
 if (root) { start(root); dialog(root); }
 
-// "Voir l'animation": the R7 design-file animation in a dialog. Works with or without WebGL.
+// "Voir l'animation": the design-file animation in a dialog. Works with or without WebGL.
 function dialog(root) {
   const dlg = root.querySelector(".m3d-dialog");
   const open = root.querySelector("[data-video-open]");
@@ -75,10 +75,10 @@ function start(root) {
     ramp.minFilter = ramp.magFilter = THREE.NearestFilter;
     ramp.needsUpdate = true;
 
-    // The beta unit's real colours (Crown R7 release notes): black ASA shell, back, carriers and clip,
-    // black TPU band, the KURANT name filled with white enamel, clear PETG lenses. The front logo lenses
-    // show the brand mark they light up as (white bar, cyan tip). The board keeps the illustration's
-    // pale cyan, so it reads as "the circuit" once the module opens.
+    // The beta unit's real colours (Crown R8 release notes): black ASA shell, back, light carriers and
+    // collar, black TPU bar sleeve, the KURANT name filled with white enamel, clear PETG lenses, steel
+    // collar hardware. The front logo lenses show the brand mark they light up as (white bar, cyan tip).
+    // The board keeps the illustration's pale cyan, so it reads as "the circuit" once the module opens.
     const BLACK = 0x2a2e33;
     const fillFor = (p) => p.group === "board" ? 0xc9ecf4
       : p.kind === "paint" ? 0xf1f3f4
@@ -125,7 +125,7 @@ function start(root) {
         eg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(bin, p.edges, p.edgeCount * 6), 3));
         holder.add(new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: edgeFor(p), transparent: true, opacity: 0.6 })));
       }
-      // Wider spread for the clip and the back plate so nothing hides the board when open.
+      // Wider spread for the collar and the back plate so nothing hides the board when open.
       const k = p.group === "mount" ? 1.35 : p.group === "cover" ? 1.25 : 1.1;
       const shift = new THREE.Vector3(...p.shift).multiplyScalar(k);
       // The board also rises above the rest, so the open view shows it unhidden.
@@ -138,7 +138,7 @@ function start(root) {
     const barMat = new THREE.MeshBasicMaterial({ color: 0xc9d0d6, transparent: true, opacity: 0.55, depthWrite: false });
     const barGeo = new THREE.CylinderGeometry(15.9, 15.9, 240, 48, 1, true);
     barGeo.rotateZ(Math.PI / 2);
-    barGeo.translate(0, 38.3, 18);                  // 31.8 mm bar in the R7 clip (CAD frame)
+    barGeo.translate(0, 38.0, 13);                  // 31.8 mm bar in the R8 collar (CAD frame)
     const bar = new THREE.Mesh(barGeo, barMat);
     bar.renderOrder = -1;
     group.add(bar);

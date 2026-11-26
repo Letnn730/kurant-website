@@ -7,7 +7,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 
 | Path | What |
 | --- | --- |
-| `index.html` | French home page. Order: hero (the R7), the app live (`#demo`: the simulator, which turns between portrait and landscape), before/after, how it works, compatibility, data, the module in 3D, safety, journal, Kickstarter, sign-up (`#inscription`), grouped FAQ |
+| `index.html` | French home page. Order: hero (the R8), the app live (`#demo`: the simulator, which turns between portrait and landscape), before/after, how it works, compatibility, data, the module in 3D, safety, evolution (`#evolution`: the three enclosures at one scale and the three circuits), journal, Kickstarter, sign-up (`#inscription`), grouped FAQ |
 | `en/index.html` | English home page, same order (`#signup`). Keep both in step: same sections, same facts, same `data-track` names |
 | `confidentialite/`, `en/privacy/` | Privacy policy (Quebec Law 25) |
 | `assets/site.css` | Styles, following the FORGE brand guide. The home pages' art direction (end of the file) sets four environments (`env-graphite`, `env-mineral`, `env-slate`, `env-grey`) that redefine the colour tokens per section, so components follow without their own light/dark rules |
@@ -17,7 +17,7 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `assets/site.js` | Compatibility tool, the two-step waitlist form (email and consent first; bike details optional, sent as a second sign-up with the same email), and the anonymous funnel counters: any element with `data-track="name"` counts a click, once per page view, on kurant.ca and its previews only |
 | `assets/journal.js` | Home page "Journal" section: reads the newest 3 entries (date, title, first paragraph) and the entry count from `journal/index.html` (`en/journal/index.html` in English). The log pages are the only source: add an entry there and the home pages follow |
 | `assets/demo.js`, `assets/demo.css` | Hero demo: the app's ride screen v2 (map, gauge in 4 styles, assist ladder, chips, Ride controls sheet), Settings and Ride display, running its simulator in the browser at the app's 390×844 dp geometry. Mirrors `ebike-app` 0.9 (layout, palette, wording, safety rules); only the Simulator source is offered and the map is an illustration in the Kurant Night palette. `window.__kurantDemo` drives it to fixed states for recordings. Keep in step when the app's UI changes |
-| `assets/lights.js`, `assets/media/lights/` | Status lights on the hero module: the R7's eight LEDs driven by a line-for-line port of the firmware's `include/status_lights.h` (colours, timings, levels, parked timeout), with seven everyday situations to pick from and a tour that pauses on any choice and never runs with reduced motion. The lens masks are cut from `r7-render.webp` by `tools/lights-masks.py`; rerun it and update the `BOX` table in `lights.js` if the hero render changes. Keep the port in step with the firmware |
+| `assets/lights.js`, `assets/media/lights/` | Status lights on the hero module: the firmware's eight pixels (sixteen LEDs in the R8: the line, the two side slits, the logo, the back emblem) driven by a line-for-line port of the firmware's `include/status_lights.h` (colours, timings, levels, parked timeout), with seven everyday situations to pick from and a tour that pauses on any choice and never runs with reduced motion. The lens masks are drawn on the hero still by `tools/stills/stills.py`, from the lens parts of the model; rerun it and paste the `BOX` table it prints into `lights.js` if the hero render changes. Keep the port in step with the firmware |
 | `assets/campaign.json`, `assets/campaign.js` | Kickstarter state and link; the script shows the matching banner and buttons |
 | `functions/kickstarter.js` | `kurant.ca/kickstarter` short link, redirects to the URL in `campaign.json` (Kickstarter only), else to the waitlist |
 | `functions/api/waitlist.js` | Sign-up: stores it in D1 and sends the confirmation email (double opt-in) |
@@ -32,9 +32,9 @@ French at `/`, English at `/en/`. Plain HTML, CSS and JS: no build step.
 | `merci/`, `en/thanks/` | Thank-you page: founder number, personal link, referral ladder, brand race |
 | `assets/race.js`, `assets/thanks.js` | Brand race (now on the thank-you page only; the home page shows the ranking in the checker, from `board.js`) and thank-you page scripts. The promises shown on the thank-you page are at the top of `thanks.js` |
 | `assets/module3d.js` | "Le module, ouvert": the 3D model that opens as you scroll (three.js, loaded only near that section; falls back to the animation video) |
-| `assets/model/crown.bin`, `crown.json` | The model, built from the CAD by `tools/build_crown_model.py` (see below) |
+| `assets/model/crown.bin`, `crown.json` | The model (Crown R8), built from the CAD by `tools/export_web_parts.py` and `tools/build_crown_model.py` (see below) |
 | `assets/vendor/three.module.min.js` | three.js r160 (MIT, see `three.LICENSE.txt`), self-hosted for the CSP |
-| `assets/media/` | The R7 design-file animation (`crown_r7_story_680.mp4`) and its poster; `r7-render.webp` and `r7-front.webp`, stills of the R7 design files (see "R7 stills" below); `app-ride-fr.webp` / `app-ride-en.webp`, the hero demo's ride screen captured at 2×. The stock display and the controller in "Avant / Après" and "Fonctionnement" are inline SVG illustrations. Photos still needed: `docs/asset-spec.md` |
+| `assets/media/` | The R8 design-file animation (`crown_r8_story_680.mp4`) and its poster; `r8-render.webp` and `r8-front.webp`, stills of the R8 design files, and `evo-r6.webp`, `evo-r7.webp`, `evo-r8.webp`, the three enclosures drawn at one scale for the evolution section (see "Stills" below); `app-ride-fr.webp` / `app-ride-en.webp`, the hero demo's ride screen captured at 2×. The stock display and the controller in "Avant / Après" and "Fonctionnement" are inline SVG illustrations. Photos still needed: `docs/asset-spec.md` |
 | `schema.sql` | D1 schema for a new database |
 | `migrations/0002_prelaunch.sql` | Run once on the existing database to add the pre-launch list |
 | `migrations/0003_events.sql` | Run once on the existing database to add the funnel counters (`events` table). Until then `/api/event` answers 503 and the page carries on |
@@ -189,39 +189,48 @@ As above (`wrangler pages dev .` with a throwaway `wrangler.toml`), plus `--bind
 
 ## Updating the 3D model
 
-When the enclosure design changes, export `parts.json` from the CAD folder again (`Crown_R7/01_SOURCE/export_web_parts.py <build_r7.py jlc output> parts.json`), then rebuild:
+When the enclosure design changes, export `parts.json` from the enclosure's build folder (its STEP files and
+`_reference/*.stl`, as written by the enclosure project's build script), then rebuild:
 
 ```bash
-pip install numpy fast-simplification
-python3 tools/build_crown_model.py path/to/parts.json
+pip install numpy trimesh cadquery
+python3 tools/export_web_parts.py path/to/build_folder parts.json     # optional third argument: sleeve size, default 31_8
+python3 tools/build_crown_model.py parts.json
 ```
 
-It rewrites `assets/model/crown.bin` and `crown.json`. Small hardware (pads, inserts, screws, LEDs) is left out. The front shell, back plate and clip come re-tessellated from their STEP files at web resolution (about 8,400, 4,900 and 2,300 triangles), which keeps the windows and edges clean; nothing is decimated. Bump the `module3d.js?v=` tag on both home pages after a rebuild. Keep the model a presentation of the design files: no photorealistic rendering (Kickstarter's hardware rules apply to the campaign page, and the site shows the same thing).
+It rewrites `assets/model/crown.bin` and `crown.json` (about 930 KB). Small hardware (pads, inserts, screws, LEDs, magnets) is left out. The printed parts come re-tessellated from their STEP files at web resolution (front shell about 5,200 triangles, back plate 2,900, collar body 2,200), which keeps the windows and edges clean; nothing is decimated. The part list, each part's kind (which sets its colour) and its travel in the opened view are at the top of `export_web_parts.py`. Bump the `module3d.js?v=` tag on both home pages after a rebuild, and check the bar position in `module3d.js` (`barGeo.translate`) if the mount moved. Keep the model a presentation of the design files: no photorealistic rendering (Kickstarter's hardware rules apply to the campaign page, and the site shows the same thing).
 
-## R7 stills
+## Stills
 
-`r7-render.webp` (hero) and `r7-front.webp` (before/after, system diagram) are rendered from the same
-design files as the 3D viewer, in the beta unit's real colours (black ASA, white-filled name, clear
-lenses; `palette=real`) and the same drawing language: matte, outlined, never photoreal
-(Kickstarter doesn't allow photorealistic renderings, and the site shows what the campaign shows).
+`r8-render.webp` (hero), `r8-front.webp` (before/after, system diagram, "what you get"), the lens masks of
+the status-light demo and the three `evo-*.webp` drawings are rendered from the same design files as the
+3D viewer and in the same drawing language: matte, outlined, never photoreal (Kickstarter doesn't allow
+photorealistic renderings, and the site shows what the campaign shows). The hero and front stills use
+the beta unit's real colours (black ASA, white-filled name, clear lenses; `palette=real`); the evolution
+drawings use the pale illustration palette, so the three generations read as drawings of the same kind.
 When the enclosure changes, after rebuilding the model:
 
 ```bash
-python3 -m http.server 8766          # from the repository root
-node tools/r7-stills/shoot.js r7_hero.png "palette=real&w=1400&h=1400&yaw=-0.9&pitch=0.26&edge=0.55&outline=1.3&hemi=1.35&key=1.55&rim=2.2&margin=1.01"
-node tools/r7-stills/shoot.js r7_front.png "palette=real&w=900&h=900&yaw=-0.55&pitch=0.18&edge=0.55&outline=1.2&hemi=1.45&key=1.45&rim=2.0&margin=1.01"
+python3 -m http.server 8766 &         # from the repository root
+python3 tools/stills/stills.py        # needs node with playwright, pillow, numpy
 ```
 
-Crop each PNG to its content and export WebP (quality about 88) at 1100 px and 640 px tall, then bump
-`site.css?v=` on both home pages. Replace these stills with photographs once the printed R7 exists.
+It writes the stills and masks into `assets/media/` and prints the `BOX` table for `assets/lights.js`.
+Then set the hero image's `width`/`height` and `.hp-stage`'s `aspect-ratio` to the size it prints,
+place the three `.hp-note` labels on the new still, and bump `site.css?v=` and `lights.js?v=` on both
+home pages. The earlier enclosures (R6, R7) are read from `tools/stills/_models/`, which is not
+committed: the two `git show` commands at the top of `stills.py` recreate it from this repository's
+history. The three evolution drawings share one scale (170 mm of height for 1000 px): show them at the
+same height (`.evo-row` does it from each image's `--w`). Replace the stills with photographs once the
+printed enclosure exists.
 
-The 12 s story animation (`crown_r7_story_680.mp4` and its poster) comes from the same files:
+The 12 s story animation (`crown_r8_story_680.mp4` and its poster) comes from the same files:
 
 ```bash
-node tools/r7-stills/animate.js /tmp/r7-frames            # 360 transparent frames + captions list
-python3 tools/r7-stills/compose.py /tmp/r7-frames Inter-Regular.ttf Inter-SemiBold.ttf
+node tools/stills/animate.js /tmp/r8-frames            # 360 transparent frames + captions list
+python3 tools/stills/compose.py /tmp/r8-frames Inter-Regular.ttf Inter-SemiBold.ttf
 ```
 
-`compose.py` lays the frames on the studio background with the bilingual captions and writes the
-MP4 and the poster into `assets/media/` (needs Pillow and ffmpeg). Bump the `?v=` on both home pages.
+`compose.py` lays the frames on the studio background with the bilingual captions (edit them at its top) and
+writes the MP4 and the poster into `assets/media/` (needs Pillow and ffmpeg). Bump the `?v=` on both home pages.
 
