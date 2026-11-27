@@ -1,8 +1,9 @@
-// R7 stills for the home pages: the design files drawn the same way as the 3D viewer (matte, outlined,
+// Stills for the home pages: the design files drawn the same way as the 3D viewer (matte, outlined,
 // never photoreal). Parameters come from the URL: w, h, yaw, pitch, open, hide, outline, edge, margin,
-// style (clay | toon), hemi, key, rim, palette (real), board (illus).
+// style (clay | toon), hemi, key, rim, palette (real), board (illus), model (another model folder),
+// span (mm of height shown: a fixed scale, to compare models), mask (part name prefixes drawn white on
+// transparent, hidden where another part covers them: the lens masks of the status-light demo).
 // With anim=1&open=1 it exposes window.frame(yaw, pitch, open[, zoom]) for tools/r7-stills/animate.js.
-// Offline still renders of the R7 design files (no photoreal materials: matte, outlined, like the site's 3D viewer).
 import * as THREE from "../../assets/vendor/three.module.min.js";
 const q = new URLSearchParams(location.search);
 const W = +q.get("w") || 1200, H = +q.get("h") || 1200;
@@ -11,7 +12,10 @@ const yaw = +(q.get("yaw") ?? -0.62), pitch = +(q.get("pitch") ?? 0.36);
 const open = +(q.get("open") ?? 0);
 const hide = (q.get("hide") || "").split(",").filter(Boolean);
 const outline = +(q.get("outline") ?? 1.4);
-const [meta, bin] = await Promise.all([fetch("../../assets/model/crown.json").then(r => r.json()), fetch("../../assets/model/crown.bin").then(r => r.arrayBuffer())]);
+const mask = (q.get("mask") || "").split(",").filter(Boolean);
+// model=<folder> draws another model in the same layout (the earlier enclosures, for the evolution stills).
+const MODEL = q.get("model") || "../../assets/model";
+const [meta, bin] = await Promise.all([fetch(MODEL + "/crown.json").then(r => r.json()), fetch(MODEL + "/crown.bin").then(r => r.arrayBuffer())]);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(1); renderer.setSize(W, H); renderer.setClearColor(0, 0);
 document.body.appendChild(renderer.domElement);
@@ -38,10 +42,11 @@ const REAL = q.get("palette") === "real";
 const realFill = (p) => p.group === "board" ? (q.get("board") === "illus" ? 0xc9ecf4 : 0x1d6b4f)
   : p.kind === "paint" ? 0xf1f3f4
   : p.kind === "rubber" ? 0x141618
+  : p.kind === "hardware" ? 0xc4cbd1
   : p.kind === "optic" ? (p.name.includes("Tip") ? 0x2fd0f2 : p.name.includes("Bar") ? 0xeef2f4 : 0x8d979e)
   : 0x24272b;
 const EDGE = new THREE.Color(q.get("edgeink") || "#6b747c");
-const realInk = (p) => p.group === "board" ? CYAN : new THREE.Color(0x07080a);
+const realInk = (p) => p.group === "board" ? CYAN : p.kind === "hardware" ? new THREE.Color(0x5d666e) : new THREE.Color(0x07080a);
 const ow = { value: 0.4 };
 const hullMat = (c) => new THREE.ShaderMaterial({ uniforms: { width: ow, color: { value: c } },
   vertexShader: `attribute vec3 hullNormal; uniform float width; void main(){ gl_Position = projectionMatrix*modelViewMatrix*vec4(position+normalize(hullNormal)*width,1.0); }`,
@@ -61,10 +66,13 @@ for (const p of meta.parts) {
     ? new THREE.MeshToonMaterial({ color: fillFor(p), gradientMap: ramp, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 })
     : new THREE.MeshLambertMaterial({ color: REAL ? realFill(p) : fillFor(p), polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
   const holder = new THREE.Group();
-  const fill = new THREE.Mesh(geo, mat);
+  const lit = mask.some((n) => p.name.startsWith(n));
+  // Mask mode: the named parts in flat white, every other part only hides what is behind it.
+  const fill = new THREE.Mesh(geo, mask.length ? new THREE.MeshBasicMaterial({ color: 0xffffff, colorWrite: lit,
+    polygonOffset: !lit, polygonOffsetFactor: 2, polygonOffsetUnits: 2 }) : mat);
   const flat = p.kind === "paint" || p.kind === "optic";
-  if (flat || outline === 0) holder.add(fill); else holder.add(new THREE.Mesh(geo, hullMat(REAL ? realInk(p) : inkFor(p))), fill);
-  if (p.edgeCount && !flat && outline > 0) {
+  if (flat || outline === 0 || mask.length) holder.add(fill); else holder.add(new THREE.Mesh(geo, hullMat(REAL ? realInk(p) : inkFor(p))), fill);
+  if (p.edgeCount && !flat && outline > 0 && !mask.length) {
     const eg = new THREE.BufferGeometry();
     eg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(bin, p.edges, p.edgeCount * 6), 3));
     holder.add(new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: REAL ? EDGE : inkFor(p), transparent: true, opacity: +(q.get("edge") ?? 0.55) })));
@@ -110,6 +118,7 @@ group.traverse(o => { if (o.isMesh && o.geometry.attributes.position) { const a 
 const margin = +(q.get("margin") || 1.04), aspect = W / H;
 let hw = (x1 - x0) / 2 * margin, hh = (y1 - y0) / 2 * margin;
 if (hw / hh > aspect) hh = hw / aspect; else hw = hh * aspect;
+if (q.get("span")) { hh = +q.get("span") / 2; hw = hh * aspect; }
 const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
 camera.left = cx - hw; camera.right = cx + hw; camera.top = cy + hh; camera.bottom = cy - hh; camera.updateProjectionMatrix();
 ow.value = outline * (2 * hh) / H;

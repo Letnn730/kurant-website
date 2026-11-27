@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build the web model of the Kurant module (Crown R7) for the "Le module, ouvert" section.
+"""Build the web model of the Kurant module (Crown R8) for the "Le module, ouvert" section.
 
-Input:  parts.json exported from the CAD (Crown_R7/01_SOURCE/export_web_parts.py): one entry per part with
+Input:  parts.json exported from the CAD (tools/export_web_parts.py): one entry per part with
         name, kind, shift (explode vector, mm), v (vertices, mm) and f (triangles).
 Output: assets/model/crown.bin  + assets/model/crown.json (layout of the binary)
 
@@ -12,9 +12,9 @@ Per part the binary holds:
   indices     uint16/uint32 triangles
   edges       float32 x6  crease segments (design edges), drawn as lines
 
-Small parts that can't be resolved on a phone screen are left out (pads, inserts, screws, LEDs).
-The shell, back plate and clip arrive re-tessellated from STEP at web resolution; TARGET_FACES can
-still decimate a part if a future export is too heavy (keep the download under ~1 MB).
+Small parts that can't be resolved on a phone screen are left out (pads, inserts, screws, LEDs, magnets).
+The printed parts arrive re-tessellated from STEP at web resolution; TARGET_FACES can still decimate
+a part if a future export is too heavy (keep the download under ~1 MB).
 
 Usage: python3 tools/build_crown_model.py path/to/parts.json
 Needs: numpy, fast-simplification (pip install fast-simplification)
@@ -28,18 +28,21 @@ import numpy as np
 
 SKIP_PREFIX = ("Pad", "Insert", "Screw", "LED_", "ORing")
 SKIP_NAMES = {"Cord"}
-TARGET_FACES = {}                       # optional decimation targets; R7 parts come pre-tessellated (export_web_parts.py)
+TARGET_FACES = {}                       # optional decimation targets; parts come pre-tessellated (export_web_parts.py)
 CREASE_DEG = 38.0                       # dihedral angle above which an edge is a design edge
-CREASE_DEG_PART = {"Front": 55.0, "Back": 55.0, "NameFill": 89.0}   # curved shells: only their real design edges
+# The R8 front is flat facets meeting at 11 to 50 degrees: every facet boundary is a design edge.
+# Its rounded corners are tessellated in steps under 17 degrees, so they stay smooth.
+CREASE_DEG_PART = {"Front": 18.0, "Back": 55.0, "NameFill": 89.0}
 SMOOTH_DEG = 38.0                       # faces closer than this share a shading normal
+SMOOTH_DEG_PART = {"Front": 18.0}       # facets stay flat-shaded
 
 # What each part is called on screen, and its group in the exploded view.
 GROUP = [
-    ("Front", "housing"), ("LensLine", "housing"), ("LensLogo", "housing"), ("NameFill", "housing"),
+    ("Front", "housing"), ("LensLine", "housing"), ("LensLogo", "housing"), ("LensSide", "housing"), ("NameFill", "housing"),
     ("LedCarrier", "lights"),
     ("PCB", "board"), ("Components", "board"),
     ("Back", "cover"), ("LensBack", "cover"),
-    ("ClipBand", "mount"), ("Clip", "mount"),
+    ("Clip", "mount"),
 ]
 
 
@@ -121,7 +124,7 @@ def process(part):
     # Shading normals split at creases: for each corner, average the incident faces whose
     # normal is within SMOOTH_DEG of this face's normal. Corners with the same (vertex, normal)
     # share one output vertex.
-    smooth_cos = np.cos(np.radians(SMOOTH_DEG))
+    smooth_cos = np.cos(np.radians(SMOOTH_DEG_PART.get(part["name"], SMOOTH_DEG)))
     incident = [[] for _ in range(len(v))]
     for t, tri in enumerate(f):
         for vi in tri:

@@ -1,8 +1,8 @@
-// The 12 s R7 story animation, from the design files in the beta unit's real colours.
+// The 12 s story animation, from the design files in the beta unit's real colours.
 // From the repository root: python3 -m http.server 8766, then
-//   node tools/r7-stills/animate.js <frames-dir>
+//   node tools/stills/animate.js <frames-dir>
 // It writes one transparent PNG per frame (30 fps) and frames.json (the caption for each frame);
-// tools/r7-stills/compose.py then lays them on the studio background with the captions and encodes
+// tools/stills/compose.py then lays them on the studio background with the captions and encodes
 // the MP4 and the poster.
 const { chromium } = require("playwright");
 const fs = require("fs");
@@ -27,7 +27,7 @@ const SHOTS = [
   const page = await browser.newPage({ viewport: { width: W, height: H } });
   page.on("pageerror", (e) => console.error(e.message));
   const q = `anim=1&open=1&palette=real&board=illus&w=${W}&h=${H}&edge=0.55&outline=1.3&hemi=1.35&key=1.55&rim=2.2`;
-  await page.goto(`http://localhost:8766/tools/r7-stills/index.html?${q}`);
+  await page.goto(`http://localhost:8766/tools/stills/index.html?${q}`);
   await page.waitForFunction(() => window.done, null, { timeout: 60000 });
   const captions = [];
   for (let f = 0; f < FPS * SECONDS; f++) {

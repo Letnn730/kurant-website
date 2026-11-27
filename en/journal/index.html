@@ -11,7 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
 <script src="../../assets/theme.js?v=20261120"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="../../assets/site.css?v=20261124">
+<link rel="stylesheet" href="../../assets/site.css?v=20261126">
 </head>
 <body>
 <header class="top">
@@ -36,6 +36,19 @@
       <p>An entry goes here only once it has been measured on the bench, on a real controller. Entries marked “Design” are checked in the design files, until the prototype tests. Problems found are posted here too. Newest first.</p>
     </header>
     <ol class="log-list">
+    <li class="log-item">
+      <time datetime="2026-11-24">November 24, 2026</time>
+      <h2>R8 enclosure: faceted front, lights on the sides, a reworked mount <span class="tag tag-mine">Design</span></h2>
+      <p>The front of the enclosure is redrawn in flat facets, and the module goes from 29 to 26&nbsp;mm thick. Two lit slits are added on the sides and the status line goes from three LEDs to five: sixteen LEDs in all instead of eight, driven by the same firmware, with the slits repeating the line. The back plate is unchanged.</p>
+      <p>The first printed mount had two design faults: it hid the lit emblem on the back, and the module slid off it under a light pull. The collar is turned over, hinge on top and lever under the handlebar, and the lock is rebuilt with more than twice the grip area. It is still a friction lock: the pull test on the printed part will show whether that is enough.</p>
+      <p>While checking the lights, a firmware fault showed up: the signal sent to the LEDs was outside their datasheet limits (a 0.40&nbsp;µs “0” pulse, for a maximum of 0.35). It is corrected to 0.30&nbsp;µs and tested on a computer. The <a href="../index.html#module">3D model</a> and the <a href="../index.html#evolution">Evolution</a> section on the home page show this version. None of it has been tried on the bike yet: the parts are printing, and the results will be posted here.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-11-23">November 23, 2026</time>
+      <h2>First print of the enclosure: the back plate would not go on</h2>
+      <p>The first printed R7 enclosure could not be closed: the back plate's tongue ran into the rim of the shell. The cause was the method: the files had only been checked with the enclosure closed. A new check now moves every part along its assembly path, in steps of 0.05 to 0.1&nbsp;mm. It found three more blockages of the same kind, all corrected.</p>
+      <p>The twist-on mount then broke in testing: its 2&nbsp;mm tabs were loaded across the print layers. It is replaced by a dovetail slide, whose flanks are loaded along the layers, and by a hinged collar closed by a lever, with a soft sleeve for each handlebar diameter from 22.2 to 35&nbsp;mm.</p>
+    </li>
     <li class="log-item">
       <time datetime="2026-11-16">November 16, 2026</time>
       <h2>R7.1 enclosure: two flaws found before printing <span class="tag tag-mine">Design</span></h2>

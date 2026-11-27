@@ -1,8 +1,8 @@
-"""Lay the R7 animation frames on the studio background with their captions, then encode.
+"""Lay the animation frames on the studio background with their captions, then encode.
 
-    python3 tools/r7-stills/compose.py <frames-dir> <inter-regular.ttf> <inter-semibold.ttf>
+    python3 tools/stills/compose.py <frames-dir> <inter-regular.ttf> <inter-semibold.ttf>
 
-Writes assets/media/crown_r7_story_680.mp4 (12 s, 30 fps, 680x850) and assets/media/crown-r7-poster.jpg.
+Writes assets/media/crown_r8_story_680.mp4 (12 s, 30 fps, 680x850) and assets/media/crown-r8-poster.jpg.
 Captions are bilingual, as the video is shared by both languages.
 """
 import json
@@ -17,11 +17,11 @@ W, H = 1020, 1275          # drawn size; encoded at 680x850
 OUT = Path("assets/media")
 CAPTIONS = [
     ("Logo : téléphone connecté · ligne : alimenté", "Logo: phone connected · line: powered"),
-    ("Attache sans outil, guidons de 22,2 à 35 mm", "Tool-free clip, 22.2 to 35 mm bars"),
+    ("Collier à levier, guidons de 22,2 à 35 mm", "Lever-lock collar, 22.2 to 35 mm bars"),
     ("Coque d'une pièce, joint continu, circuit tenu sans vis", "One-piece shell, continuous seal, board held without screws"),
-    ("62 × 85 × 29 mm, 41 % plus mince", "62 × 85 × 29 mm, 41% thinner"),
+    ("62 × 85 × 26 mm, 47 % plus mince", "62 × 85 × 26 mm, 47% thinner"),
 ]
-TOP = "Animation des fichiers de conception R7 · Animated from the R7 design files"
+TOP = "Animation des fichiers de conception R8 · Animated from the R8 design files"
 
 
 def studio():
@@ -64,8 +64,8 @@ def main():
         frame.save(tmp / f"c{i:04d}.png")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-framerate", "30", "-i", str(tmp / "c%04d.png"),
                     "-vf", "scale=680:850:flags=lanczos", "-c:v", "libx264", "-preset", "slow", "-crf", "23",
-                    "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(OUT / "crown_r7_story_680.mp4")], check=True)
-    Image.open(tmp / "c0045.png").resize((680, 850), Image.LANCZOS).save(OUT / "crown-r7-poster.jpg", quality=86)
+                    "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(OUT / "crown_r8_story_680.mp4")], check=True)
+    Image.open(tmp / "c0045.png").resize((680, 850), Image.LANCZOS).save(OUT / "crown-r8-poster.jpg", quality=86)
 
 
 if __name__ == "__main__":

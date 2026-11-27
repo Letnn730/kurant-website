@@ -659,7 +659,7 @@ select:hover, input[type="email"]:hover, input[type="text"]:hover { border-color
 .dot.now { background: #F0A030; }
 
 .hero-product { margin: 0; display: grid; gap: 14px; justify-items: center; }
-.hp-stage { position: relative; width: min(100%, 470px); aspect-ratio: 967 / 1100; }
+.hp-stage { position: relative; width: min(100%, 470px); aspect-ratio: 992 / 1100; }
 .hp-stage::before {      /* the light the product stands in */
   content: ""; position: absolute; z-index: -1; left: 50%; top: 48%; width: 150%; aspect-ratio: 1; transform: translate(-50%, -50%);
   background: radial-gradient(closest-side, var(--spot), var(--spot-soft) 55%, transparent 75%);
@@ -1142,3 +1142,49 @@ select:hover, input[type="email"]:hover, input[type="text"]:hover { border-color
   .lc { transition: none; }
 }
 [data-theme="light"] .lights-back .lb-bar.on { stroke: #9AA3A9; stroke-width: 2; }
+
+/* ============================ Evolution: the enclosures at one scale, the circuits ============================ */
+.evo-block { display: grid; gap: 22px; }
+.evo-block + .evo-block { margin-top: clamp(40px, 5vw, 64px); }
+.evo-title { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); }
+.evo-fig { margin: 0; display: grid; gap: 12px; }
+.evo-plate { aspect-ratio: auto; padding: clamp(52px, 6vw, 64px) clamp(14px, 4vw, 48px) clamp(16px, 2.5vw, 26px); }
+/* Each drawing has the same pixel height for the same millimetres: widths in proportion keep one scale. */
+.evo-row { list-style: none; margin: 0 auto; padding: 0; display: flex; align-items: flex-start; justify-content: center; gap: clamp(8px, 3vw, 44px); max-width: 980px; }
+.evo-row li { flex: var(--w) 1 0; min-width: 0; display: grid; gap: 10px; justify-items: center; }
+.evo-row img { display: block; width: 100%; height: auto; }
+:root:not([data-theme="light"]) .evo-row img { filter: drop-shadow(0 18px 22px rgba(0, 0, 0, .45)); }
+[data-theme="light"] .evo-row img { filter: drop-shadow(0 14px 16px rgba(21, 24, 27, .18)); }
+.evo-row span { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--plate-mute); white-space: nowrap; }
+.evo-row li:last-child span { color: var(--cyan); }
+.evo-fig figcaption { font-size: 13px; color: var(--mute); }
+.evo-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(20px, 3vw, 40px); counter-reset: evo; }
+.evo-cards li { position: relative; display: grid; gap: 6px; align-content: start; padding-top: 22px; border-top: 2px solid var(--line); }
+.evo-cards li::before { content: ""; position: absolute; left: 0; top: -2px; width: 44px; height: 2px; background: var(--cyan-fill); }
+.evo-cards li.now::before { background: #F0A030; }
+.evo-when { display: flex; align-items: baseline; gap: 9px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--mute); }
+.evo-cards h4 { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+.evo-dim { font-family: var(--mono); font-size: 13px; color: var(--fg); font-variant-numeric: tabular-nums; }
+.evo-cards li > p:last-child { font-size: 15px; color: var(--mute); }
+.evo-next { margin-top: clamp(28px, 4vw, 44px); font-size: 15px; color: var(--mute); }
+@media (max-width: 760px) {
+  .evo-cards { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .evo-row span { font-size: 10.5px; letter-spacing: .02em; }
+  .evo-plate { padding-top: 50px; }
+}
+
+/* ============================ The module: stays pinned while it opens ============================ */
+/* `.env > * { position: relative }` (Environments, above) has the same weight as `.m3d-sticky` and comes
+   later, so it unpinned the section: the model scrolled away while it opened. */
+.env > .m3d-sticky { position: sticky; }
+.m3d.m3d-still > .m3d-sticky, .m3d.m3d-fallback > .m3d-sticky { position: static; }
+@media (min-width: 861px) {
+  /* Pinned, the column must fit one screen: only the current step shows its text, in a fixed height
+     so the column doesn't shift from step to step. */
+  .m3d:not(.m3d-still):not(.m3d-fallback) .m3d-steps li:not(.on) span { display: none; }
+  .m3d:not(.m3d-still):not(.m3d-fallback) .m3d-steps li.on span { min-height: 4.8em; }
+}
+@media (min-width: 861px) and (max-height: 720px) {
+  .m3d:not(.m3d-still):not(.m3d-fallback) .m3d-copy > .hint { display: none; }
+  .m3d:not(.m3d-still):not(.m3d-fallback) .m3d-copy > h2 { font-size: 30px; }
+}

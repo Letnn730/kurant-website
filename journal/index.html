@@ -11,7 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0C'/%3E%3Cpath d='M14 18H86L73 40H27Z' fill='white'/%3E%3Cpath d='M31 47H69L50 79Z' fill='%2300D2FF'/%3E%3C/svg%3E">
 <script src="../assets/theme.js?v=20261120"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261124">
+<link rel="stylesheet" href="../assets/site.css?v=20261126">
 </head>
 <body>
 <header class="top">
@@ -36,6 +36,19 @@
       <p>Une entrée n'est ajoutée qu'une fois la chose mesurée au banc, sur un vrai contrôleur. Les entrées marquées «&#8239;Conception&#8239;» sont vérifiées dans les fichiers de conception, en attendant les essais sur prototype. Les problèmes trouvés y sont publiés aussi. Les plus récentes sont en haut.</p>
     </header>
     <ol class="log-list">
+    <li class="log-item">
+      <time datetime="2026-11-24">24 novembre 2026</time>
+      <h2>Boîtier R8&#8239;: façade à facettes, lumières sur les côtés, attache refaite <span class="tag tag-mine">Conception</span></h2>
+      <p>La façade du boîtier est redessinée en facettes plates, et le module passe de 29 à 26&nbsp;mm d'épaisseur. Deux fentes lumineuses s'ajoutent sur les côtés et la ligne d'état passe de trois à cinq DEL&#8239;: seize DEL en tout au lieu de huit, pilotées par le même micrologiciel, les fentes répétant la ligne. La plaque arrière ne change pas.</p>
+      <p>La première attache imprimée avait deux défauts de conception&#8239;: elle cachait l'emblème lumineux à l'arrière, et le module en glissait sous une traction légère. Le collier est retourné, charnière en haut et levier sous le guidon, et le verrou est refait avec une prise plus de deux fois plus grande. Il reste un verrou à friction&#8239;: l'essai de traction sur la pièce imprimée dira s'il suffit.</p>
+      <p>En vérifiant les lumières, un défaut du micrologiciel est apparu&#8239;: le signal envoyé aux DEL sortait des limites de leur fiche technique (impulsion du «&#8239;0&#8239;» de 0,40&nbsp;µs, pour un maximum de 0,35). Il est corrigé à 0,30&nbsp;µs et testé sur ordinateur. Le <a href="../index.html#module">modèle 3D</a> et la section <a href="../index.html#evolution">Évolution</a> de la page d'accueil montrent cette version. Rien n'en est encore essayé sur le vélo&#8239;: les pièces s'impriment, et les résultats seront publiés ici.</p>
+    </li>
+    <li class="log-item">
+      <time datetime="2026-11-23">23 novembre 2026</time>
+      <h2>Première impression du boîtier&#8239;: la plaque arrière ne s'assemblait pas</h2>
+      <p>Le premier boîtier R7 imprimé n'a pas pu être fermé&#8239;: la languette de la plaque arrière butait contre le rebord de la coque. La cause est dans la méthode&#8239;: les fichiers n'avaient été vérifiés que boîtier fermé. Une nouvelle vérification déplace maintenant chaque pièce le long de son trajet d'assemblage, par pas de 0,05 à 0,1&nbsp;mm. Elle a trouvé trois autres blocages du même genre, tous corrigés.</p>
+      <p>L'attache à tourner s'est ensuite brisée à l'essai&#8239;: ses pattes de 2&nbsp;mm travaillaient en travers des couches d'impression. Elle est remplacée par une glissière en queue d'aronde, dont les flancs travaillent dans le sens des couches, et par un collier à charnière fermé par un levier, avec un manchon souple pour chaque diamètre de guidon de 22,2 à 35&nbsp;mm.</p>
+    </li>
     <li class="log-item">
       <time datetime="2026-11-16">16 novembre 2026</time>
       <h2>Boîtier R7.1&#8239;: deux défauts trouvés avant l'impression <span class="tag tag-mine">Conception</span></h2>

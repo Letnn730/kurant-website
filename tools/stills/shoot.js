@@ -1,7 +1,6 @@
-// Render one still of the R7 design files to a transparent PNG.
+// Render one still of the design files to a transparent PNG (tools/stills/stills.py makes the site's own).
 // From the repository root: python3 -m http.server 8766, then
-//   node tools/r7-stills/shoot.js out.png "w=1400&h=1400&yaw=-0.9&pitch=0.26&edge=0.3&outline=1.3&margin=1.01"
-// Then crop to the bounding box and export WebP (see README, "R7 stills").
+//   node tools/stills/shoot.js out.png "palette=real&w=1400&h=1400&yaw=-0.72&pitch=0.22&edge=0.55&outline=1.3&margin=1.01"
 const { chromium } = require("playwright");
 (async () => {
   const [out, query] = [process.argv[2], process.argv[3] || ""];
@@ -10,7 +9,7 @@ const { chromium } = require("playwright");
   const b = await chromium.launch({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
   const p = await b.newPage({ viewport: { width: W, height: H } });
   p.on("pageerror", (e) => console.error(e.message));
-  await p.goto("http://localhost:8766/tools/r7-stills/index.html?" + query);
+  await p.goto("http://localhost:8766/tools/stills/index.html?" + query);
   await p.waitForFunction(() => window.done, null, { timeout: 60000 });
   await p.locator("canvas").screenshot({ path: out, omitBackground: true });
   await b.close();
